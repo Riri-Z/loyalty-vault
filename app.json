@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "LoyaltyVaul",
-    "slug": "LoyaltyVaul",
+    "name": "LoyaltyVault",
+    "slug": "LoyaltyVault",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.zeto.LoyaltyVault"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "aaf78e07-1c81-4e3c-a3f7-b87244feae50"
+      }
     }
   }
 }
