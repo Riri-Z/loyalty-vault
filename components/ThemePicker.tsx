@@ -11,6 +11,8 @@ faire light dans un premier temps , puis on verra le dark
 */
 type ColorOptions = "light" | "dark";
 export default function ThemePicker() {
+	const { colors } = useTheme();
+
 	const { dark } = useTheme();
 
 	const [isDarkMode, setIsDarkMode] = useState(dark);
@@ -31,8 +33,8 @@ export default function ThemePicker() {
 		Appearance.setColorScheme(currentTheme);
 	};
 	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>Light</Text>
+		<View style={[styles.container, { backgroundColor: colors.background }]}>
+			<Text style={[styles.text, { color: colors.text }]}>Light</Text>
 			<Switch
 				trackColor={{ false: "#767577", true: "#81b0ff" }}
 				thumbColor={isDarkMode ? "#3e3e3e" : "#f4f3f4"}
@@ -40,7 +42,7 @@ export default function ThemePicker() {
 				onValueChange={toggleSwitch}
 				value={isDarkMode}
 			/>
-			<Text style={styles.text}>Dark</Text>
+			<Text style={[styles.text, { color: colors.text }]}>Dark</Text>
 		</View>
 	);
 }

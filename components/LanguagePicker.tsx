@@ -3,9 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { AVAILABLE_LANGUAGES } from "@/constants/languages";
+import { useTheme } from "@react-navigation/native";
 
 export default function LanguagePicker() {
 	const { i18n } = useTranslation();
+	const { colors } = useTheme();
 	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
 
 	// Update i18n language
@@ -15,8 +17,8 @@ export default function LanguagePicker() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>Langue : </Text>
+		<View style={[styles.container, { backgroundColor: colors.background }]}>
+			<Text style={[styles.text, { color: colors.text }]}>Langue : </Text>
 			<Picker
 				style={styles.pickerStyle}
 				selectedValue={selectedLanguage}
@@ -31,7 +33,6 @@ export default function LanguagePicker() {
 		</View>
 	);
 }
-
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",

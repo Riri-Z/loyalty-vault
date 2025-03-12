@@ -1,9 +1,9 @@
 {
-  "language":"Français",
-  "tabs":{
-    "home":"Accueil",
-    "plus":"Plus",
-    "about":"À propos",
-    "settings":"Paramètres"
-  }
+	"language": "Français",
+	"tabs": {
+		"home": "Accueil",
+		"plus": "Plus",
+		"about": "À propos",
+		"settings": "Paramètres"
+	}
 }
