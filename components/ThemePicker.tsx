@@ -2,14 +2,8 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Appearance, Platform, Switch } from "react-native";
 import { useTheme } from "@react-navigation/native";
 
-/*
-on affiche les différents options,
-en fonction du choix de l'user  on change l'apparence
-au niveau du root on envoie le theme provider
-faire light dans un premier temps , puis on verra le dark
-
-*/
 type ColorOptions = "light" | "dark";
+
 export default function ThemePicker() {
 	const { colors } = useTheme();
 
