@@ -1,1 +1,1 @@
-export const AVAILABLE_LANGUAGES: string[] = ['en', 'fr']
+export const AVAILABLE_LANGUAGES: string[] = ["en", "fr"];
