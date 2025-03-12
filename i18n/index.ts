@@ -4,7 +4,6 @@ import { getLocales } from "expo-localization";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import translationEn from "./locales/en/translation.json";
 import translationFr from "./locales/fr/translation.json";
-import { compatibilityFlags } from 'react-native-screens';
 
 
 const resources = {
@@ -14,15 +13,12 @@ const resources = {
 
 const initI18n = async () => {
   let savedLanguage = await AsyncStorage.getItem("language")
-
   if (!savedLanguage) {
-    savedLanguage = getLocales()[0].languageCode;
-    console.log('Localization.getLocales()', getLocales())
-    console.log('savedLanguage ', savedLanguage)
+    savedLanguage = getLocales()[0].languageCode ?? "en";
   }
 
   i18n.use(initReactI18next).init({
-    fallbackLng: 'en',
+    fallbackLng: ['en'],
     resources,
     lng: savedLanguage,
     debug: true,

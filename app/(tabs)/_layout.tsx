@@ -1,8 +1,11 @@
 import { Tabs } from "expo-router";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
+  const { i18n } = useTranslation();
+
   return (
     <Tabs
       screenOptions={{
@@ -18,35 +21,9 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="addCard"
-        options={{
-          title: "Plus",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "add-circle" : "add-circle-outline"}
-              color={color}
-              size={24}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "card" : "card-outline"}
-              color={color}
-              size={24}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="about"
-        options={{
-          title: "About",
+          title: i18n.t("tabs.home"),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home-sharp" : "home-outline"}
@@ -57,9 +34,38 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="addCard"
+        options={{
+          title: i18n.t("tabs.plus"),
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "add-circle" : "add-circle-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="about"
+        options={{
+          title: i18n.t("tabs.about"),
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={
+                focused ? "information-circle" : "information-circle-outline"
+              }
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: i18n.t("tabs.settings"),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "settings" : "settings-outline"}

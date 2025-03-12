@@ -1,9 +1,13 @@
 import { View, Text, StyleSheet } from "react-native";
+import LanguagePicker from "@/components/LanguagePicker";
 
 export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>settings Screen</Text>
+      <View style={styles.options}>
+        <LanguagePicker />
+      </View>
     </View>
   );
 }
@@ -17,5 +21,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
+    flex: 1,
   },
+  options: {
+    flex: 2,
+  }
 });

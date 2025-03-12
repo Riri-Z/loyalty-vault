@@ -1,0 +1,56 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Platform, StyleSheet, Text, View } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { AVAILABLE_LANGUAGES } from "@/constants/languages";
+
+export default function LanguagePicker() {
+  const { i18n } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
+
+  // Update i18n language
+  function handleChangeLanguage(newLangue: string) {
+    setSelectedLanguage(newLangue);
+    i18n.changeLanguage(newLangue);
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>Langue : </Text>
+      <Picker
+        style={styles.pickerStyle}
+        selectedValue={selectedLanguage}
+        onValueChange={(langue: string) => {
+          setSelectedLanguage(langue);
+          handleChangeLanguage(langue);
+        }}
+      >
+        {AVAILABLE_LANGUAGES.map((e, index) => {
+          return (
+            <Picker.Item
+              key={`${e} + ${index}`}
+              label={e.toUpperCase()}
+              value={e}
+            />
+          );
+        })}
+      </Picker>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text: {
+    color: "#fff",
+  },
+  pickerStyle: {
+    height: 50,
+    width: 100,
+    color: "#fff",
+    ...(Platform.OS === "android" ? { backgroundColor: "#333" } : {}),
+  },
+});

@@ -1,3 +1,9 @@
 {
-  "language":"Language"
+  "language":"English",
+  "tabs":{
+    "home":"Home",
+    "plus":"Plus",
+    "about":"About",
+    "settings":"Settings"
+  }
 }
