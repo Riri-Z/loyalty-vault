@@ -1,40 +1,37 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Appearance, Platform, Switch } from "react-native";
 import { useTheme } from "@react-navigation/native";
-
-type ColorOptions = "light" | "dark";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ThemePicker() {
-	const { colors } = useTheme();
+	const { colors, dark } = useTheme();
 
-	const { dark } = useTheme();
+	const [isDarkModeOn, setisDarkModeOn] = useState(dark);
 
-	const [isDarkMode, setIsDarkMode] = useState(dark);
-
-	const [currentTheme] = useState<ColorOptions>(dark ? "dark" : "light");
-
+	// Update theme color, and save it to storage
 	useEffect(() => {
-		const newThemeColor = isDarkMode ? "dark" : "light";
+		const newThemeColor = isDarkModeOn ? "dark" : "light";
 		if (!newThemeColor) {
 			return Appearance.setColorScheme("light");
 		} else {
 			Appearance.setColorScheme(newThemeColor);
 		}
-	}, [isDarkMode]);
+
+		AsyncStorage.setItem("theme", newThemeColor);
+	}, [isDarkModeOn]);
 
 	const toggleSwitch = () => {
-		setIsDarkMode((previousState) => !previousState);
-		Appearance.setColorScheme(currentTheme);
+		setisDarkModeOn((previousState) => !previousState);
 	};
 	return (
 		<View style={[styles.container, { backgroundColor: colors.background }]}>
 			<Text style={[styles.text, { color: colors.text }]}>Light</Text>
 			<Switch
 				trackColor={{ false: "#767577", true: "#81b0ff" }}
-				thumbColor={isDarkMode ? "#3e3e3e" : "#f4f3f4"}
+				thumbColor={isDarkModeOn ? "#3e3e3e" : "#f4f3f4"}
 				ios_backgroundColor="#3e3e3e"
 				onValueChange={toggleSwitch}
-				value={isDarkMode}
+				value={isDarkModeOn}
 			/>
 			<Text style={[styles.text, { color: colors.text }]}>Dark</Text>
 		</View>

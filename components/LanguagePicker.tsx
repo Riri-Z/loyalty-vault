@@ -4,6 +4,7 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { AVAILABLE_LANGUAGES } from "@/constants/languages";
 import { useTheme } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LanguagePicker() {
 	const { i18n } = useTranslation();
@@ -14,6 +15,7 @@ export default function LanguagePicker() {
 	function handleChangeLanguage(newLangue: string) {
 		setSelectedLanguage(newLangue);
 		i18n.changeLanguage(newLangue);
+		AsyncStorage.setItem("language", newLangue);
 	}
 
 	return (
