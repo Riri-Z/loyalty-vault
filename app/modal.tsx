@@ -4,12 +4,12 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useSQLiteContext } from "expo-sqlite";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { insertOneCard, deleteAllCards, deleteOneCard, getAllCards } from "@/providers/useDatabase";
 
 // TODO : - create a context to store cards
 
 export default function ModalScreen() {
-	const db = useSQLiteContext();
 	const [name, setName] = useState<string>("");
 	const [fileUri, setFileUri] = useState<string | null>(null);
 
@@ -33,27 +33,43 @@ export default function ModalScreen() {
 	async function handleSaveNewCard() {
 		try {
 			if (name !== "" && fileUri !== null) {
-				const resultPostNewCard = await db.runAsync(
-					"INSERT INTO cards (name, uri) VALUES (?,?)",
-					name,
-					fileUri,
-				);
+				const resultPostNewCard = await insertOneCard({ name, fileUri });
+
+				console.log("resultPostNewCard", resultPostNewCard);
 			} else {
-				alert("informations manquants");
+				let error = "";
+				if (name.length <= 0) {
+					error = "Nom manquant";
+				}
+				if (!fileUri) {
+					error = "Photo manquant ";
+				}
+				if (name.length <= 0 && !fileUri) {
+					error = "Nom et photo nécessaires";
+				}
+				alert(error);
 			}
 		} catch (err) {
 			console.error(err);
 		}
 	}
 	async function handleGetAllCards() {
-		console.log(await db.getAllAsync("SELECT * FROM cards"));
+		try {
+			await getAllCards();
+		} catch (error) {
+			console.log(error);
+		}
 	}
 	async function deleteAll() {
 		try {
-			await db.runAsync("DELETE from cards");
+			await deleteAllCards();
 		} catch (err) {
 			console.error(err);
 		}
+	}
+
+	function handleDeleteFile() {
+		setFileUri(null);
 	}
 	return (
 		<SafeAreaView>
@@ -76,7 +92,13 @@ export default function ModalScreen() {
 						<Text style={styles.text}>Chemin de la photo :</Text>
 						<Text style={styles.text}>{fileUri ?? "rien de selectionner"}</Text>
 					</View>
-					<Button onPress={pickImageAsync} icon="add-circle"></Button>
+					{fileUri ? (
+						<Pressable onPress={handleDeleteFile}>
+							<AntDesign name="minuscircleo" size={24} color="black" />
+						</Pressable>
+					) : (
+						<Button onPress={pickImageAsync} icon="add-circle-outline"></Button>
+					)}
 				</View>
 				{/* CTA */}
 				{/* SAVE */}

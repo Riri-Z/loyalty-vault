@@ -15,7 +15,7 @@ function CardsProvider({ children }: { children: ReactNode }) {
 
 function cardsReducer({ cards, action }: any) {
 	switch (action.type) {
-		case "add ": {
+		case "add": {
 			return [
 				...cards,
 				{

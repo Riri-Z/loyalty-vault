@@ -1,27 +1,41 @@
-import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { FlatList, StyleSheet, View, StatusBar, TextInput, Text } from "react-native";
 import CardsInformation from "./CardsInformation";
-import { Cards } from "@/types/Cards";
 
-const FlatListBasics = (cards: Cards[]) => {
-	console.log(cards);
+export const FlatListBasics = ({ cards }: any) => {
 	return (
 		<View style={styles.container}>
-			<FlatList
-				style={styles.item}
-				data={cards}
-				keyExtractor={(item) => item.id.toString()}
-				renderItem={({ item }) => <CardsInformation name={item.name} uri={item.uri} />}
-			/>
+			<TextInput>
+				<Text>
+					<Text style={{ fontWeight: 900 }}>Some bold text</Text>Some regular text
+				</Text>
+			</TextInput>
+
+			{cards && (
+				<FlatList
+					data={cards}
+					keyExtractor={(item) => item.id.toString()}
+					/* 				renderItem={renderItem} */
+					renderItem={({ item }) => {
+						return <CardsInformation name={item.name} uri={item.uri} />;
+					}}
+					extraData={cards}
+				/>
+			)}
 		</View>
 	);
 };
 
-export default FlatListBasics;
-
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		flex: 1,
+		marginTop: StatusBar.currentHeight || 0,
+	},
 	text: {},
+	title: {
+		fontSize: 32,
+	},
+
 	item: {
 		marginHorizontal: 20,
 	},
