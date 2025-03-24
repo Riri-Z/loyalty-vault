@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, View, StatusBar, TextInput, Text } from "react-native";
 import CardsInformation from "./CardsInformation";
-import { Cards } from "@/types/Cards";
+import { Card } from "@/types/Card";
+import CardDetail from "./CardDetail";
 
-export const FlatListBasics = ({ cards }: { cards: Cards[] }) => {
+export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+	const [card, setCard] = useState<Card | null>(null);
+
+	const onModalClose = () => {
+		setIsModalVisible(false);
+		setCard(null);
+	};
+
+	function handleSelectedCard(card: any) {
+		console.log("card", card);
+		setCard(card);
+		setIsModalVisible(true);
+	}
 	return (
 		<View style={styles.container}>
 			<TextInput>
@@ -14,14 +28,29 @@ export const FlatListBasics = ({ cards }: { cards: Cards[] }) => {
 				</Text>
 			</TextInput>
 
-			<FlatList
-				data={cards}
-				keyExtractor={(item) => item.id.toString()}
-				renderItem={({ item }) => {
-					return <CardsInformation id={item.id} name={item.name} uri={item.uri} />;
-				}}
-				extraData={cards}
-			/>
+			{isModalVisible && card ? (
+				<CardDetail
+					isVisible={isModalVisible}
+					name={card.name}
+					src={card.uri}
+					onClose={onModalClose}></CardDetail>
+			) : (
+				<FlatList
+					data={cards}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={({ item }) => {
+						return (
+							<CardsInformation
+								id={item.id}
+								name={item.name}
+								uri={item.uri}
+								openCardDetail={() => handleSelectedCard(item)}
+							/>
+						);
+					}}
+					extraData={cards}
+				/>
+			)}
 		</View>
 	);
 };

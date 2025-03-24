@@ -1,4 +1,4 @@
-import { Cards } from "@/types/Cards";
+import { Cards } from "@/types/Card";
 import { createContext, useReducer, ReactNode } from "react";
 
 const CardsContext = createContext([]);

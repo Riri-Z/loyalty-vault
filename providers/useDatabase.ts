@@ -1,22 +1,16 @@
-import { Cards } from "@/types/Cards";
+import { Card } from "@/types/Card";
 import * as SQLite from "expo-sqlite";
 
 const db = SQLite.openDatabaseAsync("test.db", { enableChangeListener: true });
 
-type Card = {
-	id: number;
-	name: string;
-	fileUri: string;
-};
-
 type AddCard = {
 	name: string;
-	fileUri: string;
+	uri: string;
 };
 
-const insertOneCard = async ({ name, fileUri }: AddCard) => {
+const insertOneCard = async ({ name, uri }: AddCard) => {
 	try {
-		const res = (await db).runAsync("INSERT INTO cards (name, uri) VALUES (?,?)", name, fileUri);
+		const res = (await db).runAsync("INSERT INTO cards (name, uri) VALUES (?,?)", name, uri);
 
 		return res;
 	} catch (error) {
@@ -44,10 +38,10 @@ async function deleteAllCards() {
 	}
 }
 
-async function getAllCards(): Promise<Cards[]> {
+async function getAllCards(): Promise<Card[]> {
 	try {
-		const res: Promise<Cards[]> = (await db).getAllAsync("SELECT * FROM cards");
-		await res;
+		const res: Promise<Card[]> = (await db).getAllAsync("SELECT * FROM cards");
+		console.log("await res", await res);
 		return res;
 	} catch (error) {
 		console.error(error);

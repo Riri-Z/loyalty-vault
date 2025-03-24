@@ -1,30 +1,25 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { deleteOneCard } from "@/providers/useDatabase";
-import { router } from "expo-router";
 
 type Props = {
 	id: number;
 	name: string;
 	uri: string;
+	openCardDetail: () => void;
 };
-export default function CardsInformation({ id, name, uri }: Props) {
-	function openCard() {
-		router.push("/(tabs)/picture");
-	}
-
+export default function CardsInformation({ id, name, uri, openCardDetail }: Props) {
 	async function handleDeleteFile() {
 		await deleteOneCard(+id);
 	}
 
 	return (
 		<View>
-			<Pressable onPress={openCard}>
+			<Pressable onPress={openCardDetail}>
 				<View style={styles.container}>
-					<Text>CARDS INFORMATION</Text>
-					<Text>{id}</Text>
-					<Text>{name}</Text>
-					<Text>{uri}</Text>
+					<Text>id: {id}</Text>
+					<Text>name : {name}</Text>
+					<Text>uri : {uri}</Text>
 				</View>
 			</Pressable>
 			<Pressable onPress={handleDeleteFile}>

@@ -9,12 +9,12 @@ import { insertOneCard, deleteAllCards, getAllCards } from "@/providers/useDatab
 
 export default function ModalScreen() {
 	const [name, setName] = useState<string>("");
-	const [fileUri, setFileUri] = useState<string | null>(null);
+	const [uri, setFileUri] = useState<string | null>(null);
 
 	const pickImageAsync = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ["images"],
-			allowsEditing: true,
+			allowsEditing: false,
 			quality: 1,
 		});
 		if (!result.canceled) {
@@ -30,8 +30,8 @@ export default function ModalScreen() {
 
 	async function handleSaveNewCard() {
 		try {
-			if (name !== "" && fileUri !== null) {
-				await insertOneCard({ name, fileUri });
+			if (name !== "" && uri !== null) {
+				await insertOneCard({ name, uri });
 
 				// close modal and display list of cards
 
@@ -41,10 +41,10 @@ export default function ModalScreen() {
 				if (name.length <= 0) {
 					error = "Nom manquant";
 				}
-				if (!fileUri) {
+				if (!uri) {
 					error = "Photo manquant ";
 				}
-				if (name.length <= 0 && !fileUri) {
+				if (name.length <= 0 && !uri) {
 					error = "Nom et photo nécessaires";
 				}
 				alert(error);
@@ -55,6 +55,7 @@ export default function ModalScreen() {
 	}
 	async function handleGetAllCards() {
 		try {
+			console.log("called");
 			await getAllCards();
 		} catch (error) {
 			console.error(error);
@@ -90,9 +91,9 @@ export default function ModalScreen() {
 				<View style={styles.picture_container}>
 					<View>
 						<Text style={styles.text}>Chemin de la photo :</Text>
-						<Text style={styles.text}>{fileUri ?? "rien de selectionner"}</Text>
+						<Text style={styles.text}>{uri ?? "rien de selectionner"}</Text>
 					</View>
-					{fileUri ? (
+					{uri ? (
 						<Pressable onPress={handleDeleteFile}>
 							<AntDesign name="minuscircleo" size={24} color="black" />
 						</Pressable>

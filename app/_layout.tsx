@@ -38,9 +38,19 @@ export default function RootLayout() {
 		<ThemeProvider value={theme}>
 			<CardsProvider>
 				<SQLiteProvider databaseName="test.db" onInit={createDbIfNeeded}>
-					<Stack>
-						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+					<Stack
+						screenOptions={{
+							headerShown: false, // Hide headers for all screens by default
+						}}>
+						<Stack.Screen
+							name="(tabs)"
+							options={{
+								headerShown: false,
+								gestureEnabled: false, // Disable swipe gestures for tab screens
+							}}
+						/>
 						<Stack.Screen name="modal" options={{ presentation: "modal" }} />
+
 						<Stack.Screen name="+not-found" />
 					</Stack>
 				</SQLiteProvider>

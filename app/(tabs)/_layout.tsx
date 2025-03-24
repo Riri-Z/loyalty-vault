@@ -26,6 +26,7 @@ export default function TabLayout() {
 				name="index"
 				options={{
 					title: i18n.t("tabs.home"),
+					animation: "fade", // Use fade animation for the home screen
 					tabBarIcon: ({ color, focused }) => (
 						<Ionicons name={focused ? "home-sharp" : "home-outline"} color={color} size={24} />
 					),
@@ -36,6 +37,8 @@ export default function TabLayout() {
 				name="settings"
 				options={{
 					title: i18n.t("tabs.settings"),
+					animation: "fade", // Use fade animation for the home screen
+
 					tabBarIcon: ({ color, focused }) => (
 						<Ionicons name={focused ? "settings" : "settings-outline"} color={color} size={24} />
 					),
