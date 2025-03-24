@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, StyleSheet, View, StatusBar, TextInput, Text } from "react-native";
 import CardsInformation from "./CardsInformation";
+import { Cards } from "@/types/Cards";
 
-export const FlatListBasics = ({ cards }: any) => {
+export const FlatListBasics = ({ cards }: { cards: Cards[] }) => {
 	return (
 		<View style={styles.container}>
 			<TextInput>
 				<Text>
-					<Text style={{ fontWeight: 900 }}>Some bold text</Text>Some regular text
+					<Text style={{ fontWeight: 900 }}>
+						{cards.length > 0 ? "voici vos cards" : "Vous n'avez pas de cards"}
+					</Text>
 				</Text>
 			</TextInput>
 
-			{cards && (
-				<FlatList
-					data={cards}
-					keyExtractor={(item) => item.id.toString()}
-					/* 				renderItem={renderItem} */
-					renderItem={({ item }) => {
-						return <CardsInformation name={item.name} uri={item.uri} />;
-					}}
-					extraData={cards}
-				/>
-			)}
+			<FlatList
+				data={cards}
+				keyExtractor={(item) => item.id.toString()}
+				renderItem={({ item }) => {
+					return <CardsInformation id={item.id} name={item.name} uri={item.uri} />;
+				}}
+				extraData={cards}
+			/>
 		</View>
 	);
 };
@@ -29,7 +29,7 @@ export const FlatListBasics = ({ cards }: any) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: StatusBar.currentHeight || 0,
+		marginTop: StatusBar.currentHeight ?? 0,
 	},
 	text: {},
 	title: {

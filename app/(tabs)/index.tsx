@@ -2,26 +2,30 @@ import { useTheme } from "@react-navigation/native";
 import { router, Stack } from "expo-router";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { useSQLiteContext } from "expo-sqlite";
 import { FlatListBasics } from "@/components/FlatListBasics";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-unresolved
-import { CardsContext, CardDispatchContext } from "@/providers/cardsContext";
 import { getAllCards } from "@/providers/useDatabase";
 import { Cards } from "@/types/Cards";
+import { addDatabaseChangeListener } from "expo-sqlite";
 
 export default function Index() {
 	const [cards, setCards] = useState<Cards[]>([]);
 
 	useEffect(() => {
+		//  Allow to load displayed cards
 		async function loadCards() {
 			const cards = await getAllCards();
-			console.log("useEffec", cards);
 			setCards(cards);
 		}
 		loadCards();
+
+		const listener = addDatabaseChangeListener(() => {
+			loadCards(); // Reload cards
+		});
+
+		return () => listener.remove();
 	}, []);
-	console.log("cards!!!!", cards);
 
 	const headerRight = () => {
 		return (
@@ -35,7 +39,7 @@ export default function Index() {
 	return (
 		<View style={[styles.container, { backgroundColor: colors.background }]}>
 			<Stack.Screen options={{ headerRight }} />
-			{cards.length > 0 && <FlatListBasics cards={cards}></FlatListBasics>}
+			<FlatListBasics cards={cards}></FlatListBasics>
 		</View>
 	);
 }

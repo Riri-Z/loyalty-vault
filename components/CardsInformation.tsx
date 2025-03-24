@@ -1,24 +1,36 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { deleteOneCard } from "@/providers/useDatabase";
+import { router } from "expo-router";
 
 type Props = {
+	id: number;
 	name: string;
 	uri: string;
 };
-export default function CardsInformation({ name, uri }: Props) {
-	console.log("cards", name);
-	console.log("uri", uri);
-
+export default function CardsInformation({ id, name, uri }: Props) {
 	function openCard() {
-		console.log(name + " pressed");
+		router.push("/(tabs)/picture");
 	}
+
+	async function handleDeleteFile() {
+		await deleteOneCard(+id);
+	}
+
 	return (
-		<Pressable onPress={openCard}>
-			<View style={styles.container}>
-				<Text>CARDS INFORMATION</Text>
-				<Text>{name}</Text>
-				<Text>{uri}</Text>
-			</View>
-		</Pressable>
+		<View>
+			<Pressable onPress={openCard}>
+				<View style={styles.container}>
+					<Text>CARDS INFORMATION</Text>
+					<Text>{id}</Text>
+					<Text>{name}</Text>
+					<Text>{uri}</Text>
+				</View>
+			</Pressable>
+			<Pressable onPress={handleDeleteFile}>
+				<AntDesign name="minuscircleo" size={24} color="black" />
+			</Pressable>
+		</View>
 	);
 }
 

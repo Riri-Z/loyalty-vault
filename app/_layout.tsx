@@ -3,7 +3,7 @@ import "@/i18n"; // This line imports the i18n configuration
 import { ThemeProvider, DarkTheme, DefaultTheme } from "@react-navigation/native";
 import { Appearance } from "react-native";
 import { useEffect, useState } from "react";
-import { SQLiteProvider, useSQLiteContext, type SQLiteDatabase } from "expo-sqlite";
+import { SQLiteProvider, type SQLiteDatabase } from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CardsProvider } from "@/providers/cardsContext";
 
@@ -13,13 +13,11 @@ export interface Card {
 	uri: string;
 }
 export default function RootLayout() {
-	const [cards, setCards] = useState<Card[]>([]);
 	const [themeType, setThemeType] = useState("light");
 
 	useEffect(() => {
 		async function getThemeFromAsyncStorage() {
 			const theme = await AsyncStorage.getItem("theme");
-			console.log("theme", theme);
 			if (theme) setThemeType(theme);
 		}
 		getThemeFromAsyncStorage();

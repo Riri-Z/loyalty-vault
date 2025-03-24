@@ -1,13 +1,11 @@
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { insertOneCard, deleteAllCards, deleteOneCard, getAllCards } from "@/providers/useDatabase";
-
-// TODO : - create a context to store cards
+import { insertOneCard, deleteAllCards, getAllCards } from "@/providers/useDatabase";
 
 export default function ModalScreen() {
 	const [name, setName] = useState<string>("");
@@ -33,9 +31,11 @@ export default function ModalScreen() {
 	async function handleSaveNewCard() {
 		try {
 			if (name !== "" && fileUri !== null) {
-				const resultPostNewCard = await insertOneCard({ name, fileUri });
+				await insertOneCard({ name, fileUri });
 
-				console.log("resultPostNewCard", resultPostNewCard);
+				// close modal and display list of cards
+
+				router.push("/(tabs)");
 			} else {
 				let error = "";
 				if (name.length <= 0) {
@@ -57,7 +57,7 @@ export default function ModalScreen() {
 		try {
 			await getAllCards();
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 	async function deleteAll() {

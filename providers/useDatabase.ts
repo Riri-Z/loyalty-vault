@@ -1,7 +1,7 @@
 import { Cards } from "@/types/Cards";
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabaseAsync("test.db");
+const db = SQLite.openDatabaseAsync("test.db", { enableChangeListener: true });
 
 type Card = {
 	id: number;
@@ -14,12 +14,10 @@ type AddCard = {
 	fileUri: string;
 };
 
-const initDB = async () => {};
-
 const insertOneCard = async ({ name, fileUri }: AddCard) => {
 	try {
 		const res = (await db).runAsync("INSERT INTO cards (name, uri) VALUES (?,?)", name, fileUri);
-		console.log(res);
+
 		return res;
 	} catch (error) {
 		console.error("Failed insert new card ,errror : ", error);
@@ -28,8 +26,7 @@ const insertOneCard = async ({ name, fileUri }: AddCard) => {
 
 async function deleteOneCard(id: number) {
 	try {
-		const res = (await db).runAsync("DELETE FROM cards where id=?", [id]);
-		console.log(res);
+		(await db).runAsync("DELETE FROM cards where id=?", [id]);
 	} catch (error) {
 		console.error("Failed deleting card, error : ", error);
 		throw error;
@@ -39,7 +36,7 @@ async function deleteOneCard(id: number) {
 async function deleteAllCards() {
 	try {
 		const res = (await db).runAsync("Delete from cards");
-		console.log(await res);
+		await res;
 		return res;
 	} catch (error) {
 		console.error(error);
@@ -50,7 +47,7 @@ async function deleteAllCards() {
 async function getAllCards(): Promise<Cards[]> {
 	try {
 		const res: Promise<Cards[]> = (await db).getAllAsync("SELECT * FROM cards");
-		console.log(await res);
+		await res;
 		return res;
 	} catch (error) {
 		console.error(error);
