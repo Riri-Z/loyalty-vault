@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	modalContent: {
 		height: "100%",
 		width: "100%",
-		backgroundColor: "#25292e",
+		backgroundColor: "#ffffff",
 		borderTopRightRadius: 18,
 		borderTopLeftRadius: 18,
 		position: "absolute",
