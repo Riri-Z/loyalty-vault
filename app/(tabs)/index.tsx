@@ -1,4 +1,3 @@
-import { useTheme } from "@react-navigation/native";
 import { router, Stack } from "expo-router";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
@@ -31,26 +30,15 @@ export default function Index() {
 	const headerRight = () => {
 		return (
 			<TouchableOpacity onPress={() => router.push("/modal")} style={{ marginRight: 18 }}>
-				<FontAwesome name="plus-circle" size={28} color={colors.primary}></FontAwesome>
+				<FontAwesome name="plus-circle" size={28}></FontAwesome>
 			</TouchableOpacity>
 		);
 	};
 
-	const { colors } = useTheme();
 	return (
-		<View style={[styles.container, { backgroundColor: colors.background }]}>
+		<View className="h-[500] w-[300] m-auto">
 			<Stack.Screen options={{ headerRight }} />
 			<FlatListBasics cards={cards}></FlatListBasics>
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingHorizontal: 20,
-		gap: 20,
-	},
-	link: {},
-	button: {},
-});

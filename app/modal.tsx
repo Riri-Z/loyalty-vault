@@ -79,19 +79,16 @@ export default function ModalScreen() {
 					title: "Ajouter une nouvelle carte",
 				}}
 			/>
-			<View style={styles.container}>
+			<View>
 				{/* NAME INPUT */}
-				<TextInput
-					style={styles.input}
-					onChangeText={onChangeName}
-					value={name}
-					placeholder="Name"
-				/>
+				<TextInput onChangeText={onChangeName} value={name} placeholder="Name" />
 				{/* PICTURE INPUT */}
-				<View style={styles.picture_container}>
+				<View>
 					<View>
-						<Text style={styles.text}>Chemin de la photo :</Text>
-						<Text style={styles.text}>{uri ?? "rien de selectionner"}</Text>
+						<Text>Chemin de la photo :</Text>
+						<Text className="text-purple-500 dark:text-yellow-400">
+							{uri ?? "rien de selectionner"}
+						</Text>
 					</View>
 					{uri ? (
 						<Pressable onPress={handleDeleteFile}>
@@ -103,16 +100,16 @@ export default function ModalScreen() {
 				</View>
 				{/* CTA */}
 				{/* SAVE */}
-				<Pressable style={styles.save} onPress={handleSaveNewCard}>
-					<Text style={styles.text}>Save</Text>
+				<Pressable onPress={handleSaveNewCard}>
+					<Text>Save</Text>
 				</Pressable>
 				{/* GET ALL ,for developping purpose */}
-				<Pressable style={styles.save} onPress={handleGetAllCards}>
-					<Text style={styles.text}>get all</Text>
+				<Pressable onPress={handleGetAllCards}>
+					<Text>get all</Text>
 				</Pressable>
 				{/* delete ALL ,for developping purpose */}
-				<Pressable style={styles.save} onPress={deleteAll}>
-					<Text style={styles.text}>delete all</Text>
+				<Pressable onPress={deleteAll}>
+					<Text>delete all</Text>
 				</Pressable>
 			</View>
 		</SafeAreaView>
@@ -127,65 +124,11 @@ type Props = {
 
 export function Button({ label, theme, onPress, icon }: Props) {
 	return (
-		<View style={styles.buttonContainer}>
-			<Pressable style={styles.button} onPress={onPress}>
-				{!!label && <Text style={styles.buttonLabel}>{label}</Text>}
+		<View>
+			<Pressable onPress={onPress}>
+				{!!label && <Text>{label}</Text>}
 				{!!icon && <Ionicons name={icon} size={24} color="black" />}
 			</Pressable>
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingHorizontal: 20,
-		alignItems: "center",
-		marginVertical: 20,
-		gap: 20,
-	},
-	input: {
-		height: 40,
-		width: 300,
-		borderWidth: 1,
-		padding: 10,
-	},
-
-	picture_container: {
-		width: 300,
-		height: 50,
-		gap: 2,
-		flexDirection: "row",
-	},
-	text: {
-		alignSelf: "center",
-		color: "black",
-	},
-	buttonContainer: {
-		marginHorizontal: 20,
-		alignItems: "center",
-		justifyContent: "center",
-		padding: 3,
-	},
-	button: {
-		borderRadius: 10,
-		alignItems: "center",
-		justifyContent: "center",
-		flexDirection: "column",
-	},
-	buttonIcon: {
-		// paddingRight: 8,
-	},
-	buttonLabel: {
-		color: "#000000",
-		fontSize: 16,
-	},
-
-	save: {
-		width: 100,
-		height: 50,
-		justifyContent: "center",
-		alignContent: "center",
-		backgroundColor: "gray",
-	},
-});

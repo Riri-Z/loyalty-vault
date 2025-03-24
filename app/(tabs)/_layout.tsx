@@ -1,10 +1,8 @@
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@react-navigation/native";
 
 export default function TabLayout() {
-	const { colors } = useTheme();
 	const { i18n } = useTranslation();
 
 	return (
@@ -12,15 +10,7 @@ export default function TabLayout() {
 			screenOptions={{
 				headerShown: true,
 				headerTitleAlign: "center",
-				tabBarActiveTintColor: colors.primary,
-				headerStyle: {
-					backgroundColor: colors.background,
-				},
 				headerShadowVisible: false,
-				headerTintColor: colors.text,
-				tabBarStyle: {
-					backgroundColor: colors.background,
-				},
 			}}>
 			<Tabs.Screen
 				name="index"

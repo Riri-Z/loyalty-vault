@@ -3,10 +3,13 @@ import { FlatList, StyleSheet, View, StatusBar, TextInput, Text } from "react-na
 import CardsInformation from "./CardsInformation";
 import { Card } from "@/types/Card";
 import CardDetail from "./CardDetail";
+import { colorScheme, useColorScheme } from "nativewind";
 
 export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
+
+	const { setColorScheme, toggleColorScheme, colorScheme } = useColorScheme();
 
 	const onModalClose = () => {
 		setIsModalVisible(false);
@@ -19,10 +22,10 @@ export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 		setIsModalVisible(true);
 	}
 	return (
-		<View style={styles.container}>
+		<View className="m-auto">
 			<TextInput>
 				<Text>
-					<Text style={{ fontWeight: 900 }}>
+					<Text className="text-green-400 dark:text-red-600">
 						{cards.length > 0 ? "voici vos cards" : "Vous n'avez pas de cards"}
 					</Text>
 				</Text>
@@ -54,18 +57,3 @@ export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 		</View>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		marginTop: StatusBar.currentHeight ?? 0,
-	},
-	text: {},
-	title: {
-		fontSize: 32,
-	},
-
-	item: {
-		marginHorizontal: 20,
-	},
-});

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { deleteOneCard } from "@/providers/useDatabase";
 
@@ -16,8 +16,8 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 	return (
 		<View>
 			<Pressable onPress={openCardDetail}>
-				<View style={styles.container}>
-					<Text>id: {id}</Text>
+				<View>
+					<Text className="text-black dark:text-red-500">id: {id}</Text>
 					<Text>name : {name}</Text>
 					<Text>uri : {uri}</Text>
 				</View>
@@ -28,13 +28,3 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		borderWidth: 3,
-		padding: 10,
-		marginVertical: 10,
-		borderBlockColor: "red",
-	},
-	text: {},
-});
