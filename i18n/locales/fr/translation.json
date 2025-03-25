@@ -5,5 +5,21 @@
 		"plus": "Plus",
 		"about": "À propos",
 		"settings": "Paramètres"
+	},
+	"settings": {
+		"language": "Langages",
+		"apparences": "Themes",
+		"light": "Clair",
+		"dark": "Sombre"
+	},
+	"home": {
+		"title": "Cartes enregistrées",
+		"emptyCards": "Vous n'avez pas de cards",
+		"presentation": "voici vos cards"
+	},
+	"cards": {
+		"name": "Nom",
+		"uri": "chemin d'accès",
+		"preview": "Aperçu"
 	}
 }

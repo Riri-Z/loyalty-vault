@@ -39,6 +39,8 @@ app-example
 /android
 /ios
 
+debug.log
+
 .vscode
 
 expo-env.d.ts

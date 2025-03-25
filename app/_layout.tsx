@@ -1,11 +1,10 @@
 import { Stack } from "expo-router";
 import "@/i18n"; // This line imports the i18n configuration
-import { useEffect } from "react";
 import { SQLiteProvider, type SQLiteDatabase } from "expo-sqlite";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { CardsProvider } from "@/providers/cardsContext";
-import "@/global.css";
-import { colorScheme, useColorScheme } from "nativewind";
+import { CardsProvider } from "@/providers/CardsContext";
+import { useEffect } from "react";
+import * as SystemUI from "expo-system-ui";
+import { useColorScheme } from "react-native";
 
 export interface Card {
 	id: number;
@@ -14,6 +13,12 @@ export interface Card {
 }
 export type Theme = "light" | "dark" | "system";
 export default function RootLayout() {
+	const colorScheme = useColorScheme();
+
+	useEffect(() => {
+		SystemUI.setBackgroundColorAsync(colorScheme === "light" ? "#f3f4f6" : "#000000");
+	}, [colorScheme]);
+
 	return (
 		<CardsProvider>
 			<SQLiteProvider databaseName="test.db" onInit={createDbIfNeeded}>
@@ -28,7 +33,14 @@ export default function RootLayout() {
 							gestureEnabled: false, // Disable swipe gestures for tab screens
 						}}
 					/>
-					<Stack.Screen name="modal" options={{ presentation: "modal" }} />
+					<Stack.Screen
+						name="modal"
+						options={{
+							presentation: "transparentModal",
+							animation: "fade",
+							headerShown: false,
+						}}
+					/>
 
 					<Stack.Screen name="+not-found" />
 				</Stack>

@@ -5,5 +5,21 @@
 		"plus": "Plus",
 		"about": "About",
 		"settings": "Settings"
+	},
+	"settings": {
+		"language": "Languages",
+		"apparences": "Apparences",
+		"light": "Light",
+		"dark": "Dark"
+	},
+	"home": {
+		"title": "Available cards",
+		"emptyCards": "No cards registered",
+		"presentation": "Your cards"
+	},
+	"cards": {
+		"name": "Name",
+		"uri": "Path",
+		"preview": "Preview"
 	}
 }

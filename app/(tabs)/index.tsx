@@ -1,5 +1,5 @@
 import { router, Stack } from "expo-router";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { FlatListBasics } from "@/components/FlatListBasics";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getAllCards } from "@/providers/useDatabase";
 import { Card } from "@/types/Card";
 import { addDatabaseChangeListener } from "expo-sqlite";
+import ViewContainer from "@/components/ui/ViewContainer";
 
 export default function Index() {
 	const [cards, setCards] = useState<Card[]>([]);
@@ -15,7 +16,6 @@ export default function Index() {
 		//  Allow to load displayed cards
 		async function loadCards() {
 			const cards = await getAllCards();
-			console.log("cards from dbb", cards);
 			setCards(cards);
 		}
 		loadCards();
@@ -36,9 +36,9 @@ export default function Index() {
 	};
 
 	return (
-		<View className="h-[500] w-[300] m-auto">
+		<ViewContainer>
 			<Stack.Screen options={{ headerRight }} />
 			<FlatListBasics cards={cards}></FlatListBasics>
-		</View>
+		</ViewContainer>
 	);
 }

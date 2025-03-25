@@ -1,15 +1,17 @@
-import { router, Stack } from "expo-router";
+import { Link, router } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Pressable, Text, TextInput, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { insertOneCard, deleteAllCards, getAllCards } from "@/providers/useDatabase";
+import Animated, { FadeInUp, FadeOutDown, SlideInDown } from "react-native-reanimated";
 
 export default function ModalScreen() {
+	const isPresented = router.canGoBack();
+
 	const [name, setName] = useState<string>("");
-	const [uri, setFileUri] = useState<string | null>(null);
+	const [fileUri, setFileUri] = useState<string | null>(null);
 
 	const pickImageAsync = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -30,8 +32,8 @@ export default function ModalScreen() {
 
 	async function handleSaveNewCard() {
 		try {
-			if (name !== "" && uri !== null) {
-				await insertOneCard({ name, uri });
+			if (name !== "" && fileUri !== null) {
+				await insertOneCard({ name, fileUri });
 
 				// close modal and display list of cards
 
@@ -41,10 +43,10 @@ export default function ModalScreen() {
 				if (name.length <= 0) {
 					error = "Nom manquant";
 				}
-				if (!uri) {
+				if (!fileUri) {
 					error = "Photo manquant ";
 				}
-				if (name.length <= 0 && !uri) {
+				if (name.length <= 0 && !fileUri) {
 					error = "Nom et photo nécessaires";
 				}
 				alert(error);
@@ -55,7 +57,6 @@ export default function ModalScreen() {
 	}
 	async function handleGetAllCards() {
 		try {
-			console.log("called");
 			await getAllCards();
 		} catch (error) {
 			console.error(error);
@@ -73,24 +74,39 @@ export default function ModalScreen() {
 		setFileUri(null);
 	}
 	return (
-		<SafeAreaView>
-			<Stack.Screen
-				options={{
-					title: "Ajouter une nouvelle carte",
-				}}
-			/>
-			<View>
+		<Animated.View
+			entering={FadeInUp}
+			exiting={FadeOutDown}
+			style={{
+				flex: 1,
+				justifyContent: "center",
+				alignItems: "center",
+				backgroundColor: "#00000040",
+			}}>
+			{/* Dismiss modal when pressing outside */}
+			<Link href={"/"} asChild>
+				<Pressable />
+			</Link>
+			<Animated.View
+				entering={SlideInDown}
+				style={{
+					width: "100%",
+					height: "100%",
+					alignItems: "center",
+					justifyContent: "center",
+					backgroundColor: "white",
+				}}>
+				{isPresented && <Link href="../">Dismiss modal</Link>}
+
 				{/* NAME INPUT */}
 				<TextInput onChangeText={onChangeName} value={name} placeholder="Name" />
 				{/* PICTURE INPUT */}
 				<View>
 					<View>
 						<Text>Chemin de la photo :</Text>
-						<Text className="text-purple-500 dark:text-yellow-400">
-							{uri ?? "rien de selectionner"}
-						</Text>
+						<Text>{fileUri ?? "rien de selectionner"}</Text>
 					</View>
-					{uri ? (
+					{fileUri ? (
 						<Pressable onPress={handleDeleteFile}>
 							<AntDesign name="minuscircleo" size={24} color="black" />
 						</Pressable>
@@ -111,8 +127,11 @@ export default function ModalScreen() {
 				<Pressable onPress={deleteAll}>
 					<Text>delete all</Text>
 				</Pressable>
-			</View>
-		</SafeAreaView>
+				<Link href="/">
+					<Text>← Go back</Text>
+				</Link>
+			</Animated.View>
+		</Animated.View>
 	);
 }
 type Props = {

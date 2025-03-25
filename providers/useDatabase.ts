@@ -5,13 +5,12 @@ const db = SQLite.openDatabaseAsync("test.db", { enableChangeListener: true });
 
 type AddCard = {
 	name: string;
-	uri: string;
+	fileUri: string;
 };
 
-const insertOneCard = async ({ name, uri }: AddCard) => {
+const insertOneCard = async ({ name, fileUri }: AddCard) => {
 	try {
-		const res = (await db).runAsync("INSERT INTO cards (name, uri) VALUES (?,?)", name, uri);
-
+		const res = (await db).runAsync("INSERT INTO cards (name, uri) VALUES (?,?)", name, fileUri);
 		return res;
 	} catch (error) {
 		console.error("Failed insert new card ,errror : ", error);
@@ -41,7 +40,6 @@ async function deleteAllCards() {
 async function getAllCards(): Promise<Card[]> {
 	try {
 		const res: Promise<Card[]> = (await db).getAllAsync("SELECT * FROM cards");
-		console.log("await res", await res);
 		return res;
 	} catch (error) {
 		console.error(error);

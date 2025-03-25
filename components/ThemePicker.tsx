@@ -1,32 +1,40 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Appearance, Platform, Switch } from "react-native";
+import { View, Text, Switch, useColorScheme, Appearance } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { colorScheme, useColorScheme } from "nativewind";
+import { useTranslation } from "react-i18next";
+import useColor from "@/hooks/useColor";
 
 export default function ThemePicker() {
-	const { setColorScheme, toggleColorScheme, colorScheme } = useColorScheme();
+	const { t } = useTranslation();
+	const { color } = useColor();
 
+	const colorScheme = useColorScheme();
 	const [isDarkModeOn, setIsDarkModeOn] = useState(colorScheme === "dark");
 
-	const toggleSwitch = () => {
-		toggleColorScheme();
+	const toggleSwitch = (activateDarkMode: boolean) => {
+		Appearance.setColorScheme(activateDarkMode ? "dark" : "light");
 		setIsDarkModeOn((prev) => !prev);
-		AsyncStorage.setItem("theme", colorScheme ?? "light");
-		console.log("colorScheme", colorScheme);
-		setColorScheme(colorScheme === "dark" ? "light" : "dark");
 	};
+
+	// Save to storage
+	useEffect(() => {
+		AsyncStorage.setItem("theme", colorScheme ?? "light");
+	}, [colorScheme]);
+
 	return (
-		<View className="bg-white dark:bg-slate-800">
-			<View className="flex flex-row w-7 bg-slate-500">
-				<Text className="text-black dark:text-red-500">Light</Text>
+		<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+			<Text style={{ color: color, alignSelf: "center" }}>{t("settings.apparences")} </Text>
+			<View style={{ flexDirection: "row" }}>
+				<Text style={{ color: color, alignSelf: "center" }}>{t("settings.light")}</Text>
 				<Switch
-					trackColor={{ false: "#767577", true: "#81b0ff" }}
-					thumbColor="#3e3e3e"
+					style={{}}
+					trackColor={{ false: "#", true: "#81b0ff" }}
+					thumbColor="#339c3a"
 					ios_backgroundColor="#3e3e3e"
 					onValueChange={toggleSwitch}
 					value={isDarkModeOn}
 				/>
-				<Text>Dark</Text>
+				<Text style={{ color: color, alignSelf: "center" }}>{t("settings.dark")}</Text>
 			</View>
 		</View>
 	);

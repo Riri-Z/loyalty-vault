@@ -1,4 +1,4 @@
-import { Modal, View, Text, Pressable, StyleSheet, ImageURISource } from "react-native";
+import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { PropsWithChildren } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ImageViewer from "@/components/ImageViewer";
