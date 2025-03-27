@@ -44,6 +44,5 @@ debug.log
 .vscode
 
 *playgroundPage.tsx
-*AddCardButton.tsx
 
 expo-env.d.ts
