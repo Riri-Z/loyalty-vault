@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { FlatList, View, Text } from "react-native";
+import { FlatList, View, Text, StyleSheet } from "react-native";
 import CardsInformation from "./CardsInformation";
 import { Card } from "@/types/Card";
-import CardDetail from "./CardDetail";
+import CardViewer from "./CardViewer";
 import useColor from "@/hooks/useColor";
 import { useTranslation } from "react-i18next";
 
 export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 	const { t } = useTranslation();
-	const { color, bgColor, cardColor } = useColor();
+	const { textColor } = useColor();
 
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
@@ -18,27 +18,23 @@ export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 		setCard(null);
 	};
 
-	function handleSelectedCard(card: any) {
+	function handleSelectedCard(card: Card) {
 		setCard(card);
 		setIsModalVisible(true);
 	}
-	return (
-		<View style={{ height: "100%", gap: 10 }}>
-			{cards.length > 0 && (
-				<Text style={{ color, margin: "auto", fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>
-					{t("home.emptyCards")}
-				</Text>
-			)}
-
+	return cards.length === 0 ? (
+		<Text style={[styles.emptyText, { color: textColor }]}>{t("cards.cta.registerFirstCard")}</Text>
+	) : (
+		<View style={styles.container}>
 			{isModalVisible && card ? (
-				<CardDetail
+				<CardViewer
 					isVisible={isModalVisible}
 					name={card.name}
 					src={card.uri}
-					onClose={onModalClose}></CardDetail>
+					onClose={onModalClose}></CardViewer>
 			) : (
 				<FlatList
-					style={{ gap: 20 }}
+					style={styles.list}
 					data={cards}
 					showsVerticalScrollIndicator={false}
 					keyExtractor={(item) => item.id.toString()}
@@ -58,3 +54,20 @@ export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		height: "100%",
+		gap: 10,
+	},
+	text: {
+		margin: "auto",
+		fontSize: 24,
+		fontWeight: "bold",
+		marginBottom: 10,
+	},
+	emptyText: {},
+	list: {
+		gap: 20,
+	},
+});

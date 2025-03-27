@@ -10,7 +10,7 @@ type Props = PropsWithChildren<{
 	onClose: () => void;
 }>;
 
-export default function CardDetail({ isVisible, src, name, children, onClose }: Props) {
+export default function CardViewer({ isVisible, src, name, children, onClose }: Props) {
 	return (
 		<View>
 			<Modal animationType="slide" transparent={true} visible={isVisible}>
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 18,
 		position: "absolute",
 		bottom: 0,
+		margin: "auto",
 	},
 	titleContainer: {
 		height: "5%",

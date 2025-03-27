@@ -8,7 +8,7 @@ import useColor from "@/hooks/useColor";
 
 export default function TabLayout() {
 	const { i18n } = useTranslation();
-	const { bgColor, color, tabIconColor } = useColor();
+	const { bgColor, textColor, tabIconColor } = useColor();
 
 	useEffect(() => {
 		const getThemeStorage = async () => {
@@ -37,7 +37,7 @@ export default function TabLayout() {
 				headerShadowVisible: true,
 				tabBarActiveTintColor: tabIconColor,
 				headerTitleStyle: {
-					color: color,
+					color: textColor,
 					fontSize: 40,
 				},
 				sceneStyle: {
@@ -56,6 +56,16 @@ export default function TabLayout() {
 					animation: "fade", // Use fade animation for the home screen
 					tabBarIcon: ({ color, focused }) => (
 						<Ionicons name={focused ? "home-sharp" : "home-outline"} color={color} size={24} />
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name="playgroundPage"
+				options={{
+					title: "playgroundPage",
+					animation: "fade", // Use fade animation for the home screen
+					tabBarIcon: ({ color, focused }) => (
+						<Ionicons name={focused ? "settings" : "settings-outline"} color={color} size={24} />
 					),
 				}}
 			/>

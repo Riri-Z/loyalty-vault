@@ -1,5 +1,9 @@
 {
 	"language": "English",
+	"key_language": {
+		"en": "English",
+		"fr": "Français"
+	},
 	"tabs": {
 		"home": "Home",
 		"plus": "Plus",
@@ -20,6 +24,25 @@
 	"cards": {
 		"name": "Name",
 		"uri": "Path",
-		"preview": "Preview"
+		"file": "file",
+		"preview": "Preview",
+		"addCard": "Add a card",
+		"cta": {
+			"selectFile": "Select a file",
+			"open": "Open",
+			"delete": "delete",
+			"save": "Save",
+			"registerFirstCard": "Add your first card by clicking on + !"
+		},
+		"alert": {
+			"missingName": "Name required",
+			"missingFile": "File required",
+			"NameAndFileMissing": "Name and file are required"
+		},
+		"deleteAlert": {
+			"title": "Delete the following card",
+			"cancel": "Cancel",
+			"ok": "OK"
+		}
 	}
 }

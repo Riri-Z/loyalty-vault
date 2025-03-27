@@ -30,15 +30,13 @@ export default function RootLayout() {
 						name="(tabs)"
 						options={{
 							headerShown: false,
-							gestureEnabled: false, // Disable swipe gestures for tab screens
+							gestureEnabled: true, // Disable swipe gestures for tab screens
 						}}
 					/>
 					<Stack.Screen
 						name="modal"
 						options={{
-							presentation: "transparentModal",
-							animation: "fade",
-							headerShown: false,
+							presentation: "modal",
 						}}
 					/>
 
@@ -53,8 +51,4 @@ async function createDbIfNeeded(db: SQLiteDatabase) {
 	await db.execAsync(
 		`CREATE TABLE IF NOT EXISTS cards (id  INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, uri TEXT)`,
 	);
-	const fakeCardExist = await db.getFirstAsync("SELECT * FROM cards");
-	if (!fakeCardExist) {
-		await db.execAsync("INSERT INTO cards (name, uri) VALUES ('testCard', 'fakeURI') ");
-	}
 }

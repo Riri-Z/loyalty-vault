@@ -1,5 +1,9 @@
 {
 	"language": "Français",
+	"key_language": {
+		"en": "Englais",
+		"fr": "Français"
+	},
 	"tabs": {
 		"home": "Accueil",
 		"plus": "Plus",
@@ -20,6 +24,25 @@
 	"cards": {
 		"name": "Nom",
 		"uri": "chemin d'accès",
-		"preview": "Aperçu"
+		"file": "fichier",
+		"preview": "Aperçu",
+		"addCard": "Ajouter une nouvelle carte",
+		"cta": {
+			"selectFile": "Selectionner un fichier",
+			"open": "Ouvrir",
+			"delete": "Supprimer",
+			"save": "Sauvegarder",
+			"registerFirstCard": "Ajoutez votre première carte en appuyant sur le bouton + !"
+		},
+		"alert": {
+			"missingName": "Nom manquant",
+			"missingFile": "Photo manquant",
+			"NameAndFileMissing": "Nom et photo nécessaires"
+		},
+		"deleteAlert": {
+			"title": "Suppimer la carte suivante",
+			"cancel": "Annuler",
+			"ok": "OK"
+		}
 	}
 }

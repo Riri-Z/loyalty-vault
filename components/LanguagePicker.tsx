@@ -7,9 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import useColor from "@/hooks/useColor";
 
 export default function LanguagePicker() {
-	const { i18n } = useTranslation();
+	const { i18n, t } = useTranslation();
 	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
-	const { color } = useColor();
+	const { textColor } = useColor();
 
 	// Update i18n language
 	function handleChangeLanguage(newLangue: string) {
@@ -19,17 +19,17 @@ export default function LanguagePicker() {
 	}
 
 	return (
-		<View style={{ padding: 5 }}>
-			<Text style={{ color: color }}>Langues</Text>
+		<View>
+			<Text style={{ color: textColor }}>{t("settings.language")}</Text>
 			<Picker
-				style={{ color: color }}
+				style={{ color: textColor }}
 				selectedValue={selectedLanguage}
 				onValueChange={(langue: string) => {
 					setSelectedLanguage(langue);
 					handleChangeLanguage(langue);
 				}}>
 				{AVAILABLE_LANGUAGES.map((e, index) => {
-					return <Picker.Item key={`${e} + ${index}`} label={e.toUpperCase()} value={e} />;
+					return <Picker.Item key={`${e} + ${index}`} label={t("key_language." + e)} value={e} />;
 				})}
 			</Picker>
 		</View>

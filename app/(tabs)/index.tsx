@@ -1,6 +1,3 @@
-import { router, Stack } from "expo-router";
-import { TouchableOpacity } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 import { FlatListBasics } from "@/components/FlatListBasics";
 import { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-unresolved
@@ -8,10 +5,10 @@ import { getAllCards } from "@/providers/useDatabase";
 import { Card } from "@/types/Card";
 import { addDatabaseChangeListener } from "expo-sqlite";
 import ViewContainer from "@/components/ui/ViewContainer";
+import AddCardButton from "@/components/ui/AddCardbutton";
 
 export default function Index() {
 	const [cards, setCards] = useState<Card[]>([]);
-
 	useEffect(() => {
 		//  Allow to load displayed cards
 		async function loadCards() {
@@ -27,18 +24,11 @@ export default function Index() {
 		return () => listener.remove();
 	}, []);
 
-	const headerRight = () => {
-		return (
-			<TouchableOpacity onPress={() => router.push("/modal")} style={{ marginRight: 18 }}>
-				<FontAwesome name="plus-circle" size={28}></FontAwesome>
-			</TouchableOpacity>
-		);
-	};
-
 	return (
 		<ViewContainer>
-			<Stack.Screen options={{ headerRight }} />
+			{/* List of cards */}
 			<FlatListBasics cards={cards}></FlatListBasics>
+			<AddCardButton />
 		</ViewContainer>
 	);
 }

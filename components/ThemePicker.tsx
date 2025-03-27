@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, Text, Switch, useColorScheme, Appearance } from "react-native";
+import { View, Text, Switch, useColorScheme, Appearance, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 import useColor from "@/hooks/useColor";
 
 export default function ThemePicker() {
 	const { t } = useTranslation();
-	const { color } = useColor();
+	const { textColor } = useColor();
 
 	const colorScheme = useColorScheme();
 	const [isDarkModeOn, setIsDarkModeOn] = useState(colorScheme === "dark");
@@ -22,20 +22,36 @@ export default function ThemePicker() {
 	}, [colorScheme]);
 
 	return (
-		<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-			<Text style={{ color: color, alignSelf: "center" }}>{t("settings.apparences")} </Text>
-			<View style={{ flexDirection: "row" }}>
-				<Text style={{ color: color, alignSelf: "center" }}>{t("settings.light")}</Text>
+		<View style={styles.container}>
+			<Text style={[styles.text, { color: textColor }]}>{t("settings.apparences")} </Text>
+			<View style={styles.switchContainer}>
+				<Text style={[styles.text, { color: textColor }]}>{t("settings.light")}</Text>
 				<Switch
-					style={{}}
+					style={styles.switch}
 					trackColor={{ false: "#", true: "#81b0ff" }}
 					thumbColor="#339c3a"
 					ios_backgroundColor="#3e3e3e"
 					onValueChange={toggleSwitch}
 					value={isDarkModeOn}
 				/>
-				<Text style={{ color: color, alignSelf: "center" }}>{t("settings.dark")}</Text>
+				<Text style={[styles.text, { color: textColor }]}>{t("settings.dark")}</Text>
 			</View>
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+	switchContainer: {
+		flexDirection: "row",
+	},
+	text: {
+		alignSelf: "center",
+	},
+	switch: {
+		marginHorizontal: 5,
+	},
+});
