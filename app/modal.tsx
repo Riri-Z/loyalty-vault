@@ -1,146 +1,177 @@
-import { Link, router } from "expo-router";
-import { useState } from "react";
-import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useState } from "react";
+import {
+	View,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	Image,
+	StyleSheet,
+	Pressable,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { insertOneCard } from "@/providers/useDatabase";
-import Animated, { FadeInUp, FadeOutDown, SlideInDown } from "react-native-reanimated";
-import useColor from "@/hooks/useColor";
 import { useTranslation } from "react-i18next";
-import ImageViewer from "@/components/ImageViewer";
+import useColor from "@/hooks/useColor";
+import ViewContainer from "@/components/ui/ViewContainer";
 
-export default function ModalScreen() {
-	const { t, i18n } = useTranslation();
-	const { textColor, bgColor, cardColor } = useColor();
-	const isPresented = router.canGoBack();
+export default function AddCardScreen() {
+	const { t } = useTranslation();
+	const { textColor } = useColor();
 
-	const [name, setName] = useState<string>("");
-	const [fileUri, setFileUri] = useState<string | null>(null);
+	const [name, setName] = useState("");
+	const [file, setFile] = useState<string | null>(null);
 
-	const pickImageAsync = async () => {
+	const pickFile = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ["images"],
 			allowsEditing: false,
 			quality: 1,
 		});
 		if (!result.canceled) {
-			setFileUri(result?.assets[0].uri);
-		} else {
+			setFile(result?.assets[0].uri);
+		} else if (!file) {
 			alert("You did not select any image.");
 		}
 	};
-
-	function onChangeName(newName: string) {
-		setName(newName);
-	}
-
 	async function handleSaveNewCard() {
 		try {
-			if (name !== "" && fileUri !== null) {
-				await insertOneCard({ name, fileUri });
-
-				// close modal and display list of cards
-				router.push("/(tabs)");
-			} else {
-				let error = "";
-				if (name.length <= 0) {
-					error = "cards.alert.missingName";
-				}
-				if (!fileUri) {
-					error = "cards.alert.missingFile";
-				}
-				if (name.length <= 0 && !fileUri) {
-					error = "cards.alert.NameAndFileMissing";
-				}
-				console.log("error", error);
-				alert(t(error));
+			if (name.length <= 0 && !file) {
+				return alert(t("cards.alert.NameAndFileMissing"));
 			}
-		} catch (err) {
-			console.error(err);
+
+			if (name.length <= 0) {
+				return alert(t("cards.alert.missingName"));
+			}
+			if (!file) {
+				return alert(t("cards.alert.missingFile"));
+			}
+
+			await insertOneCard({ name, fileUri: file });
+
+			// close modal and display list of cards
+			router.push("/(tabs)");
+		} catch (error) {
+			console.error(error);
 		}
 	}
 
 	function handleDeleteFile() {
-		setFileUri(null);
+		setFile(null);
 	}
+
 	return (
-		<View style={styles.container}>
-			{isPresented && <Link href="../"></Link>}
-			{/* NAME INPUT */}
-			<TextInput
-				style={[styles.textInput, { color: textColor }]}
-				onChangeText={onChangeName}
-				value={name}
-				placeholder={t("cards.name")}
-			/>
-			{/* PICTURE INPUT */}
-			<View style={styles.container}>
-				<View style={styles.fileContainer}>
-					<Text>{t("cards.file")}</Text>
-					{!fileUri && <Text style={styles.textUri}>{t("cards.addCard")}</Text>}
-				</View>
-				{fileUri && (
-					<View
-						style={{
-							flexDirection: "row",
-							marginVertical: 10,
-							alignItems: "center",
-							justifyContent: "space-between",
-						}}>
-						{/* <Text style={styles.textUri}>{fileUri}</Text> */}
-						<ImageViewer imgSource={fileUri}></ImageViewer>
-						<Pressable style={{}} onPress={handleDeleteFile}>
-							<AntDesign name="minuscircleo" size={24} color="black" />
-						</Pressable>
-					</View>
-				)}
-			</View>
-			{/* CTA */}
-			{/* Add */}
-			<View style={styles.cta}>
-				{fileUri ? (
-					<Button onPress={handleSaveNewCard} title={t("cards.cta.save")}></Button>
-				) : (
-					<Button onPress={pickImageAsync} title={t("cards.cta.selectFile")}></Button>
-				)}
+		<ViewContainer>
+			<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+				<Ionicons name="arrow-back" size={24} color={textColor} />
+			</TouchableOpacity>
+
+			<Text style={[styles.title, { color: textColor }]}>{t("cards.addCard")}</Text>
+
+			<Text style={[styles.label, { color: textColor }]}>{t("cards.cardName")}</Text>
+			<View style={styles.inputContainer}>
+				<Ionicons name="card-outline" size={20} color="#777" style={styles.icon} />
+				<TextInput
+					style={[styles.input, { color: textColor }]}
+					placeholder={t("cards.placeHolderName")}
+					placeholderTextColor={textColor}
+					value={name}
+					onChangeText={setName}
+				/>
 			</View>
 
-			<Link style={{ width: 100, marginHorizontal: "auto" }} href="/">
-				<Text>← Go back</Text>
-			</Link>
-		</View>
+			<Text style={[styles.label, { color: textColor }]}>Importer une image</Text>
+			{file ? (
+				<View style={{ width: "100%", position: "relative" }}>
+					<Image source={{ uri: file }} style={styles.imagePreview} />
+					<Pressable style={{ position: "absolute", right: 5 }} onPress={handleDeleteFile}>
+						<Entypo name="circle-with-cross" size={24} color="red" />
+					</Pressable>
+				</View>
+			) : (
+				<Pressable style={styles.placeholder} onPress={pickFile}>
+					<MaterialIcons name="image" size={48} color="#ccc" />
+					<Text style={{ color: "#ccc" }}>{t("cards.noPicture")}</Text>
+				</Pressable>
+			)}
+
+			<TouchableOpacity style={styles.selectButton} onPress={pickFile}>
+				<Text style={styles.selectButtonText}> {t("cards.cta.selectFile")} </Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity style={styles.addButton} onPress={handleSaveNewCard}>
+				<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
+			</TouchableOpacity>
+		</ViewContainer>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		width: "90%",
-		marginHorizontal: "auto",
-		gap: 10,
-
-		height: "80%",
+	backButton: {
+		marginBottom: 10,
 	},
-	cta: {},
-	fileContainer: {
-		gap: 10,
+	title: {
+		fontSize: 24,
+		fontWeight: "bold",
+		marginBottom: 20,
 	},
-	switchContainer: {
+	label: {
+		fontSize: 16,
+		fontWeight: "500",
+		marginTop: 10,
+	},
+	inputContainer: {
 		flexDirection: "row",
-	},
-	textInput: {
-		height: 60,
-		margin: 12,
-
-		fontSize: 20,
-		borderRadius: 10,
+		alignItems: "center",
 		borderWidth: 1,
-		padding: 10,
+		borderColor: "#ccc",
+		borderRadius: 8,
+		paddingHorizontal: 10,
+		marginTop: 5,
 	},
-	textUri: {
-		width: "90%",
+	icon: {
+		marginRight: 8,
+	},
+	input: {
+		flex: 1,
+		height: 40,
+	},
+	placeholder: {
+		alignItems: "center",
+		justifyContent: "center",
+		height: 120,
+		backgroundColor: "#eee",
+		borderRadius: 10,
+		marginVertical: 10,
+	},
+	imagePreview: {
+		// width: "100%",
+		height: 120,
+		borderRadius: 10,
+		marginVertical: 10,
+		resizeMode: "contain",
+	},
+	selectButton: {
+		backgroundColor: "#007bff",
+		padding: 12,
+		borderRadius: 8,
+		alignItems: "center",
+		marginBottom: 20,
+	},
+	selectButtonText: {
+		color: "white",
 		fontWeight: "bold",
 	},
-	switch: {
-		marginHorizontal: 5,
+	addButton: {
+		backgroundColor: "#28a745",
+		padding: 15,
+		borderRadius: 8,
+		alignItems: "center",
+	},
+	addButtonText: {
+		color: "white",
+		fontWeight: "bold",
+		fontSize: 16,
 	},
 });

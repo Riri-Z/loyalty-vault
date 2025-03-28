@@ -1,7 +1,7 @@
 {
 	"language": "Français",
 	"key_language": {
-		"en": "Englais",
+		"en": "Anglais",
 		"fr": "Français"
 	},
 	"tabs": {
@@ -11,22 +11,31 @@
 		"settings": "Paramètres"
 	},
 	"settings": {
-		"language": "Langages",
-		"apparences": "Themes",
+		"language": "Langues",
+		"apparences": "Thèmes",
 		"light": "Clair",
-		"dark": "Sombre"
+		"dark": "Sombre",
+		"cleanData": {
+			"button": "Supprimer mes données",
+			"confirmationTitle": "Réinitialiser l'application",
+			"confirmationContent": "Voulez-vous vraiment effacer toutes les données ?"
+		}
 	},
 	"home": {
 		"title": "Cartes enregistrées",
-		"emptyCards": "Vous n'avez pas de cards",
-		"presentation": "voici vos cards"
+		"emptyCards": "Vous n'avez pas de cartes",
+		"presentation": "Voici vos cartes"
 	},
 	"cards": {
 		"name": "Nom",
 		"uri": "chemin d'accès",
 		"file": "fichier",
 		"preview": "Aperçu",
-		"addCard": "Ajouter une nouvelle carte",
+		"cardName": "Nom de la carte",
+		"pictureLabel": "Importer une image",
+		"noPicture": "Aucune image sélectionnée",
+		"placeHolderName": "Ex: Carrefour, Décathlon...",
+		"addCard": "Ajouter une carte",
 		"cta": {
 			"selectFile": "Selectionner un fichier",
 			"open": "Ouvrir",
@@ -36,11 +45,11 @@
 		},
 		"alert": {
 			"missingName": "Nom manquant",
-			"missingFile": "Photo manquant",
-			"NameAndFileMissing": "Nom et photo nécessaires"
+			"missingFile": "Photo manquante",
+			"NameAndFileMissing": "Nom et photo requis"
 		},
 		"deleteAlert": {
-			"title": "Suppimer la carte suivante",
+			"title": "Supprimer la carte suivante",
 			"cancel": "Annuler",
 			"ok": "OK"
 		}

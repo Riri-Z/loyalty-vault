@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		gap: 10,
 		marginBottom: 10,
-		borderRadius: 20,
+		borderRadius: 12,
 	},
 });

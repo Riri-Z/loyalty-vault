@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import CardsInformation from "./CardsInformation";
 import { Card } from "@/types/Card";
 import CardViewer from "./CardViewer";
-import useColor from "@/hooks/useColor";
-import { useTranslation } from "react-i18next";
 
 export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
-	const { t } = useTranslation();
-	const { textColor } = useColor();
-
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
 
@@ -22,10 +17,8 @@ export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 		setCard(card);
 		setIsModalVisible(true);
 	}
-	return cards.length === 0 ? (
-		<Text style={[styles.emptyText, { color: textColor }]}>{t("cards.cta.registerFirstCard")}</Text>
-	) : (
-		<View style={styles.container}>
+	return (
+		<View>
 			{isModalVisible && card ? (
 				<CardViewer
 					isVisible={isModalVisible}
@@ -56,10 +49,6 @@ export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
 };
 
 const styles = StyleSheet.create({
-	container: {
-		height: "100%",
-		gap: 10,
-	},
 	text: {
 		margin: "auto",
 		fontSize: 24,

@@ -23,9 +23,9 @@ export default function ThemePicker() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.text, { color: textColor }]}>{t("settings.apparences")} </Text>
+			<Text style={[styles.label, { color: textColor }]}>{t("settings.apparences")} </Text>
 			<View style={styles.switchContainer}>
-				<Text style={[styles.text, { color: textColor }]}>{t("settings.light")}</Text>
+				<Text style={[styles.content, { color: textColor }]}>{t("settings.light")}</Text>
 				<Switch
 					style={styles.switch}
 					trackColor={{ false: "#", true: "#81b0ff" }}
@@ -34,7 +34,7 @@ export default function ThemePicker() {
 					onValueChange={toggleSwitch}
 					value={isDarkModeOn}
 				/>
-				<Text style={[styles.text, { color: textColor }]}>{t("settings.dark")}</Text>
+				<Text style={[styles.content, { color: textColor }]}>{t("settings.dark")}</Text>
 			</View>
 		</View>
 	);
@@ -48,8 +48,13 @@ const styles = StyleSheet.create({
 	switchContainer: {
 		flexDirection: "row",
 	},
-	text: {
+
+	label: {
+		fontWeight: 600,
+	},
+	content: {
 		alignSelf: "center",
+		fontWeight: 400,
 	},
 	switch: {
 		marginHorizontal: 5,

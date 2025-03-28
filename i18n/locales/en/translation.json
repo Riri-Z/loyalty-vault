@@ -12,9 +12,14 @@
 	},
 	"settings": {
 		"language": "Languages",
-		"apparences": "Apparences",
+		"apparences": "Appearance",
 		"light": "Light",
-		"dark": "Dark"
+		"dark": "Dark",
+		"cleanData": {
+			"button": "Clear all my data",
+			"confirmationTitle": "Reset app ?",
+			"confirmationContent": "The following action will delete all your data"
+		}
 	},
 	"home": {
 		"title": "Available cards",
@@ -26,11 +31,15 @@
 		"uri": "Path",
 		"file": "file",
 		"preview": "Preview",
+		"cardName": "Card name",
+		"pictureLabel": "Add an image",
+		"noPicture": "No image selected",
+		"placeHolderName": "Eg: Amazon, metro...",
 		"addCard": "Add a card",
 		"cta": {
 			"selectFile": "Select a file",
 			"open": "Open",
-			"delete": "delete",
+			"delete": "Delete",
 			"save": "Save",
 			"registerFirstCard": "Add your first card by clicking on + !"
 		},

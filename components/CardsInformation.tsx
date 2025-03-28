@@ -1,10 +1,10 @@
-import { Alert, Button, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { deleteOneCard } from "@/providers/useDatabase";
 import useColor from "@/hooks/useColor";
 import CardContainer from "./ui/CardContainer";
 import { useTranslation } from "react-i18next";
 import { Image } from "expo-image";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Entypo } from "@expo/vector-icons";
 import TwoButtonAlert from "./ui/TwoButtonAlert";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 };
 export default function CardsInformation({ id, name, uri, openCardDetail }: Props) {
 	const { t } = useTranslation();
-	const { textColor, bgColor } = useColor();
+	const { textColor } = useColor();
 
 	async function handleDeleteFile() {
 		try {
@@ -39,13 +39,10 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 	return (
 		<CardContainer>
 			<Pressable onPress={handleopenAlertdelete} style={[styles.ctaDelete]}>
-				<MaterialIcons
-					name={bgColor === "#181818" ? "delete" : "delete-forever"}
-					size={34}
-					color={bgColor === "#181818" ? "#FF6B6B" : "red"}></MaterialIcons>
+				<Entypo name="circle-with-cross" size={24} color="red" />
 			</Pressable>
-			<Pressable style={{ gap: 20 }} onPress={openCardDetail}>
-				<View style={{ gap: 10 }}>
+			<Pressable style={{ gap: 20, width: "100%" }} onPress={openCardDetail}>
+				<View style={styles.container}>
 					<View style={styles.container}>
 						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
 						<Text style={{ color: textColor }}>
@@ -55,7 +52,7 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 				</View>
 				{/* Preview */}
 				<View style={styles.container}>
-					<Text style={[styles.labelText, { color: textColor }]}>Apercu</Text>
+					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
 					<Image style={styles.image} source={uri} contentFit="cover" transition={1000} />
 				</View>
 				{/* Path */}
@@ -75,23 +72,26 @@ const styles = StyleSheet.create({
 	},
 	labelText: {
 		minWidth: 50,
-		fontWeight: "bold",
+		fontWeight: 600,
+		fontSize: 16,
 	},
 	uriText: {
 		flex: 1,
+		fontSize: 14,
 	},
 	image: {
 		flex: 1,
 		height: 200,
-		borderRadius: 15,
+		borderRadius: 8,
+		marginVertical: 8,
 		width: "100%",
 		backgroundColor: "#0553",
 	},
 	content: {},
 	ctaDelete: {
 		position: "absolute",
-		right: 10,
-		top: 10,
+		right: 5,
+		top: 12,
 		width: 50,
 		height: 50,
 		alignItems: "center",

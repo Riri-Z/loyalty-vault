@@ -2,6 +2,7 @@ import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { PropsWithChildren } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ImageViewer from "@/components/ImageViewer";
+import ViewContainer from "./ui/ViewContainer";
 
 type Props = PropsWithChildren<{
 	isVisible: boolean;
@@ -12,7 +13,7 @@ type Props = PropsWithChildren<{
 
 export default function CardViewer({ isVisible, src, name, children, onClose }: Props) {
 	return (
-		<View>
+		<ViewContainer>
 			<Modal animationType="slide" transparent={true} visible={isVisible}>
 				<View style={styles.modalContent}>
 					<View style={styles.titleContainer}>
@@ -26,7 +27,7 @@ export default function CardViewer({ isVisible, src, name, children, onClose }: 
 					<ImageViewer imgSource={src} />
 				</View>
 			</Modal>
-		</View>
+		</ViewContainer>
 	);
 }
 
