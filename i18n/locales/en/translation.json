@@ -50,6 +50,8 @@
 		},
 		"deleteAlert": {
 			"title": "Delete the following card",
+			"success": "Successfull delete",
+			"failed": "Failed",
 			"cancel": "Cancel",
 			"ok": "OK"
 		}

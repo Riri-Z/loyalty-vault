@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Image } from "expo-image";
 import { Entypo } from "@expo/vector-icons";
 import TwoButtonAlert from "./ui/TwoButtonAlert";
+import { router } from "expo-router";
 
 type Props = {
 	id: number;
@@ -15,7 +16,7 @@ type Props = {
 };
 export default function CardsInformation({ id, name, uri, openCardDetail }: Props) {
 	const { t } = useTranslation();
-	const { textColor } = useColor();
+	const { textColor, secondaryColor } = useColor();
 
 	async function handleDeleteFile() {
 		try {
@@ -36,16 +37,42 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 		});
 	}
 
+	function handleEditCard() {
+		return router.push({
+			pathname: "/modal",
+			params: {
+				nameCard: name,
+				fileCard: uri,
+				idCard: id.toString(),
+			},
+		});
+	}
+
 	return (
 		<CardContainer>
-			<Pressable onPress={handleopenAlertdelete} style={[styles.ctaDelete]}>
-				<Entypo name="circle-with-cross" size={24} color="red" />
-			</Pressable>
+			<View style={[styles.ctaDelete]}>
+				<Pressable
+					style={{
+						borderWidth: 1,
+						borderRadius: 99999,
+						width: 50,
+						borderColor: "white",
+						backgroundColor: secondaryColor,
+					}}
+					onPress={handleEditCard}>
+					<Text style={{ alignSelf: "center", fontSize: 14, fontWeight: "bold", color: "white" }}>
+						Edit
+					</Text>
+				</Pressable>
+				<Pressable onPress={handleopenAlertdelete}>
+					<Entypo name="circle-with-cross" size={24} color="red" />
+				</Pressable>
+			</View>
 			<Pressable style={{ gap: 20, width: "100%" }} onPress={openCardDetail}>
 				<View style={styles.container}>
 					<View style={styles.container}>
 						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
-						<Text style={{ color: textColor }}>
+						<Text style={[styles.content, { color: textColor }]}>
 							{name.slice(0, 1).toUpperCase() + name.slice(1)}
 						</Text>
 					</View>
@@ -56,10 +83,6 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 					<Image style={styles.image} source={uri} contentFit="cover" transition={1000} />
 				</View>
 				{/* Path */}
-				<View style={styles.container}>
-					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.uri")}</Text>
-					<Text style={[styles.uriText, { color: textColor }]}>{uri}</Text>
-				</View>
 			</Pressable>
 		</CardContainer>
 	);
@@ -67,7 +90,7 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
+		flexDirection: "column",
 		gap: 10,
 	},
 	labelText: {
@@ -75,6 +98,7 @@ const styles = StyleSheet.create({
 		fontWeight: 600,
 		fontSize: 16,
 	},
+	content: { paddingLeft: 10 },
 	uriText: {
 		flex: 1,
 		fontSize: 14,
@@ -87,12 +111,15 @@ const styles = StyleSheet.create({
 		width: "100%",
 		backgroundColor: "#0553",
 	},
-	content: {},
+
 	ctaDelete: {
 		position: "absolute",
+		display: "flex",
+		flexDirection: "row",
 		right: 5,
 		top: 12,
-		width: 50,
+		width: 75,
+		justifyContent: "space-between",
 		height: 50,
 		alignItems: "center",
 		zIndex: 1,

@@ -16,13 +16,12 @@ export default function SettingsScreen() {
 		try {
 			const res = await deleteAllCards();
 			if (res) {
-				alert("Suppression effectué  ");
+				alert(t("cards.deleteAlert.success"));
 			}
 		} catch (error) {
 			console.error(error);
-			alert("Erreur lors de la suppression");
+			alert(t("cards.deleteAlert.failed"));
 		}
-		console.log("called clear");
 	}
 
 	async function handleopenCleardataAlert() {

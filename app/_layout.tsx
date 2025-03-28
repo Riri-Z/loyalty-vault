@@ -14,7 +14,7 @@ export interface Card {
 export type Theme = "light" | "dark" | "system";
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
-	console.log("colorScheme", colorScheme);
+
 	useEffect(() => {
 		SystemUI.setBackgroundColorAsync(colorScheme === "light" ? "#f3f4f6" : "#000000");
 	}, [colorScheme]);

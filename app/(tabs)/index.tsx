@@ -6,8 +6,11 @@ import { Card } from "@/types/Card";
 import { addDatabaseChangeListener } from "expo-sqlite";
 import ViewContainer from "@/components/ui/ViewContainer";
 import AddCardButton from "@/components/ui/AddCardbutton";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Image } from "expo-image";
+
+const creditCardLogo = require("../../assets/images/credit-card.svg");
 
 export default function Index() {
 	const { t } = useTranslation();
@@ -31,7 +34,15 @@ export default function Index() {
 	return (
 		<ViewContainer>
 			{cards.length === 0 ? (
-				<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
+				<View style={styles.container}>
+					<Image
+						style={styles.image}
+						contentFit="contain"
+						source={creditCardLogo}
+						alt="credit card"></Image>
+
+					<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
+				</View>
 			) : (
 				<FlatListBasics cards={cards}></FlatListBasics>
 			)}
@@ -42,11 +53,20 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		paddingHorizontal: 20,
+	},
+	image: {
+		width: 150,
+		height: 150,
+	},
 	text: {
-		position: "absolute",
-		top: 200,
-		left: 25,
-		fontSize: 25,
-		color: "#808080",
+		marginTop: 20,
+		fontSize: 16,
+		color: "gray",
+		textAlign: "center",
 	},
 });

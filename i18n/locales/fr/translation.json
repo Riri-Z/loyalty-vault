@@ -50,6 +50,8 @@
 		},
 		"deleteAlert": {
 			"title": "Supprimer la carte suivante",
+			"success": "Suppression réussi",
+			"failed": "Erreur lors de la suppression",
 			"cancel": "Annuler",
 			"ok": "OK"
 		}

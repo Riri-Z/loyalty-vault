@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -10,18 +10,30 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { insertOneCard } from "@/providers/useDatabase";
+import { router, UnknownOutputParams, useLocalSearchParams } from "expo-router";
+import { insertOneCard, updateOne } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
 import useColor from "@/hooks/useColor";
 import ViewContainer from "@/components/ui/ViewContainer";
 
+type ModalParamsType = {
+	nameCard: string;
+	fileCard: string;
+	idCard: string;
+};
+
 export default function AddCardScreen() {
+	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
+
 	const { t } = useTranslation();
 	const { textColor } = useColor();
-
 	const [name, setName] = useState("");
-	const [file, setFile] = useState<string | null>(null);
+	const [file, setFile] = useState("");
+
+	useEffect(() => {
+		if (nameCard) setName(nameCard);
+		if (fileCard) setFile(fileCard);
+	}, [nameCard, fileCard]);
 
 	const pickFile = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -48,7 +60,11 @@ export default function AddCardScreen() {
 				return alert(t("cards.alert.missingFile"));
 			}
 
-			await insertOneCard({ name, fileUri: file });
+			if (idCard) {
+				await updateOne({ id: +idCard, name, fileUri: file });
+			} else {
+				await insertOneCard({ name, fileUri: file });
+			}
 
 			// close modal and display list of cards
 			router.push("/(tabs)");
@@ -58,7 +74,7 @@ export default function AddCardScreen() {
 	}
 
 	function handleDeleteFile() {
-		setFile(null);
+		setFile("");
 	}
 
 	return (
@@ -91,8 +107,8 @@ export default function AddCardScreen() {
 				</View>
 			) : (
 				<Pressable style={styles.placeholder} onPress={pickFile}>
-					<MaterialIcons name="image" size={48} color="#ccc" />
-					<Text style={{ color: "#ccc" }}>{t("cards.noPicture")}</Text>
+					<MaterialIcons name="image" size={48} color="black" />
+					<Text style={{ color: "black" }}>{t("cards.noPicture")}</Text>
 				</Pressable>
 			)}
 
@@ -140,14 +156,13 @@ const styles = StyleSheet.create({
 	placeholder: {
 		alignItems: "center",
 		justifyContent: "center",
-		height: 120,
+		height: 140,
 		backgroundColor: "#eee",
 		borderRadius: 10,
 		marginVertical: 10,
 	},
 	imagePreview: {
-		// width: "100%",
-		height: 120,
+		height: 140,
 		borderRadius: 10,
 		marginVertical: 10,
 		resizeMode: "contain",

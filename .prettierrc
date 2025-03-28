@@ -2,7 +2,7 @@
 	"printWidth": 100,
 	"tabWidth": 2,
 	"singleQuote": false,
-	"endOfLine": "auto",
+	"endOfLine": "lf",
 	"bracketSameLine": true,
 	"useTabs": true,
 	"semi": true
