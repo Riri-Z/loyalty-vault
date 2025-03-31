@@ -34,6 +34,7 @@
 		"cardName": "Nom de la carte",
 		"pictureLabel": "Importer une image",
 		"noPicture": "Aucune image sélectionnée",
+		"importFile": "Importer une image",
 		"placeHolderName": "Ex: Carrefour, Décathlon...",
 		"addCard": "Ajouter une carte",
 		"cta": {

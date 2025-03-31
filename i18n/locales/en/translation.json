@@ -34,6 +34,7 @@
 		"cardName": "Card name",
 		"pictureLabel": "Add an image",
 		"noPicture": "No image selected",
+		"importFile": "Import file",
 		"placeHolderName": "Eg: Amazon, metro...",
 		"addCard": "Add a card",
 		"cta": {

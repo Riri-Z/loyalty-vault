@@ -10,11 +10,13 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
-import { router, UnknownOutputParams, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { insertOneCard, updateOne } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
 import useColor from "@/hooks/useColor";
 import ViewContainer from "@/components/ui/ViewContainer";
+import { useCameraPermissions } from "expo-camera";
+import RenderCamera from "@/components/RenderCamera";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -24,11 +26,14 @@ type ModalParamsType = {
 
 export default function AddCardScreen() {
 	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
-
 	const { t } = useTranslation();
 	const { textColor } = useColor();
 	const [name, setName] = useState("");
 	const [file, setFile] = useState("");
+	const [permission, requestPermission] = useCameraPermissions();
+
+	const [activeCamera, setActiveCamera] = useState(false); //display camera
+	// state related to camera
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -77,13 +82,30 @@ export default function AddCardScreen() {
 		setFile("");
 	}
 
-	return (
-		<ViewContainer>
-			<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-				<Ionicons name="arrow-back" size={24} color={textColor} />
-			</TouchableOpacity>
+	async function handleOpenCamera() {
+		console.log("permission", permission);
+		if (!permission) {
+			const t = await requestPermission();
+			if (t.granted) {
+				setActiveCamera(true);
+			}
+		}
+		setActiveCamera(true);
+	}
 
-			<Text style={[styles.title, { color: textColor }]}>{t("cards.addCard")}</Text>
+	return activeCamera ? (
+		<RenderCamera
+			updateUri={(uri) => setFile(uri)}
+			closeCamera={() => setActiveCamera(false)}></RenderCamera>
+	) : (
+		<ViewContainer>
+			<View style={styles.header}>
+				<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+					<Ionicons name="arrow-back" size={24} color={textColor} />
+				</TouchableOpacity>
+
+				<Text style={[styles.title, { color: textColor }]}>{t("cards.addCard")}</Text>
+			</View>
 
 			<Text style={[styles.label, { color: textColor }]}>{t("cards.cardName")}</Text>
 			<View style={styles.inputContainer}>
@@ -97,7 +119,7 @@ export default function AddCardScreen() {
 				/>
 			</View>
 
-			<Text style={[styles.label, { color: textColor }]}>Importer une image</Text>
+			<Text style={[styles.label, { color: textColor }]}>{t("cards.importFile")}</Text>
 			{file ? (
 				<View style={{ width: "100%", position: "relative" }}>
 					<Image source={{ uri: file }} style={styles.imagePreview} />
@@ -112,25 +134,40 @@ export default function AddCardScreen() {
 				</Pressable>
 			)}
 
-			<TouchableOpacity style={styles.selectButton} onPress={pickFile}>
-				<Text style={styles.selectButtonText}> {t("cards.cta.selectFile")} </Text>
-			</TouchableOpacity>
+			<View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+				<TouchableOpacity style={styles.selectButton} onPress={handleOpenCamera}>
+					<Text style={styles.selectButtonText}> {t("cards.cta.openCamera")} </Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.selectButton} onPress={pickFile}>
+					<Text style={styles.selectButtonText}> {t("cards.cta.selectFile")} </Text>
+				</TouchableOpacity>
+			</View>
 
-			<TouchableOpacity style={styles.addButton} onPress={handleSaveNewCard}>
-				<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
-			</TouchableOpacity>
+			{
+				<TouchableOpacity
+					style={[styles.addButton]}
+					disabled={name.length < 2 && file.length < 2}
+					onPress={handleSaveNewCard}>
+					<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
+				</TouchableOpacity>
+			}
 		</ViewContainer>
 	);
 }
 
 const styles = StyleSheet.create({
+	header: {
+		display: "flex",
+		flexDirection: "row",
+		gap: 5,
+		alignContent: "center",
+	},
 	backButton: {
-		marginBottom: 10,
+		alignSelf: "center",
 	},
 	title: {
 		fontSize: 24,
 		fontWeight: "bold",
-		marginBottom: 20,
 	},
 	label: {
 		fontSize: 16,
@@ -173,6 +210,7 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		alignItems: "center",
 		marginBottom: 20,
+		flex: 1,
 	},
 	selectButtonText: {
 		color: "white",
@@ -180,7 +218,7 @@ const styles = StyleSheet.create({
 	},
 	addButton: {
 		backgroundColor: "#28a745",
-		padding: 15,
+		padding: 12,
 		borderRadius: 8,
 		alignItems: "center",
 	},
