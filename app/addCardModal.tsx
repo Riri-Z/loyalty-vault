@@ -17,6 +17,8 @@ import useColor from "@/hooks/useColor";
 import ViewContainer from "@/components/ui/ViewContainer";
 import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
+import FilePickerBottomSheet from "@/components/FilePickerBottomSheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -33,7 +35,8 @@ export default function AddCardScreen() {
 	const [permission, requestPermission] = useCameraPermissions();
 
 	const [activeCamera, setActiveCamera] = useState(false); //display camera
-	// state related to camera
+
+	const [openFile, setOpenFile] = useState(false);
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -41,6 +44,7 @@ export default function AddCardScreen() {
 	}, [nameCard, fileCard]);
 
 	const pickFile = async () => {
+		setOpenFile(false);
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ["images"],
 			allowsEditing: false,
@@ -83,6 +87,7 @@ export default function AddCardScreen() {
 	}
 
 	async function handleOpenCamera() {
+		setOpenFile(false);
 		if (!permission) {
 			const permissionResult = await requestPermission();
 			if (permissionResult.granted) {
@@ -92,65 +97,78 @@ export default function AddCardScreen() {
 		setActiveCamera(true);
 	}
 
-	return activeCamera ? (
-		<RenderCamera
-			updateUri={(uri) => setFile(uri)}
-			closeCamera={() => setActiveCamera(false)}></RenderCamera>
-	) : (
-		<ViewContainer>
-			<View style={styles.header}>
-				<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-					<Ionicons name="arrow-back" size={24} color={textColor} />
-				</TouchableOpacity>
+	function handleOptionFile() {
+		setOpenFile((prev) => !prev);
+	}
 
-				<Text style={[styles.title, { color: textColor }]}>{t("cards.addCard")}</Text>
-			</View>
-
-			<Text style={[styles.label, { color: textColor }]}>{t("cards.cardName")}</Text>
-			<View style={styles.inputContainer}>
-				<Ionicons name="card-outline" size={20} color="#777" style={styles.icon} />
-				<TextInput
-					style={[styles.input, { color: textColor }]}
-					placeholder={t("cards.placeHolderName")}
-					placeholderTextColor={textColor}
-					value={name}
-					onChangeText={setName}
-				/>
-			</View>
-
-			<Text style={[styles.label, { color: textColor }]}>{t("cards.importFile")}</Text>
-			{file ? (
-				<View style={{ width: "100%", position: "relative" }}>
-					<Image source={{ uri: file }} style={styles.imagePreview} />
-					<Pressable style={{ position: "absolute", right: 5 }} onPress={handleDeleteFile}>
-						<Entypo name="circle-with-cross" size={24} color="red" />
-					</Pressable>
-				</View>
+	return (
+		<>
+			{activeCamera ? (
+				/* Camera */
+				<RenderCamera
+					updateUri={(uri) => setFile(uri)}
+					closeCamera={() => setActiveCamera(false)}></RenderCamera>
 			) : (
-				<Pressable style={styles.placeholder} onPress={pickFile}>
-					<MaterialIcons name="image" size={48} color="black" />
-					<Text style={{ color: "black" }}>{t("cards.noPicture")}</Text>
-				</Pressable>
+				<ViewContainer>
+					<View style={styles.header}>
+						<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+							<Ionicons name="arrow-back" size={24} color={textColor} />
+						</TouchableOpacity>
+						<Text style={[styles.title, { color: textColor }]}>{t("cards.addCard")}</Text>
+					</View>
+
+					<Text style={[styles.label, { color: textColor }]}>{t("cards.cardName")}</Text>
+					<View style={styles.inputContainer}>
+						<Ionicons name="card-outline" size={20} color="#777" style={styles.icon} />
+						<TextInput
+							style={[styles.input, { color: textColor }]}
+							placeholder={t("cards.placeHolderName")}
+							placeholderTextColor={textColor}
+							value={name}
+							onChangeText={setName}
+						/>
+					</View>
+
+					<Text style={[styles.label, { color: textColor }]}>{t("cards.importFile")}</Text>
+					{file ? (
+						<View style={{ width: "100%", position: "relative" }}>
+							<Image source={{ uri: file }} style={styles.imagePreview} />
+							<Pressable style={{ position: "absolute", right: 5 }} onPress={handleDeleteFile}>
+								<Entypo name="circle-with-cross" size={24} color="red" />
+							</Pressable>
+						</View>
+					) : (
+						<Pressable style={styles.placeholder} onPress={pickFile}>
+							<MaterialIcons name="image" size={48} color="black" />
+							<Text style={{ color: "black" }}>{t("cards.noPicture")}</Text>
+						</Pressable>
+					)}
+
+					{/* Select file */}
+					<View style={styles.ctaContainer}>
+						<TouchableOpacity style={styles.selectButton} onPress={handleOptionFile}>
+							<Text style={styles.selectButtonText}> select a file </Text>
+						</TouchableOpacity>
+					</View>
+
+					<TouchableOpacity style={[styles.addButton]} onPress={handleSaveNewCard}>
+						<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
+					</TouchableOpacity>
+				</ViewContainer>
 			)}
 
-			<View style={styles.ctaContainer}>
-				<TouchableOpacity style={styles.selectButton} onPress={handleOpenCamera}>
-					<Text style={styles.selectButtonText}> {t("cards.cta.openCamera")} </Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.selectButton} onPress={pickFile}>
-					<Text style={styles.selectButtonText}> {t("cards.cta.selectFile")} </Text>
-				</TouchableOpacity>
-			</View>
+			{openFile && (
+				<GestureHandlerRootView>
+					{/* BACKDROP */}
 
-			{
-				<TouchableOpacity
-					style={[styles.addButton]}
-					disabled={name?.length === 0 && file?.length !== 0}
-					onPress={handleSaveNewCard}>
-					<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
-				</TouchableOpacity>
-			}
-		</ViewContainer>
+					<FilePickerBottomSheet
+						handleOpenCamera={handleOpenCamera}
+						pickFile={pickFile}
+						handleClose={handleOptionFile}
+					/>
+				</GestureHandlerRootView>
+			)}
+		</>
 	);
 }
 

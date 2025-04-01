@@ -1,6 +1,5 @@
 import { CardsList } from "@/components/CardsList";
 import { useEffect, useState } from "react";
-// eslint-disable-next-line import/no-unresolved
 import { getAllCards } from "@/providers/useDatabase";
 import { Card } from "@/types/Card";
 import { addDatabaseChangeListener } from "expo-sqlite";
