@@ -7,12 +7,12 @@ export default function useColor() {
 	return useMemo(
 		() => ({
 			textColor: colorScheme === "light" ? "#181818" : "#F2F3F4",
-			secondaryColor: "#339c3a",
+			secondaryColor: "#4CAF50",
 			danger: "#D32F2F",
 			bgColor: colorScheme === "light" ? "#F5F5F5" : "#181818",
 			cardColor: colorScheme === "light" ? "#ffffff" : "#3b3939",
 			isDarkMode: colorScheme !== "light",
-			tabIconColor: colorScheme === "light" ? "#339c3a" : "white",
+			tabIconColor: colorScheme === "light" ? "#4CAF50" : "white",
 			tabBgcolor: colorScheme === "light" ? "white" : "black",
 		}),
 		[colorScheme],

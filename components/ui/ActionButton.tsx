@@ -9,7 +9,7 @@ export const ActionButton = ({ onPress, label }: { onPress: () => void; label: s
 const styles = StyleSheet.create({
 	button: {
 		alignSelf: "center",
-		backgroundColor: "#C4A484",
+		backgroundColor: "#4CAF50",
 		borderRadius: 10,
 		height: 50,
 		width: "90%",
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	text: {
-		color: "black",
+		color: "#FFFFFF",
 		fontWeight: "bold",
 		fontSize: 15,
 	},

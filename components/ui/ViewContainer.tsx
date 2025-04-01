@@ -13,5 +13,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 20,
 		gap: 10,
+		zIndex: 1,
 	},
 });
