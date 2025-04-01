@@ -1,5 +1,6 @@
 import { Card } from "@/types/Card";
 import * as SQLite from "expo-sqlite";
+import { type SQLiteDatabase } from "expo-sqlite";
 
 const db = SQLite.openDatabaseAsync("test.db", { enableChangeListener: true });
 
@@ -12,6 +13,12 @@ type UpdateCard = {
 	name: string;
 	fileUri: string;
 };
+
+async function createDb(db: SQLiteDatabase) {
+	await db.execAsync(
+		`CREATE TABLE IF NOT EXISTS cards (id  INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, uri TEXT)`,
+	);
+}
 
 const insertOneCard = async ({ name, fileUri }: AddCard) => {
 	try {
@@ -59,4 +66,13 @@ async function getAllCards(): Promise<Card[]> {
 		throw error;
 	}
 }
-export { insertOneCard, deleteAllCards, deleteOneCard, getAllCards, updateOne, AddCard, Card };
+export {
+	createDb,
+	insertOneCard,
+	deleteAllCards,
+	deleteOneCard,
+	getAllCards,
+	updateOne,
+	AddCard,
+	Card,
+};

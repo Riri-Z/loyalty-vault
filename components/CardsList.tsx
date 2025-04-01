@@ -4,7 +4,7 @@ import CardsInformation from "./CardsInformation";
 import { Card } from "@/types/Card";
 import CardViewer from "./CardViewer";
 
-export const FlatListBasics = ({ cards }: { cards: Card[] }) => {
+export const CardsList = ({ cards }: { cards: Card[] }) => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
 

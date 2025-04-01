@@ -12,5 +12,6 @@ const styles = StyleSheet.create({
 	conainer: {
 		flex: 1,
 		padding: 20,
+		gap: 10,
 	},
 });

@@ -64,12 +64,10 @@ const styles = StyleSheet.create({
 	shutterContainer: {
 		position: "absolute",
 		bottom: 44,
-		left: 0,
+		justifyContent: "center",
 		width: "100%",
 		alignItems: "center",
 		flexDirection: "row",
-		justifyContent: "space-between",
-		paddingHorizontal: 30,
 	},
 	shutterBtn: {
 		backgroundColor: "transparent",

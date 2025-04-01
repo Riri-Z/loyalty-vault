@@ -1,4 +1,4 @@
-import { FlatListBasics } from "@/components/FlatListBasics";
+import { CardsList } from "@/components/CardsList";
 import { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-unresolved
 import { getAllCards } from "@/providers/useDatabase";
@@ -39,12 +39,12 @@ export default function Index() {
 						style={styles.image}
 						contentFit="contain"
 						source={creditCardLogo}
-						alt="credit card"></Image>
-
+						alt="credit card"
+					/>
 					<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
 				</View>
 			) : (
-				<FlatListBasics cards={cards}></FlatListBasics>
+				<CardsList cards={cards}></CardsList>
 			)}
 
 			<AddCardButton />

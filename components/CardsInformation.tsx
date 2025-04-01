@@ -39,7 +39,7 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 
 	function handleEditCard() {
 		return router.push({
-			pathname: "/modal",
+			pathname: "/addCardModal",
 			params: {
 				nameCard: name,
 				fileCard: uri,
@@ -52,31 +52,22 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 		<CardContainer>
 			<View style={[styles.ctaDelete]}>
 				<Pressable
-					style={{
-						borderWidth: 1,
-						borderRadius: 99999,
-						width: 50,
-						borderColor: "white",
-						backgroundColor: secondaryColor,
-					}}
+					style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
 					onPress={handleEditCard}>
-					<Text style={{ alignSelf: "center", fontSize: 14, fontWeight: "bold", color: "white" }}>
-						Edit
-					</Text>
+					<Text style={[styles.textButton]}>Edit</Text>
 				</Pressable>
 				<Pressable onPress={handleopenAlertdelete}>
 					<Entypo name="circle-with-cross" size={24} color="red" />
 				</Pressable>
 			</View>
-			<Pressable style={{ gap: 20, width: "100%" }} onPress={openCardDetail}>
+			<Pressable style={styles.container} onPress={openCardDetail}>
 				<View style={styles.container}>
-					<View style={styles.container}>
-						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
-						<Text style={[styles.content, { color: textColor }]}>
-							{name.slice(0, 1).toUpperCase() + name.slice(1)}
-						</Text>
-					</View>
+					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
+					<Text style={[styles.content, { color: textColor }]}>
+						{name.slice(0, 1).toUpperCase() + name.slice(1)}
+					</Text>
 				</View>
+
 				{/* Preview */}
 				<View style={styles.container}>
 					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
@@ -111,17 +102,23 @@ const styles = StyleSheet.create({
 		width: "100%",
 		backgroundColor: "#0553",
 	},
-
 	ctaDelete: {
 		position: "absolute",
 		display: "flex",
 		flexDirection: "row",
-		right: 5,
-		top: 12,
+		right: 10,
+		top: 2,
 		width: 75,
 		justifyContent: "space-between",
 		height: 50,
 		alignItems: "center",
 		zIndex: 1,
+		gap: 5,
 	},
+	editButton: {
+		borderRadius: 99999,
+		width: 50,
+		borderColor: "white",
+	},
+	textButton: { alignSelf: "center", fontSize: 14, fontWeight: "bold", color: "white" },
 });

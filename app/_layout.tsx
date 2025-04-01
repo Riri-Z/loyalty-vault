@@ -1,10 +1,11 @@
 import { Stack } from "expo-router";
 import "@/i18n"; // This line imports the i18n configuration
-import { SQLiteProvider, type SQLiteDatabase } from "expo-sqlite";
+import { SQLiteProvider } from "expo-sqlite";
 import { CardsProvider } from "@/providers/CardsContext";
 import { useEffect } from "react";
 import * as SystemUI from "expo-system-ui";
 import { useColorScheme } from "react-native";
+import { createDb } from "@/providers/useDatabase";
 
 export interface Card {
 	id: number;
@@ -21,7 +22,7 @@ export default function RootLayout() {
 
 	return (
 		<CardsProvider>
-			<SQLiteProvider databaseName="test.db" onInit={createDbIfNeeded}>
+			<SQLiteProvider databaseName="test.db" onInit={createDb}>
 				<Stack
 					screenOptions={{
 						headerShown: false, // Hide headers for all screens by default
@@ -34,7 +35,7 @@ export default function RootLayout() {
 						}}
 					/>
 					<Stack.Screen
-						name="modal"
+						name="addCardModal"
 						options={{
 							presentation: "modal",
 						}}
@@ -44,11 +45,5 @@ export default function RootLayout() {
 				</Stack>
 			</SQLiteProvider>
 		</CardsProvider>
-	);
-}
-
-async function createDbIfNeeded(db: SQLiteDatabase) {
-	await db.execAsync(
-		`CREATE TABLE IF NOT EXISTS cards (id  INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, uri TEXT)`,
 	);
 }

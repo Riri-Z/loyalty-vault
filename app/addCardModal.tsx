@@ -83,10 +83,9 @@ export default function AddCardScreen() {
 	}
 
 	async function handleOpenCamera() {
-		console.log("permission", permission);
 		if (!permission) {
-			const t = await requestPermission();
-			if (t.granted) {
+			const permissionResult = await requestPermission();
+			if (permissionResult.granted) {
 				setActiveCamera(true);
 			}
 		}
@@ -134,7 +133,7 @@ export default function AddCardScreen() {
 				</Pressable>
 			)}
 
-			<View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+			<View style={styles.ctaContainer}>
 				<TouchableOpacity style={styles.selectButton} onPress={handleOpenCamera}>
 					<Text style={styles.selectButtonText}> {t("cards.cta.openCamera")} </Text>
 				</TouchableOpacity>
@@ -146,7 +145,7 @@ export default function AddCardScreen() {
 			{
 				<TouchableOpacity
 					style={[styles.addButton]}
-					disabled={name.length < 2 && file.length < 2}
+					disabled={name?.length === 0 && file?.length !== 0}
 					onPress={handleSaveNewCard}>
 					<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
 				</TouchableOpacity>
@@ -204,8 +203,14 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 		resizeMode: "contain",
 	},
+	ctaContainer: {
+		display: "flex",
+		flexDirection: "row",
+		gap: 15,
+	},
 	selectButton: {
 		backgroundColor: "#007bff",
+		width: 20,
 		padding: 12,
 		borderRadius: 8,
 		alignItems: "center",

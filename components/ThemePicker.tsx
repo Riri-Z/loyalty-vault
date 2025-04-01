@@ -6,7 +6,7 @@ import useColor from "@/hooks/useColor";
 
 export default function ThemePicker() {
 	const { t } = useTranslation();
-	const { textColor } = useColor();
+	const { textColor, secondaryColor } = useColor();
 
 	const colorScheme = useColorScheme();
 	const [isDarkModeOn, setIsDarkModeOn] = useState(colorScheme === "dark");

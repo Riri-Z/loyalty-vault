@@ -39,6 +39,7 @@
 		"addCard": "Add a card",
 		"cta": {
 			"selectFile": "Select a file",
+			"openCamera": "Open camera",
 			"open": "Open",
 			"delete": "Delete",
 			"save": "Save",

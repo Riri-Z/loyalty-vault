@@ -4,14 +4,14 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { router } from "expo-router";
 
 export default function AddCardButton() {
-	const { textColor, secondaryColor } = useColor();
+	const { secondaryColor } = useColor();
 
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
-				onPress={() => router.push("/modal")}
+				onPress={() => router.push("/addCardModal")}
 				style={[styles.addbutton, { backgroundColor: secondaryColor }]}>
-				<Entypo name="plus" size={55} color={textColor} />
+				<Entypo name="plus" size={55} color="white" />
 			</TouchableOpacity>
 		</View>
 	);
