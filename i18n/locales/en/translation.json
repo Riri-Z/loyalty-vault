@@ -40,6 +40,8 @@
 		"cta": {
 			"selectFile": "Select a file",
 			"openCamera": "Open camera",
+			"title": "Select an option",
+			"cancel": "Cancel",
 			"open": "Open",
 			"delete": "Delete",
 			"save": "Save",

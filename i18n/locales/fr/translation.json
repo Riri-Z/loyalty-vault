@@ -39,6 +39,8 @@
 		"addCard": "Ajouter une carte",
 		"cta": {
 			"selectFile": "Selectionner un fichier",
+			"title": "Selectionner une option",
+			"cancel": "Annuler",
 			"openCamera": "Prendre une photo",
 			"open": "Ouvrir",
 			"delete": "Supprimer",
