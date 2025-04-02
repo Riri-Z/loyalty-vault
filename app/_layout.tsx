@@ -43,6 +43,9 @@ export default function RootLayout() {
 						name="addCardModal"
 						options={{
 							presentation: "modal",
+							headerStyle: {
+								backgroundColor: bgColor,
+							},
 						}}
 					/>
 					<Stack.Screen
@@ -55,7 +58,7 @@ export default function RootLayout() {
 							},
 							headerTitleStyle: {
 								color: textColor,
-								fontSize: 35,
+								fontSize: 24,
 							},
 							headerTintColor: textColor,
 							headerBackButtonDisplayMode: "generic",
@@ -72,7 +75,7 @@ export default function RootLayout() {
 							},
 							headerTitleStyle: {
 								color: textColor,
-								fontSize: 35,
+								fontSize: 24,
 							},
 							headerTintColor: textColor,
 							headerBackButtonDisplayMode: "generic",

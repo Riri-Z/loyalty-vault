@@ -73,7 +73,9 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
 					<Image style={styles.image} source={uri} contentFit="cover" transition={1000} />
 				</View>
-				{/* Path */}
+				<Text style={[styles.textButton, { color: textColor, marginVertical: 10 }]}>
+					{t("cards.cta.tapToView")}
+				</Text>
 			</Pressable>
 		</CardContainer>
 	);

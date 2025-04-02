@@ -40,7 +40,8 @@ export default function TabLayout() {
 					tabBarActiveTintColor: tabIconColor,
 					headerTitleStyle: {
 						color: textColor,
-						fontSize: 35,
+						fontSize: 24,
+						marginTop: 5,
 					},
 					sceneStyle: {
 						backgroundColor: bgColor,

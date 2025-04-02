@@ -90,6 +90,7 @@
 		"placeHolderName": "Ex: Carrefour, Décathlon...",
 		"addCard": "Ajouter une carte",
 		"cta": {
+			"tapToView": "Appuyez sur la carte pour l’ouvrir",
 			"selectFile": "Selectionner un fichier",
 			"title": "Selectionner une option",
 			"cancel": "Annuler",

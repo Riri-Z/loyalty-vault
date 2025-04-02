@@ -89,6 +89,7 @@
 		"placeHolderName": "Eg: Amazon, metro...",
 		"addCard": "Add a card",
 		"cta": {
+			"tapToView": "Tap to view your card",
 			"selectFile": "Select a file",
 			"openCamera": "Open camera",
 			"title": "Select an option",

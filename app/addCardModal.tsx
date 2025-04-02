@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		gap: 5,
 		alignContent: "center",
+		marginTop: 15,
 	},
 	backButton: {
 		alignSelf: "center",

@@ -12,9 +12,7 @@ export default function PrivacyPolicy() {
 			<ViewContainer>
 				<Text style={[styles.title, { color: textColor }]}>{t("privacyPolicy.title")}</Text>
 				<View style={styles.lastUpdate}>
-					<Text style={[styles.text, { color: textColor }]}>
-						{t("privacyPolicy.lastUplastUpdate")}
-					</Text>
+					<Text style={[styles.text, { color: textColor }]}>{t("privacyPolicy.lastUpdate")}</Text>
 					<Text style={[styles.text, { color: textColor }]}>March. 02 2025</Text>
 				</View>
 				<Text style={[styles.text, { color: textColor }]}>{t("privacyPolicy.welcome")}</Text>
