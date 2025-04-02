@@ -6,6 +6,7 @@ type Props = {
 	textCancel?: string;
 	textOk?: string;
 	handleOk: any;
+	cancelable?: boolean;
 };
 export default function TwoButtonAlert({
 	title = "",
@@ -13,6 +14,7 @@ export default function TwoButtonAlert({
 	textCancel = "Cancel",
 	textOk = "OK",
 	handleOk,
+	cancelable = true,
 }: Props) {
 	return Alert.alert(
 		title,
@@ -25,7 +27,7 @@ export default function TwoButtonAlert({
 			{ text: textOk, onPress: handleOk },
 		],
 		{
-			cancelable: true,
+			cancelable: cancelable,
 		},
 	);
 }

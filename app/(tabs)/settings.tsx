@@ -7,7 +7,7 @@ import useColor from "@/hooks/useColor";
 import { useTranslation } from "react-i18next";
 import TwoButtonAlert from "@/components/ui/TwoButtonAlert";
 import { deleteAllCards } from "@/providers/useDatabase";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
@@ -16,6 +16,7 @@ const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
 export default function SettingsScreen() {
 	const { danger, textColor } = useColor();
 	const { t } = useTranslation();
+	const router = useRouter();
 
 	async function handleClearData() {
 		try {
@@ -59,6 +60,19 @@ export default function SettingsScreen() {
 					<Text style={[styles.label, { color: textColor }]}>{t("settings.contactUs")}</Text>
 					<FontAwesome5 name="chevron-right" size={10} color={textColor} />
 				</Pressable>
+
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={() => router.navigate("/CGU")}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.cgu")}</Text>
+					<FontAwesome5 name="chevron-right" size={10} color={textColor} />
+				</Pressable>
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={() => router.navigate("/PrivacyPolicy")}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.privacyPolicy")}</Text>
+					<FontAwesome5 name="chevron-right" size={10} color={textColor} />
+				</Pressable>
 			</CardContainer>
 			{/* CTA delete data */}
 			<View style={[styles.clearDataContainer, { backgroundColor: danger }]}>
@@ -91,6 +105,7 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 	},
 	pressable: {
+		marginVertical: 5,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",

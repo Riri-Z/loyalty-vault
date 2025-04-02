@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import * as SystemUI from "expo-system-ui";
 import { useColorScheme } from "react-native";
 import { createDb } from "@/providers/useDatabase";
+import { useTranslation } from "react-i18next";
+import useColor from "@/hooks/useColor";
 
 export interface Card {
 	id: number;
@@ -13,8 +15,11 @@ export interface Card {
 	uri: string;
 }
 export type Theme = "light" | "dark" | "system";
+
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
+	const { textColor, bgColor } = useColor();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		SystemUI.setBackgroundColorAsync(colorScheme === "light" ? "#f3f4f6" : "#000000");
@@ -38,6 +43,40 @@ export default function RootLayout() {
 						name="addCardModal"
 						options={{
 							presentation: "modal",
+						}}
+					/>
+					<Stack.Screen
+						name="CGU"
+						options={{
+							title: t("terms.title"),
+							headerShown: true,
+							headerStyle: {
+								backgroundColor: bgColor,
+							},
+							headerTitleStyle: {
+								color: textColor,
+								fontSize: 35,
+							},
+							headerTintColor: textColor,
+							headerBackButtonDisplayMode: "generic",
+							gestureEnabled: true,
+						}}
+					/>
+					<Stack.Screen
+						name="PrivacyPolicy"
+						options={{
+							title: t("privacyPolicy.title"),
+							headerShown: true,
+							headerStyle: {
+								backgroundColor: bgColor,
+							},
+							headerTitleStyle: {
+								color: textColor,
+								fontSize: 35,
+							},
+							headerTintColor: textColor,
+							headerBackButtonDisplayMode: "generic",
+							gestureEnabled: true,
 						}}
 					/>
 
