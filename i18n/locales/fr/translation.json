@@ -15,6 +15,8 @@
 		"apparences": "Thèmes",
 		"light": "Clair",
 		"dark": "Sombre",
+		"contactUs": "Nous contacter",
+		"copy": "Copie",
 		"cleanData": {
 			"button": "Supprimer mes données",
 			"confirmationTitle": "Réinitialiser l'application",
