@@ -1,23 +1,53 @@
-import { useTheme } from "@react-navigation/native";
-import { router, Stack } from "expo-router";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { CardsList } from "@/components/CardsList";
+import { useEffect, useState } from "react";
+import { getAllCards } from "@/providers/useDatabase";
+import { Card } from "@/types/Card";
+import { addDatabaseChangeListener } from "expo-sqlite";
+import ViewContainer from "@/components/ui/ViewContainer";
+import AddCardButton from "@/components/ui/AddCardbutton";
+import { StyleSheet, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Image } from "expo-image";
+
+const creditCardLogo = require("../../assets/images/credit-card.svg");
 
 export default function Index() {
-	const headerRight = () => {
-		return (
-			<TouchableOpacity onPress={() => router.push("/modal")} style={{ marginRight: 18 }}>
-				<FontAwesome name="plus-circle" size={28} color={colors.primary}></FontAwesome>
-			</TouchableOpacity>
-		);
-	};
+	const { t } = useTranslation();
 
-	const { colors } = useTheme();
+	const [cards, setCards] = useState<Card[]>([]);
+	useEffect(() => {
+		//  Allow to load displayed cards
+		async function loadCards() {
+			const cards = await getAllCards();
+			setCards(cards);
+		}
+		loadCards();
+
+		const listener = addDatabaseChangeListener(() => {
+			loadCards(); // Reload cards
+		});
+
+		return () => listener.remove();
+	}, []);
+
 	return (
-		<View style={[styles.container, { backgroundColor: colors.background }]}>
-			<Stack.Screen options={{ headerRight }} />
-			<Text>Cards list</Text>
-		</View>
+		<ViewContainer>
+			{cards.length === 0 ? (
+				<View style={styles.container}>
+					<Image
+						style={styles.image}
+						contentFit="contain"
+						source={creditCardLogo}
+						alt="credit card"
+					/>
+					<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
+				</View>
+			) : (
+				<CardsList cards={cards}></CardsList>
+			)}
+
+			<AddCardButton />
+		</ViewContainer>
 	);
 }
 
@@ -26,12 +56,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		paddingHorizontal: 20,
 	},
-	link: {
-		paddingTop: 20,
-		fontSize: 20,
+	image: {
+		width: 150,
+		height: 150,
 	},
-	button: {
-		color: "red",
+	text: {
+		marginTop: 20,
+		fontSize: 16,
+		color: "gray",
+		textAlign: "center",
 	},
 });

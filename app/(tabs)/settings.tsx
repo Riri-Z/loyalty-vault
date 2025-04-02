@@ -1,42 +1,113 @@
-import { View, Text, StyleSheet } from "react-native";
 import LanguagePicker from "@/components/LanguagePicker";
 import ThemePicker from "@/components/ThemePicker";
-import { useTheme } from "@react-navigation/native";
+import CardContainer from "@/components/ui/CardContainer";
+import ViewContainer from "@/components/ui/ViewContainer";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import useColor from "@/hooks/useColor";
+import { useTranslation } from "react-i18next";
+import TwoButtonAlert from "@/components/ui/TwoButtonAlert";
+import { deleteAllCards } from "@/providers/useDatabase";
+import { useRouter } from "expo-router";
+import * as Clipboard from "expo-clipboard";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+
+const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
 
 export default function SettingsScreen() {
-	const { colors } = useTheme();
+	const { danger, textColor } = useColor();
+	const { t } = useTranslation();
+	const router = useRouter();
+
+	async function handleClearData() {
+		try {
+			const res = await deleteAllCards();
+			if (res) {
+				alert(t("cards.deleteAlert.success"));
+			}
+		} catch (error) {
+			console.error(error);
+			alert(t("cards.deleteAlert.failed"));
+		}
+	}
+
+	async function handleopenCleardataAlert() {
+		return TwoButtonAlert({
+			title: t("settings.cleanData.confirmationTitle"),
+			content: t("settings.cleanData.confirmationContent"),
+			textCancel: t("cards.deleteAlert.cancel"),
+			textOk: t("cards.deleteAlert.ok"),
+			handleOk: handleClearData,
+		});
+	}
+
+	function handleOpenContact() {
+		return Alert.alert("Contact", "pygmalion.digitals@gmail.com", [
+			{ text: t("settings.copy"), onPress: () => copyContactToClipBoard },
+		]);
+	}
+	async function copyContactToClipBoard() {
+		return await Clipboard.setStringAsync(EMAIL_CONTACT);
+	}
+
 	return (
-		<View style={[styles.container, { backgroundColor: colors.background }]}>
-			<View style={styles.options}>
-				<Text style={[styles.title, { color: colors.text }]}>Preferences</Text>
-				<View style={styles.preferences}>
-					<LanguagePicker />
-					<ThemePicker />
-				</View>
+		<ViewContainer>
+			<CardContainer>
+				<LanguagePicker />
+				<ThemePicker />
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={handleOpenContact}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.contactUs")}</Text>
+					<FontAwesome5 name="chevron-right" size={10} color={textColor} />
+				</Pressable>
+
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={() => router.navigate("/CGU")}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.cgu")}</Text>
+					<FontAwesome5 name="chevron-right" size={10} color={textColor} />
+				</Pressable>
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={() => router.navigate("/PrivacyPolicy")}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.privacyPolicy")}</Text>
+					<FontAwesome5 name="chevron-right" size={10} color={textColor} />
+				</Pressable>
+			</CardContainer>
+			{/* CTA delete data */}
+			<View style={[styles.clearDataContainer, { backgroundColor: danger }]}>
+				<Pressable
+					onPress={handleopenCleardataAlert}
+					style={({ pressed }) => pressed && { opacity: 0.5 }}>
+					<Text style={[styles.text]}>{t("settings.cleanData.button")}</Text>
+				</Pressable>
 			</View>
-		</View>
+		</ViewContainer>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#25292e",
-	},
-	title: {
-		paddingLeft: 24,
-		fontSize: 32,
+	clearDataContainer: {
+		width: "100%",
+		marginTop: 20,
+		height: 50,
+		justifyContent: "center",
+		borderRadius: 10,
 	},
 	text: {
-		color: "#fff",
-		paddingLeft: 12,
+		alignSelf: "center",
+		fontWeight: 600,
 		fontSize: 16,
+		color: "white",
 	},
-	options: {
-		flex: 2,
-		gap: 4,
+	label: {
+		fontWeight: 600,
+		alignSelf: "center",
 	},
-	preferences: {
-		paddingLeft: 12,
+	pressable: {
+		marginVertical: 5,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 });

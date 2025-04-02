@@ -1,9 +1,115 @@
 {
 	"language": "English",
+	"key_language": {
+		"en": "English",
+		"fr": "Français"
+	},
 	"tabs": {
 		"home": "Home",
 		"plus": "Plus",
 		"about": "About",
 		"settings": "Settings"
+	},
+	"settings": {
+		"language": "Languages",
+		"apparences": "Appearance",
+		"light": "Light",
+		"dark": "Dark",
+		"contactUs": "Contact us",
+		"copy": "Copy",
+		"privacyPolicy": "Privacy policy",
+		"cgu": "Terms of Service",
+		"cleanData": {
+			"button": "Clear all my data",
+			"confirmationTitle": "Reset app ?",
+			"confirmationContent": "The following action will delete all your data"
+		}
+	},
+	"privacyPolicy": {
+		"title": "Privacy Policy",
+		"lastUpdate": "Last updated : ",
+		"welcome": "Welcome to Loyalty Vault. We highly value your privacy. This privacy policy explains what information we collect, how we use it, and how we protect it.",
+
+		"section1Title": "1. Collected Information",
+		"section1Text": "We collect the following data only when the user grants the necessary permissions:\n\nCamera: Used to allow the user to take photos, mainly for scanning loyalty cards. The photos taken are not transmitted to any server and remain stored locally on the device.",
+
+		"section2Title": "2. Data Usage",
+		"section2Text": "Your data is used solely for app functionalities and is never shared with third parties.",
+
+		"section3Title": "3. Storage and Security",
+		"section3Text": "All data, including photos taken with the camera, is stored locally on your device. No information is sent to external servers.",
+
+		"section4Title": "4. Your Rights",
+		"section4Text": "You can revoke access to the camera at any time through your device settings."
+	},
+
+	"terms": {
+		"title": "Terms of Use",
+		"lastUpdate": "Last updated : ",
+		"intro": "These Terms of Use (“Terms”) govern the use of the mobile application Loyalty Vault (hereinafter “the App”). By downloading or using the App, you agree to be bound by these Terms without reservation.",
+
+		"section1Title": "1. Purpose of the App",
+		"section1Text": "Loyalty Vault allows users to save and view their loyalty cards digitally, directly on their mobile device, including offline.",
+
+		"section2Title": "2. Access and Availability",
+		"section2Text": "The App is available for free on official app stores (Google Play, App Store). No account is required to use it. Access may be temporarily suspended for maintenance, updates, or technical issues.",
+
+		"section3Title": "3. Personal Data & Privacy",
+		"section3Text": "Loyalty Vault does not collect or transmit any data to external servers. All information (photos, cards, preferences) is stored locally on your device. The App may request access to features (like the camera) only with your permission. A full privacy policy is available within the app settings.",
+
+		"section4Title": "4. Intellectual Property",
+		"section4Text": "All elements of the App (name, logo, interface, texts) are protected by intellectual property laws. Unauthorized use or reproduction is strictly prohibited.",
+
+		"section5Title": "5. Liability",
+		"section5Text": "The app’s publisher cannot be held responsible for the loss of locally stored data. The user is responsible for the proper use of the App and the management of their data.",
+
+		"section6Title": "6. Data Deletion",
+		"section6Text": "The user can delete all stored data at any time through the designated option in the app settings.",
+
+		"section7Title": "7. Changes to the Terms",
+		"section7Text": "These Terms may be modified at any time. Users will be notified of updates via the App.",
+
+		"section8Title": "8. Contact",
+		"section8Text": "For any questions or feedback, contact us at : pygmalion.digitals@gmail.com"
+	},
+	"home": {
+		"title": "Available cards",
+		"emptyCards": "No cards registered",
+		"presentation": "Your cards"
+	},
+	"cards": {
+		"name": "Name",
+		"uri": "Path",
+		"file": "file",
+		"preview": "Preview",
+		"cardName": "Card name",
+		"pictureLabel": "Add an image",
+		"noPicture": "No image selected",
+		"importFile": "Import file",
+		"placeHolderName": "Eg: Amazon, metro...",
+		"addCard": "Add a card",
+		"cta": {
+			"tapToView": "Tap to view your card",
+			"selectFile": "Select a file",
+			"openCamera": "Open camera",
+			"title": "Select an option",
+			"cancel": "Cancel",
+			"open": "Open",
+			"delete": "Delete",
+			"save": "Save",
+			"registerFirstCard": "Add your first card by clicking on + !"
+		},
+		"alert": {
+			"missingName": "Name required",
+			"missingFile": "File required",
+			"NameAndFileMissing": "Name and file are required"
+		},
+		"deleteAlert": {
+			"title": "Delete the following card",
+			"success": "Successfull delete",
+			"failed": "Failed",
+			"cancel": "Cancel",
+			"ok": "OK"
+		}
 	}
 }

@@ -1,42 +1,41 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Appearance, Platform, Switch } from "react-native";
-import { useTheme } from "@react-navigation/native";
-
-type ColorOptions = "light" | "dark";
+import { View, Text, Switch, useColorScheme, Appearance, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from "react-i18next";
+import useColor from "@/hooks/useColor";
 
 export default function ThemePicker() {
-	const { colors } = useTheme();
+	const { t } = useTranslation();
+	const { textColor } = useColor();
 
-	const { dark } = useTheme();
+	const colorScheme = useColorScheme();
+	const [isDarkModeOn, setIsDarkModeOn] = useState(colorScheme === "dark");
 
-	const [isDarkMode, setIsDarkMode] = useState(dark);
-
-	const [currentTheme] = useState<ColorOptions>(dark ? "dark" : "light");
-
-	useEffect(() => {
-		const newThemeColor = isDarkMode ? "dark" : "light";
-		if (!newThemeColor) {
-			return Appearance.setColorScheme("light");
-		} else {
-			Appearance.setColorScheme(newThemeColor);
-		}
-	}, [isDarkMode]);
-
-	const toggleSwitch = () => {
-		setIsDarkMode((previousState) => !previousState);
-		Appearance.setColorScheme(currentTheme);
+	const toggleSwitch = (activateDarkMode: boolean) => {
+		Appearance.setColorScheme(activateDarkMode ? "dark" : "light");
+		setIsDarkModeOn((prev) => !prev);
 	};
+
+	// Save to storage
+	useEffect(() => {
+		AsyncStorage.setItem("theme", colorScheme ?? "light");
+	}, [colorScheme]);
+
 	return (
-		<View style={[styles.container, { backgroundColor: colors.background }]}>
-			<Text style={[styles.text, { color: colors.text }]}>Light</Text>
-			<Switch
-				trackColor={{ false: "#767577", true: "#81b0ff" }}
-				thumbColor={isDarkMode ? "#3e3e3e" : "#f4f3f4"}
-				ios_backgroundColor="#3e3e3e"
-				onValueChange={toggleSwitch}
-				value={isDarkMode}
-			/>
-			<Text style={[styles.text, { color: colors.text }]}>Dark</Text>
+		<View style={styles.container}>
+			<Text style={[styles.label, { color: textColor }]}>{t("settings.apparences")} </Text>
+			<View style={styles.switchContainer}>
+				<Text style={[styles.content, { color: textColor }]}>{t("settings.light")}</Text>
+				<Switch
+					style={styles.switch}
+					trackColor={{ false: "#", true: "#81b0ff" }}
+					thumbColor="#339c3a"
+					ios_backgroundColor="#3e3e3e"
+					onValueChange={toggleSwitch}
+					value={isDarkModeOn}
+				/>
+				<Text style={[styles.content, { color: textColor }]}>{t("settings.dark")}</Text>
+			</View>
 		</View>
 	);
 }
@@ -44,15 +43,20 @@ export default function ThemePicker() {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		alignItems: "center",
+		justifyContent: "space-between",
 	},
-	text: {
-		color: "#ffff",
+	switchContainer: {
+		flexDirection: "row",
 	},
-	option: {
-		height: 50,
-		width: 125,
-		color: "#fff",
-		...(Platform.OS === "android" ? { backgroundColor: "#333" } : {}),
+
+	label: {
+		fontWeight: 600,
+	},
+	content: {
+		alignSelf: "center",
+		fontWeight: 400,
+	},
+	switch: {
+		marginHorizontal: 5,
 	},
 });

@@ -39,4 +39,10 @@ app-example
 /android
 /ios
 
+debug.log
+
 .vscode
+
+*playgroundPage.tsx
+
+expo-env.d.ts
