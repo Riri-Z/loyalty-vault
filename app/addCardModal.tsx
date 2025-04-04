@@ -13,7 +13,7 @@ import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { insertOneCard, updateOne } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
 import ViewContainer from "@/components/ui/ViewContainer";
 import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
