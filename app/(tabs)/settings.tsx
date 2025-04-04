@@ -73,7 +73,9 @@ export default function SettingsScreen() {
 	return (
 		<>
 			<ViewContainer>
-				<Text style={{ color: textColor, fontSize: 20, gap: 10 }}>Personalisation </Text>
+				<Text style={{ color: textColor, fontSize: 20, gap: 10 }}>
+					{t("settings.personalisation")}
+				</Text>
 				<CardContainer>
 					<Pressable onPress={handleToggleLangueOption}>
 						<LanguagePicker newLanguage={selectedLanguage} />
