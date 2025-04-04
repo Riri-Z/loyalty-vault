@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Appearance } from "react-native";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
 import { StatusBar } from "expo-status-bar";
 
 export default function TabLayout() {
@@ -74,6 +74,7 @@ export default function TabLayout() {
 					name="settings"
 					options={{
 						title: i18n.t("tabs.settings"),
+						headerBackgroundContainerStyle: { backgroundColor: bgColor },
 						animation: "fade", // Use fade animation for the home screen
 						tabBarIcon: ({ color, focused }) => (
 							<Ionicons name={focused ? "settings" : "settings-outline"} color={color} size={24} />

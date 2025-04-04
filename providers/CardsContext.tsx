@@ -1,4 +1,4 @@
-import { Cards } from "@/types/Card";
+import { Card } from "@/types/Card";
 import { createContext, useReducer, ReactNode } from "react";
 
 const CardsContext = createContext([]);
@@ -26,7 +26,7 @@ function cardsReducer({ cards, action }: any) {
 			];
 		}
 		case "delete": {
-			return cards.filter((e: Cards) => e.id !== action.id);
+			return cards.filter((e: Card) => e.id !== action.id);
 		}
 		default: {
 			throw Error("unknonw action : " + action.type);

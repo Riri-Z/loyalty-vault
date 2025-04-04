@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { StyleSheet, View } from "react-native";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
 
 export default function ViewContainer({ children }: PropsWithChildren) {
 	const { bgColor } = useColor();

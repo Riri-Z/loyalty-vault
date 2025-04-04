@@ -17,8 +17,8 @@ import useColor from "@/hooks/useColor";
 import ViewContainer from "@/components/ui/ViewContainer";
 import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
-import FilePickerBottomSheet from "@/components/FilePickerBottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet from "@/components/ui/BottomSheet";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -28,7 +28,7 @@ type ModalParamsType = {
 
 export default function AddCardScreen() {
 	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const { textColor } = useColor();
 	const [name, setName] = useState("");
 	const [file, setFile] = useState("");
@@ -101,6 +101,14 @@ export default function AddCardScreen() {
 		setOpenFile((prev) => !prev);
 	}
 
+	const BOTTOM_SHEET_OPTIONS = {
+		actionsItems: [
+			{ label: i18n.t("cards.cta.openCamera"), callback: () => handleOpenCamera() },
+			{ label: i18n.t("cards.cta.selectFile"), callback: () => pickFile() },
+		],
+		handleClose: handleOptionFile,
+	};
+
 	return (
 		<>
 			{activeCamera ? (
@@ -157,18 +165,10 @@ export default function AddCardScreen() {
 						</TouchableOpacity>
 					</ViewContainer>
 					{openFile && (
-						<>
-							{openFile && <Pressable style={styles.overlay}></Pressable>}
-
-							{/* BOTTOM SHEET */}
-							<GestureHandlerRootView style={{ ...StyleSheet.absoluteFillObject, zIndex: 2 }}>
-								<FilePickerBottomSheet
-									handleOpenCamera={handleOpenCamera}
-									pickFile={pickFile}
-									handleClose={handleOptionFile}
-								/>
-							</GestureHandlerRootView>
-						</>
+						<GestureHandlerRootView style={{ ...StyleSheet.absoluteFillObject, zIndex: 2 }}>
+							<Pressable onPress={handleOptionFile} style={styles.overlay}></Pressable>
+							<BottomSheet {...BOTTOM_SHEET_OPTIONS} />
+						</GestureHandlerRootView>
 					)}
 				</>
 			)}

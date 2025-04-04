@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
 
 type Props = { children: ReactNode };
 
@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 15,
 		paddingHorizontal: 20,
 		gap: 10,
-		marginBottom: 10,
 		borderRadius: 12,
 	},
 });

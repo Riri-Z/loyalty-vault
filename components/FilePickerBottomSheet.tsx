@@ -8,7 +8,7 @@ import Animated, {
 	withSpring,
 } from "react-native-reanimated";
 import { Pressable, StyleSheet, Text } from "react-native";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
 
 type Props = {
 	handleOpenCamera: () => void;
@@ -18,7 +18,7 @@ type Props = {
 export default function FilePickerBottomSheet({ handleOpenCamera, pickFile, handleClose }: Props) {
 	const { t } = useTranslation();
 	const translateY = useSharedValue(0);
-	const { textColor, cardColor, isDarkMode } = useColor();
+	const { textColor, isDarkMode, cardColor } = useColor();
 	// Drag event
 	const drag = Gesture.Pan()
 		.onChange((event) => {
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		padding: 20,
 		zIndex: 1,
+		maxHeight: "50%",
 	},
 	dragButton: {
 		backgroundColor: "#C4A484",

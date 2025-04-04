@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import ViewContainer from "@/components/ui/ViewContainer";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
 
 export default function CGU() {
 	const { t } = useTranslation();

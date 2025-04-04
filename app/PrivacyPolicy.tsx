@@ -1,6 +1,6 @@
 import { StyleSheet, ScrollView, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
 import ViewContainer from "@/components/ui/ViewContainer";
 
 export default function PrivacyPolicy() {

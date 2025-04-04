@@ -1,12 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { deleteOneCard } from "@/providers/useDatabase";
-import useColor from "@/hooks/useColor";
 import CardContainer from "./ui/CardContainer";
 import { useTranslation } from "react-i18next";
 import { Image } from "expo-image";
 import { Entypo } from "@expo/vector-icons";
 import TwoButtonAlert from "./ui/TwoButtonAlert";
 import { router } from "expo-router";
+import { useColor } from "@/providers/ThemeProvider";
 
 type Props = {
 	id: number;
@@ -54,7 +54,7 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 				<Pressable
 					style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
 					onPress={handleEditCard}>
-					<Text style={[styles.textButton]}>Edit</Text>
+					<Text style={[styles.textButton]}>Edisst</Text>
 				</Pressable>
 				<Pressable onPress={handleopenAlertdelete}>
 					<Entypo name="circle-with-cross" size={24} color="red" />
