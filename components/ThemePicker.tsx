@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { View, Text, Switch, useColorScheme, Appearance, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeProvider";
+import { Fontisto, Octicons } from "@expo/vector-icons";
 
 export default function ThemePicker() {
 	const { t } = useTranslation();
@@ -25,16 +26,16 @@ export default function ThemePicker() {
 		<View style={styles.container}>
 			<Text style={[styles.label, { color: textColor }]}>{t("settings.apparences")} </Text>
 			<View style={styles.switchContainer}>
-				<Text style={[styles.content, { color: textColor }]}>{t("settings.light")}</Text>
+				<Fontisto style={[styles.content]} name="day-sunny" size={18} color="black" />
 				<Switch
 					style={styles.switch}
 					trackColor={{ false: "#", true: "#81b0ff" }}
-					thumbColor="#339c3a"
+					thumbColor={isDarkModeOn ? "black" : "yellow"}
 					ios_backgroundColor="#3e3e3e"
 					onValueChange={toggleSwitch}
 					value={isDarkModeOn}
 				/>
-				<Text style={[styles.content, { color: textColor }]}>{t("settings.dark")}</Text>
+				<Octicons style={[styles.content]} name="moon" size={18} color="black" />
 			</View>
 		</View>
 	);
@@ -42,21 +43,30 @@ export default function ThemePicker() {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
 		justifyContent: "space-between",
+		flexDirection: "row",
 	},
 	switchContainer: {
 		flexDirection: "row",
+		alignContent: "center",
+		justifyContent: "center",
 	},
-
 	label: {
-		fontWeight: 600,
+		fontSize: 16,
+		alignSelf: "center",
 	},
 	content: {
 		alignSelf: "center",
 		fontWeight: 400,
 	},
 	switch: {
-		marginHorizontal: 5,
+		marginHorizontal: 1,
+		alignSelf: "flex-start",
+	},
+	pressable: {
+		marginBottom: 5,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "flex-start",
 	},
 });

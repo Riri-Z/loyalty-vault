@@ -1,55 +1,48 @@
-import { useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { AVAILABLE_LANGUAGES } from "@/constants/languages";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useColor from "@/hooks/useColor";
 
-export default function LanguagePicker() {
+export default function LanguagePicker({ newLanguage }: { newLanguage: string }) {
 	const { i18n, t } = useTranslation();
-	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
 	const { textColor, bgColor } = useColor();
 
 	// Update i18n language
-	function handleChangeLanguage(newLangue: string) {
-		setSelectedLanguage(newLangue);
-		i18n.changeLanguage(newLangue);
-		AsyncStorage.setItem("language", newLangue);
-	}
+	const handleChangeLanguage = useCallback(
+		(newLangue: string) => {
+			i18n.changeLanguage(newLangue);
+			AsyncStorage.setItem("language", newLangue);
+		},
+		[i18n],
+	);
+	useEffect(() => {
+		return handleChangeLanguage(newLanguage);
+	}, [newLanguage, handleChangeLanguage]);
 
 	return (
-		<View>
+		<View
+			style={{
+				flexDirection: "row",
+				width: "100%",
+				alignItems: "center",
+				justifyContent: "space-between",
+				gap: 10,
+			}}>
 			<Text style={[styles.label, { color: textColor }]}>{t("settings.language")}</Text>
-			<Picker
-				style={{ color: textColor }}
-				selectedValue={selectedLanguage}
-				itemStyle={{ backgroundColor: bgColor, color: textColor }} //ios
-				dropdownIconColor={textColor}
-				onValueChange={(langue: string) => {
-					setSelectedLanguage(langue);
-					handleChangeLanguage(langue);
-				}}>
-				{AVAILABLE_LANGUAGES.map((e, index) => {
-					return (
-						<Picker.Item
-							key={`${e} + ${index}`}
-							label={t("key_language." + e)}
-							style={styles.content}
-							value={e}
-						/>
-					);
-				})}
-			</Picker>
+			<Text style={styles.itemValue}>{t("key_language." + newLanguage)}</Text>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	label: {
-		fontWeight: 600,
+		fontSize: 16,
+		color: "#888", // Couleur plus claire ou plus foncée
 	},
-	content: {
-		fontWeight: 400,
+	itemValue: {
+		fontSize: 16,
+		color: "#888", // Couleur plus claire ou plus foncée
 	},
+	content: {},
 });
