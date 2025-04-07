@@ -54,7 +54,7 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 				<Pressable
 					style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
 					onPress={handleEditCard}>
-					<Text style={[styles.textButton]}>Edisst</Text>
+					<Text style={[styles.textButton]}>{t("cards.cta.edit")}</Text>
 				</Pressable>
 				<Pressable onPress={handleopenAlertdelete}>
 					<Entypo name="circle-with-cross" size={24} color="red" />
@@ -108,9 +108,8 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		display: "flex",
 		flexDirection: "row",
-		right: 10,
-		top: 2,
-		width: 75,
+		right: 18,
+		top: 5,
 		justifyContent: "space-between",
 		height: 50,
 		alignItems: "center",
@@ -119,8 +118,15 @@ const styles = StyleSheet.create({
 	},
 	editButton: {
 		borderRadius: 99999,
-		width: 50,
+		paddingHorizontal: 5,
+		width: "auto",
 		borderColor: "white",
 	},
-	textButton: { alignSelf: "center", fontSize: 14, fontWeight: "bold", color: "white" },
+	textButton: {
+		alignSelf: "center",
+		padding: 5,
+		fontSize: 14,
+		fontWeight: "bold",
+		color: "white",
+	},
 });

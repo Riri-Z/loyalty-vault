@@ -26,7 +26,12 @@ export default function ThemePicker() {
 		<View style={styles.container}>
 			<Text style={[styles.label, { color: textColor }]}>{t("settings.apparences")} </Text>
 			<View style={styles.switchContainer}>
-				<Fontisto style={[styles.content]} name="day-sunny" size={18} color="black" />
+				<Fontisto
+					style={[styles.content]}
+					name="day-sunny"
+					size={18}
+					color={isDarkModeOn ? "white" : "black"}
+				/>
 				<Switch
 					style={styles.switch}
 					trackColor={{ false: "#", true: "#81b0ff" }}
@@ -35,7 +40,12 @@ export default function ThemePicker() {
 					onValueChange={toggleSwitch}
 					value={isDarkModeOn}
 				/>
-				<Octicons style={[styles.content]} name="moon" size={18} color="black" />
+				<Octicons
+					style={[styles.content]}
+					name="moon"
+					size={18}
+					color={isDarkModeOn ? "white" : "black"}
+				/>
 			</View>
 		</View>
 	);

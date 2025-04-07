@@ -91,6 +91,7 @@
 		"addCard": "Add a card",
 		"cta": {
 			"tapToView": "Tap to view your card",
+			"edit": "Edit",
 			"selectFile": "Select a file",
 			"openCamera": "Open camera",
 			"title": "Select an option",
@@ -101,6 +102,7 @@
 			"registerFirstCard": "Add your first card by clicking on + !"
 		},
 		"alert": {
+			"cancelCamera": "You did not select any image",
 			"missingName": "Name required",
 			"missingFile": "File required",
 			"NameAndFileMissing": "Name and file are required"

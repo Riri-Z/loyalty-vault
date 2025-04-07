@@ -93,6 +93,7 @@
 		"cta": {
 			"tapToView": "Appuyez sur la carte pour l’ouvrir",
 			"selectFile": "Selectionner un fichier",
+			"edit": "Modifier",
 			"title": "Selectionner une option",
 			"cancel": "Annuler",
 			"openCamera": "Prendre une photo",
@@ -102,6 +103,7 @@
 			"registerFirstCard": "Ajoutez votre première carte en appuyant sur le bouton + !"
 		},
 		"alert": {
+			"cancelCamera": "Vous n'avez pas choisi d'image",
 			"missingName": "Nom manquant",
 			"missingFile": "Photo manquante",
 			"NameAndFileMissing": "Nom et photo requis"

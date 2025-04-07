@@ -53,7 +53,7 @@ export default function AddCardScreen() {
 		if (!result.canceled) {
 			setFile(result?.assets[0].uri);
 		} else if (!file) {
-			alert("You did not select any image.");
+			alert(t("cards.alert.cancelCamera"));
 		}
 	};
 	async function handleSaveNewCard() {
@@ -82,10 +82,12 @@ export default function AddCardScreen() {
 		}
 	}
 
+	// Reset selected file
 	function handleDeleteFile() {
 		setFile("");
 	}
 
+	// Open camera options, and handle permission
 	async function handleOpenCamera() {
 		setOpenFile(false);
 		if (!permission) {
@@ -97,6 +99,7 @@ export default function AddCardScreen() {
 		setActiveCamera(true);
 	}
 
+	// handle file options
 	function handleOptionFile() {
 		setOpenFile((prev) => !prev);
 	}
@@ -155,13 +158,17 @@ export default function AddCardScreen() {
 
 						{/* Select file */}
 						<View style={styles.ctaContainer}>
-							<TouchableOpacity style={styles.selectButton} onPress={handleOptionFile}>
-								<Text style={styles.selectButtonText}>{t("cards.cta.selectFile")} </Text>
+							<TouchableOpacity
+								style={[styles.button, { backgroundColor: "#007bff" }]}
+								onPress={handleOptionFile}>
+								<Text style={styles.textButton}>{t("cards.cta.selectFile")} </Text>
 							</TouchableOpacity>
 						</View>
 
-						<TouchableOpacity style={[styles.addButton]} onPress={handleSaveNewCard}>
-							<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
+						<TouchableOpacity
+							style={[styles.button, { backgroundColor: "#28a745" }]}
+							onPress={handleSaveNewCard}>
+							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
 						</TouchableOpacity>
 					</ViewContainer>
 					{openFile && (
@@ -228,12 +235,11 @@ const styles = StyleSheet.create({
 	},
 	ctaContainer: {
 		display: "flex",
-		flexDirection: "row",
-		gap: 15,
+		gap: 20,
 	},
 	selectButton: {
 		backgroundColor: "#007bff",
-		width: 20,
+
 		padding: 12,
 		borderRadius: 8,
 		alignItems: "center",
@@ -243,6 +249,16 @@ const styles = StyleSheet.create({
 	selectButtonText: {
 		color: "white",
 		fontWeight: "bold",
+	},
+	button: {
+		padding: 12,
+		borderRadius: 8,
+		alignItems: "center",
+	},
+	textButton: {
+		color: "white",
+		fontWeight: "bold",
+		fontSize: 16,
 	},
 	addButton: {
 		backgroundColor: "#28a745",
