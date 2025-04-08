@@ -13,12 +13,14 @@ import { useRouter } from "expo-router";
 import Loading from "@/components/ui/Loading";
 import { useColor } from "@/providers/ThemeProvider";
 import Onboarding from "@/components/OnBoarding";
+import { StatusBar } from "expo-status-bar";
+import { t } from "i18next";
 
 export default function HomeScreen() {
 	const flatListRef = useRef<FlatList>(null);
 	const router = useRouter();
 
-	const { secondaryColor } = useColor();
+	const { secondaryColor, bgColor } = useColor();
 	const [loading, setLoading] = useState(true);
 	const [steps, setSteps] = useState(0);
 
@@ -61,27 +63,30 @@ export default function HomeScreen() {
 	const DATA_ON_BOARDING = [
 		{
 			id: 1,
-			title: "Gagne du temps",
-			icon: require("../assets/images/credit-card.svg"),
-			text: "Sauvegardez toutes vos cartes de fidélité au même endroit",
+			title: "onBoarding.screen1.title",
+			icon: require("../assets/lottie/cards-animated.json"),
+			text: "onBoarding.screen1.text",
+			isLottie: true,
 		},
 		{
 			id: 2,
-			title: "Fonctionne sans connexion",
-			icon: require("../assets/images/credit-card.svg"),
-			text: "Pas besoin de 4g ou WI-FI. \n Accés rapide à vos carte à tout moment",
+			title: "onBoarding.screen2.title",
+			icon: require("../assets/lottie/offline.json"),
+			text: "onBoarding.screen2.text",
+			isLottie: true,
 		},
 		{
 			id: 3,
-			title: "100 % Local et Privé",
-			icon: require("../assets/images/icon.png"),
-			text: "Vos données restent sur votre téléphone.\n Pas de cloud, pas de compte",
+			title: "onBoarding.screen3.title",
+			icon: require("../assets/images/private-file.svg"),
+			text: "onBoarding.screen3.text",
+			isLottie: false,
 		},
 	];
 
+	// Handle click on dot
 	function handleJumpSteps(step: number) {
 		flatListRef.current?.scrollToIndex({ index: step, animated: true });
-
 		setSteps(step);
 	}
 
@@ -95,49 +100,35 @@ export default function HomeScreen() {
 
 	return (
 		<>
+			<StatusBar translucent backgroundColor={bgColor} />
 			{loading ? (
 				<Loading />
 			) : (
-				<View style={[styles.container]}>
+				<View style={[styles.container, { backgroundColor: bgColor }]}>
 					<FlatList
 						ref={flatListRef}
 						horizontal
 						pagingEnabled
 						data={DATA_ON_BOARDING}
+						showsHorizontalScrollIndicator={false}
 						renderItem={({ item }) => <Onboarding {...item} />}
 						keyExtractor={(_, index) => index.toString()}
 						onMomentumScrollEnd={handleScrollEnd}
 					/>
-					<View style={{ flexDirection: "row" }}>
+					<View style={styles.dotsContainer}>
 						{DATA_ON_BOARDING.map((e, index) => (
 							<Pressable
 								key={e.id}
 								onPress={() => handleJumpSteps(index)}
-								style={{
-									width: 8,
-									height: 8,
-									borderRadius: 4,
-									backgroundColor: index === steps ? secondaryColor : "#ccc",
-									marginHorizontal: 4,
-								}}
+								style={[styles.dot, { backgroundColor: index === steps ? secondaryColor : "#ccc" }]}
 							/>
 						))}
 					</View>
 					<Pressable
-						style={[
-							{
-								backgroundColor: "red",
-								padding: 10,
-								borderRadius: 999,
-								width: 80,
-								alignItems: "center",
-								marginBottom: 10,
-							},
-							{ backgroundColor: secondaryColor },
-						]}
+						style={[styles.button, { backgroundColor: secondaryColor }]}
 						onPress={handleNextSteps}>
 						<Text style={{ color: "#ffff" }}>
-							{steps === DATA_ON_BOARDING.length - 1 ? "Terminer" : "Next"}
+							{steps === DATA_ON_BOARDING.length - 1 ? t("onBoarding.end") : t("onBoarding.next")}
 						</Text>
 					</Pressable>
 				</View>
@@ -149,8 +140,21 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 20,
+		paddingBottom: 50,
 		justifyContent: "center",
+		alignItems: "center",
+	},
+	dotsContainer: { flexDirection: "row", marginBottom: 20 },
+	dot: {
+		width: 8,
+		height: 8,
+		borderRadius: 4,
+		marginHorizontal: 4,
+	},
+	button: {
+		padding: 10,
+		borderRadius: 999,
+		width: 100,
 		alignItems: "center",
 	},
 });

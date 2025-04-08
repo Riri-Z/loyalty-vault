@@ -4,10 +4,11 @@ import { SQLiteProvider } from "expo-sqlite";
 import { CardsProvider } from "@/providers/CardsContext";
 import { useEffect } from "react";
 import * as SystemUI from "expo-system-ui";
-import { useColorScheme } from "react-native";
+import { Appearance, useColorScheme } from "react-native";
 import { createDb } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
 import { ThemeProvider, useColor } from "@/providers/ThemeProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface Card {
 	id: number;
@@ -24,6 +25,22 @@ export default function RootLayout() {
 	useEffect(() => {
 		SystemUI.setBackgroundColorAsync(colorScheme === "light" ? "#f3f4f6" : "#000000");
 	}, [colorScheme]);
+
+	useEffect(() => {
+		const getThemeStorage = async () => {
+			try {
+				const themeStore = await AsyncStorage.getItem("theme");
+				if (themeStore === "dark") {
+					Appearance.setColorScheme("dark");
+				} else {
+					Appearance.setColorScheme("light");
+				}
+			} catch (err) {
+				console.error(err);
+			}
+		};
+		getThemeStorage();
+	}, []);
 
 	return (
 		<ThemeProvider>
@@ -49,6 +66,8 @@ export default function RootLayout() {
 								},
 							}}
 						/>
+						{/* <Stack.Screen name="index" /> */}
+
 						<Stack.Screen
 							name="CGU"
 							options={{

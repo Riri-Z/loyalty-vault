@@ -1,23 +1,30 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { Image } from "expo-image";
 import { useColor } from "@/providers/ThemeProvider";
+import { t } from "i18next";
+import LottieView from "lottie-react-native";
 
 const screenWidth = Dimensions.get("window").width;
 
 type Props = {
-	id: number;
 	title: string;
 	text: string;
 	icon: string;
+	isLottie: boolean;
 };
-export default function Onboarding({ id, title, text, icon }: Props) {
-	const { bgColor } = useColor();
 
+export default function Onboarding({ title, text, icon, isLottie }: Props) {
+	const { bgColor, textColor } = useColor();
+	console.log("title", title);
 	return (
 		<View style={[styles.container, { backgroundColor: bgColor }]}>
-			<Text style={styles.title}>{title}</Text>
-			<Image style={styles.image} contentFit="contain" source={icon} alt="credit card" />
-			<Text style={styles.text}>{text}</Text>
+			<Text style={[styles.title, { color: textColor }]}>{t(title)}</Text>
+			{isLottie ? (
+				<LottieView source={icon} style={styles.image} autoPlay loop />
+			) : (
+				<Image style={styles.image} contentFit="contain" source={icon} alt="credit card" />
+			)}
+			<Text style={[styles.text, { color: textColor }]}>{t(text)}</Text>
 			<View style={{ flexDirection: "row", marginVertical: 20 }}></View>
 		</View>
 	);
@@ -27,7 +34,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
-		gap: 10,
 		alignItems: "center",
 		width: screenWidth,
 	},
@@ -35,11 +41,11 @@ const styles = StyleSheet.create({
 		width: 150,
 		height: 300,
 	},
-	title: { fontSize: 24 },
+	title: { fontSize: 24, fontWeight: "bold" },
 	text: {
 		width: screenWidth * 0.9,
 		textAlign: "center",
-		fontSize: 16,
+		fontSize: 20,
 		includeFontPadding: false,
 		lineHeight: 22, // <- optionnel pour meilleur rendu
 	},

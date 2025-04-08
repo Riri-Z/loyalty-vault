@@ -1,31 +1,12 @@
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Appearance } from "react-native";
 import { useColor } from "@/providers/ThemeProvider";
 import { StatusBar } from "expo-status-bar";
 
 export default function TabLayout() {
 	const { i18n } = useTranslation();
 	const { bgColor, tabBgcolor, textColor, tabIconColor, isDarkMode } = useColor();
-
-	useEffect(() => {
-		const getThemeStorage = async () => {
-			try {
-				const themeStore = await AsyncStorage.getItem("theme");
-				if (themeStore === "dark") {
-					Appearance.setColorScheme("dark");
-				} else {
-					Appearance.setColorScheme("light");
-				}
-			} catch (err) {
-				console.error(err);
-			}
-		};
-		getThemeStorage();
-	}, []);
 
 	return (
 		<>
@@ -62,20 +43,18 @@ export default function TabLayout() {
 					options={{
 						title: i18n.t("tabs.home"),
 						headerBackgroundContainerStyle: { backgroundColor: bgColor },
-
-						animation: "fade", // Use fade animation for the home screen
+						animation: "fade",
 						tabBarIcon: ({ color, focused }) => (
 							<Ionicons name={focused ? "home-sharp" : "home-outline"} color={color} size={24} />
 						),
 					}}
 				/>
-
 				<Tabs.Screen
 					name="settings"
 					options={{
 						title: i18n.t("tabs.settings"),
 						headerBackgroundContainerStyle: { backgroundColor: bgColor },
-						animation: "fade", // Use fade animation for the home screen
+						animation: "fade",
 						tabBarIcon: ({ color, focused }) => (
 							<Ionicons name={focused ? "settings" : "settings-outline"} color={color} size={24} />
 						),

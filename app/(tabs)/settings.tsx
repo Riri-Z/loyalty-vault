@@ -13,6 +13,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useState } from "react";
 import BottomSheet from "@/components/ui/BottomSheet";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
 
@@ -23,7 +24,10 @@ export default function SettingsScreen() {
 	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
 
 	const [openLangueOption, setopenLangueOption] = useState(false);
+
+	// Clear database, and storage
 	async function handleClearData() {
+		resetOnBoardingScreen();
 		try {
 			const res = await deleteAllCards();
 			if (res) {
@@ -38,6 +42,10 @@ export default function SettingsScreen() {
 	const handleToggleLangueOption = () => {
 		setopenLangueOption((prev) => !prev);
 	};
+
+	async function resetOnBoardingScreen() {
+		await AsyncStorage.removeItem("onBoardingSteps", () => console.log("cleared onBoardingSteps"));
+	}
 
 	const updateLanguage = (langue: string) => {
 		setSelectedLanguage(langue);

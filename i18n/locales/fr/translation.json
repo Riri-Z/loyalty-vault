@@ -115,5 +115,21 @@
 			"cancel": "Annuler",
 			"ok": "OK"
 		}
+	},
+	"onBoarding": {
+		"next": "Suivant",
+		"end": "Terminer",
+		"screen1": {
+			"title": "Gagne du temps",
+			"text": "Sauvegardez toutes vos cartes de fidélité au même endroit"
+		},
+		"screen2": {
+			"title": "Fonctionne sans connexion",
+			"text": "Pas besoin de 4G ou Wi-Fi.\nAccès rapide à vos cartes à tout moment."
+		},
+		"screen3": {
+			"title": "100 % local et privé",
+			"text": "Vos données restent sur votre téléphone.\nPas de cloud, pas de compte."
+		}
 	}
 }

@@ -114,5 +114,21 @@
 			"cancel": "Cancel",
 			"ok": "OK"
 		}
+	},
+	"onBoarding": {
+		"next": "Next",
+		"end": "Get Started",
+		"screen1": {
+			"title": "Save Time",
+			"text": "Keep all your loyalty cards in one place"
+		},
+		"screen2": {
+			"title": "Works Offline",
+			"text": "No need for 4G or Wi-Fi.\nAccess your cards anytime, anywhere."
+		},
+		"screen3": {
+			"title": "100% Local & Private",
+			"text": "Your data stays on your phone.\nNo cloud, no account required."
+		}
 	}
 }
