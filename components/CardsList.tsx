@@ -7,7 +7,6 @@ import CardViewer from "./CardViewer";
 export const CardsList = ({ cards }: { cards: Card[] }) => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
-
 	const onModalClose = () => {
 		setIsModalVisible(false);
 		setCard(null);
@@ -27,7 +26,7 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 					onClose={onModalClose}></CardViewer>
 			) : (
 				<FlatList
-					style={styles.list}
+					contentContainerStyle={styles.list}
 					data={cards}
 					showsVerticalScrollIndicator={false}
 					keyExtractor={(item) => item.id.toString()}
@@ -49,14 +48,7 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 };
 
 const styles = StyleSheet.create({
-	text: {
-		margin: "auto",
-		fontSize: 24,
-		fontWeight: "bold",
-		marginBottom: 10,
-	},
-	emptyText: {},
 	list: {
-		gap: 20,
+		gap: 16,
 	},
 });
