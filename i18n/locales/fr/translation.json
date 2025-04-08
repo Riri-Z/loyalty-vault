@@ -81,7 +81,7 @@
 	},
 	"cards": {
 		"name": "Nom",
-		"uri": "chemin d'accès",
+		"fileUri": "chemin d'accès",
 		"file": "fichier",
 		"preview": "Aperçu",
 		"cardName": "Nom de la carte",

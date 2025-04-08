@@ -80,7 +80,7 @@
 	},
 	"cards": {
 		"name": "Name",
-		"uri": "Path",
+		"fileUri": "Path",
 		"file": "file",
 		"preview": "Preview",
 		"cardName": "Card name",

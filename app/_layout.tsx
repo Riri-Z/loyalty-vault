@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import "@/i18n"; // This line imports the i18n configuration
 import { SQLiteProvider } from "expo-sqlite";
-import { CardsProvider } from "@/providers/CardsContext";
+import { CardProvider } from "@/providers/CardContext";
 import { useEffect } from "react";
 import * as SystemUI from "expo-system-ui";
 import { Appearance, useColorScheme } from "react-native";
@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export interface Card {
 	id: number;
 	name: string;
-	uri: string;
+	fileUri: string;
 }
 export type Theme = "light" | "dark" | "system";
 
@@ -44,8 +44,8 @@ export default function RootLayout() {
 
 	return (
 		<ThemeProvider>
-			<CardsProvider>
-				<SQLiteProvider databaseName="test.db" onInit={createDb}>
+			<SQLiteProvider databaseName="test.db" onInit={createDb}>
+				<CardProvider>
 					<Stack
 						screenOptions={{
 							headerShown: false, // Hide headers for all screens by default
@@ -105,8 +105,8 @@ export default function RootLayout() {
 
 						<Stack.Screen name="+not-found" />
 					</Stack>
-				</SQLiteProvider>
-			</CardsProvider>
+				</CardProvider>
+			</SQLiteProvider>
 		</ThemeProvider>
 	);
 }

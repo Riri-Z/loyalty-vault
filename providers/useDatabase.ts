@@ -16,13 +16,13 @@ type UpdateCard = {
 
 async function createDb(db: SQLiteDatabase) {
 	await db.execAsync(
-		`CREATE TABLE IF NOT EXISTS cards (id  INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, uri TEXT)`,
+		`CREATE TABLE IF NOT EXISTS cards (id  INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, fileUri TEXT)`,
 	);
 }
 
 const insertOneCard = async ({ name, fileUri }: AddCard) => {
 	try {
-		return (await db).runAsync("INSERT INTO cards (name, uri) VALUES (?,?)", name, fileUri);
+		return (await db).runAsync("INSERT INTO cards (name, fileUri) VALUES (?,?)", name, fileUri);
 	} catch (error) {
 		console.error("Failed insert new card ,errror : ", error);
 	}
@@ -30,7 +30,7 @@ const insertOneCard = async ({ name, fileUri }: AddCard) => {
 
 const updateOne = async ({ id, name, fileUri }: UpdateCard) => {
 	try {
-		return (await db).runAsync(`UPDATE cards  SET name = ?, uri=?  WHERE id =?`, [
+		return (await db).runAsync(`UPDATE cards  SET name = ?, fileUri=?  WHERE id =?`, [
 			name,
 			fileUri,
 			id,
@@ -42,7 +42,7 @@ const updateOne = async ({ id, name, fileUri }: UpdateCard) => {
 
 async function deleteOneCard(id: number) {
 	try {
-		(await db).runAsync("DELETE FROM cards where id=?", [id]);
+		return (await db).runAsync("DELETE FROM cards where id=?", [id]);
 	} catch (error) {
 		console.error("Failed deleting card, error : ", error);
 		throw error;
@@ -51,7 +51,8 @@ async function deleteOneCard(id: number) {
 
 async function deleteAllCards() {
 	try {
-		return (await db).runAsync("Delete from cards");
+		const res = (await db).runAsync("Delete from cards");
+		return res;
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -75,4 +76,5 @@ export {
 	updateOne,
 	AddCard,
 	Card,
+	UpdateCard,
 };

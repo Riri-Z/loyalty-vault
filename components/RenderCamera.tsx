@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Alert, Pressable, StyleSheet, View } from "react-native";
 
 type Props = {
-	updateUri: (uri: string) => void;
+	updateUri: (fileUri: string) => void;
 	closeCamera: () => void;
 };
 

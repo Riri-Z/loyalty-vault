@@ -7,11 +7,13 @@ import CardViewer from "./CardViewer";
 export const CardsList = ({ cards }: { cards: Card[] }) => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
+
 	const onModalClose = () => {
 		setIsModalVisible(false);
 		setCard(null);
 	};
 
+	// Open cardViewer
 	function handleSelectedCard(card: Card) {
 		setCard(card);
 		setIsModalVisible(true);
@@ -22,7 +24,7 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 				<CardViewer
 					isVisible={isModalVisible}
 					name={card.name}
-					src={card.uri}
+					src={card.fileUri}
 					onClose={onModalClose}></CardViewer>
 			) : (
 				<FlatList
@@ -35,7 +37,7 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 							<CardsInformation
 								id={item.id}
 								name={item.name}
-								uri={item.uri}
+								fileUri={item.fileUri}
 								openCardDetail={() => handleSelectedCard(item)}
 							/>
 						);

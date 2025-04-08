@@ -6,14 +6,14 @@ import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { useColor } from "@/providers/ThemeProvider";
 import { useTranslation } from "react-i18next";
 import TwoButtonAlert from "@/components/ui/TwoButtonAlert";
-import { deleteAllCards } from "@/providers/useDatabase";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import BottomSheet from "@/components/ui/BottomSheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CardContext } from "@/providers/CardContext";
 
 const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
 
@@ -21,6 +21,7 @@ export default function SettingsScreen() {
 	const { danger, textColor } = useColor();
 	const { t, i18n } = useTranslation();
 	const router = useRouter();
+	const { clearDataCards } = useContext(CardContext);
 	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
 
 	const [openLangueOption, setopenLangueOption] = useState(false);
@@ -28,15 +29,7 @@ export default function SettingsScreen() {
 	// Clear database, and storage
 	async function handleClearData() {
 		resetOnBoardingScreen();
-		try {
-			const res = await deleteAllCards();
-			if (res) {
-				alert(t("cards.deleteAlert.success"));
-			}
-		} catch (error) {
-			console.error(error);
-			alert(t("cards.deleteAlert.failed"));
-		}
+		clearDataCards();
 	}
 
 	const handleToggleLangueOption = () => {
@@ -53,8 +46,8 @@ export default function SettingsScreen() {
 	};
 	const BOTTOM_SHEET_OPTIONS = {
 		actionsItems: [
-			{ label: i18n.t("key_language.en"), callback: () => updateLanguage("en") },
-			{ label: i18n.t("key_language.fr"), callback: () => updateLanguage("fr") },
+			{ label: t("key_language.en"), callback: () => updateLanguage("en") },
+			{ label: t("key_language.fr"), callback: () => updateLanguage("fr") },
 		],
 		handleClose: handleToggleLangueOption,
 	};

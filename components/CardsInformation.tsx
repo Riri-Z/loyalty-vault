@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { deleteOneCard } from "@/providers/useDatabase";
 import CardContainer from "./ui/CardContainer";
 import { useTranslation } from "react-i18next";
 import { Image } from "expo-image";
@@ -7,20 +6,23 @@ import { Entypo } from "@expo/vector-icons";
 import TwoButtonAlert from "./ui/TwoButtonAlert";
 import { router } from "expo-router";
 import { useColor } from "@/providers/ThemeProvider";
+import { useContext } from "react";
+import { CardContext } from "@/providers/CardContext";
 
 type Props = {
 	id: number;
 	name: string;
-	uri: string;
+	fileUri: string;
 	openCardDetail: () => void;
 };
-export default function CardsInformation({ id, name, uri, openCardDetail }: Props) {
+export default function CardsInformation({ id, name, fileUri, openCardDetail }: Props) {
 	const { t } = useTranslation();
+	const { deleteCard } = useContext(CardContext);
 	const { textColor, secondaryColor } = useColor();
 
 	async function handleDeleteFile() {
 		try {
-			await deleteOneCard(+id);
+			deleteCard(+id);
 			// Optional: Add success handling
 		} catch (error) {
 			console.error("Delete failed", error);
@@ -42,7 +44,7 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 			pathname: "/addCardModal",
 			params: {
 				nameCard: name,
-				fileCard: uri,
+				fileCard: fileUri,
 				idCard: id.toString(),
 			},
 		});
@@ -71,7 +73,7 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 				{/* Preview */}
 				<View style={styles.container}>
 					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
-					<Image style={styles.image} source={uri} contentFit="cover" transition={1000} />
+					<Image style={styles.image} source={fileUri} contentFit="cover" transition={1000} />
 				</View>
 				<Text style={[styles.textButton, { color: textColor, marginVertical: 10 }]}>
 					{t("cards.cta.tapToView")}

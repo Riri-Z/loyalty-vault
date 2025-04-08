@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -11,7 +11,6 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import { insertOneCard, updateOne } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
 import { useColor } from "@/providers/ThemeProvider";
 import ViewContainer from "@/components/ui/ViewContainer";
@@ -19,6 +18,7 @@ import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@/components/ui/BottomSheet";
+import { CardContext } from "@/providers/CardContext";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -37,6 +37,8 @@ export default function AddCardScreen() {
 	const [activeCamera, setActiveCamera] = useState(false); //display camera
 
 	const [openFile, setOpenFile] = useState(false);
+
+	const { updateCard, addCard } = useContext(CardContext);
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -70,9 +72,9 @@ export default function AddCardScreen() {
 			}
 
 			if (idCard) {
-				await updateOne({ id: +idCard, name, fileUri: file });
+				updateCard({ id: +idCard, name, fileUri: file });
 			} else {
-				await insertOneCard({ name, fileUri: file });
+				addCard({ name, fileUri: file });
 			}
 
 			// close modal and display list of cards
@@ -117,7 +119,7 @@ export default function AddCardScreen() {
 			{activeCamera ? (
 				/* Camera */
 				<RenderCamera
-					updateUri={(uri) => setFile(uri)}
+					updateUri={(fileUri) => setFile(fileUri)}
 					closeCamera={() => setActiveCamera(false)}></RenderCamera>
 			) : (
 				<>
