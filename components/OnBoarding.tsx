@@ -15,7 +15,7 @@ type Props = {
 
 export default function Onboarding({ title, text, icon, isLottie }: Props) {
 	const { bgColor, textColor } = useColor();
-	console.log("title", title);
+
 	return (
 		<View style={[styles.container, { backgroundColor: bgColor }]}>
 			<Text style={[styles.title, { color: textColor }]}>{t(title)}</Text>

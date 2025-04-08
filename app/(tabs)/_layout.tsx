@@ -18,6 +18,8 @@ export default function TabLayout() {
 						backgroundColor: bgColor,
 					},
 					headerShadowVisible: true,
+					headerBackgroundContainerStyle: { backgroundColor: bgColor },
+					animation: "none",
 					tabBarActiveTintColor: tabIconColor,
 					headerTitleStyle: {
 						color: textColor,
@@ -42,8 +44,6 @@ export default function TabLayout() {
 					name="index"
 					options={{
 						title: i18n.t("tabs.home"),
-						headerBackgroundContainerStyle: { backgroundColor: bgColor },
-						animation: "fade",
 						tabBarIcon: ({ color, focused }) => (
 							<Ionicons name={focused ? "home-sharp" : "home-outline"} color={color} size={24} />
 						),
@@ -53,8 +53,6 @@ export default function TabLayout() {
 					name="settings"
 					options={{
 						title: i18n.t("tabs.settings"),
-						headerBackgroundContainerStyle: { backgroundColor: bgColor },
-						animation: "fade",
 						tabBarIcon: ({ color, focused }) => (
 							<Ionicons name={focused ? "settings" : "settings-outline"} color={color} size={24} />
 						),

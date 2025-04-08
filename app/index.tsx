@@ -36,6 +36,7 @@ export default function HomeScreen() {
 				}
 			} catch (e) {
 				console.error(e);
+			} finally {
 				setLoading(false);
 			}
 		}
