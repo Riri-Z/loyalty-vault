@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import Loading from "@/components/ui/Loading";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import Onboarding from "@/components/OnBoarding";
 import { StatusBar } from "expo-status-bar";
 import { t } from "i18next";

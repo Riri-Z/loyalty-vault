@@ -7,7 +7,7 @@ import Animated, {
 	withSpring,
 } from "react-native-reanimated";
 import { Pressable, StyleSheet, Text } from "react-native";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import { ActionButton } from "./ActionButton";
 
 type Action = {
@@ -22,7 +22,7 @@ interface Props {
 export default function BottomSheet({ actionsItems, handleClose }: Props) {
 	const { t } = useTranslation();
 	const translateY = useSharedValue(0);
-	const { textColor, isDarkMode, cardColor } = useColor();
+	const { textColor, isDarkModeOn, cardColor } = useColor();
 	// Drag event
 	const drag = Gesture.Pan()
 		.onChange((event) => {
@@ -50,7 +50,7 @@ export default function BottomSheet({ actionsItems, handleClose }: Props) {
 		};
 	});
 
-	const bgStyle = isDarkMode ? cardColor : "#F9F9F9";
+	const bgStyle = isDarkModeOn ? cardColor : "#F9F9F9";
 	return (
 		<GestureDetector gesture={drag}>
 			<Animated.View style={[containerStyle, styles.container, { backgroundColor: bgStyle }]}>

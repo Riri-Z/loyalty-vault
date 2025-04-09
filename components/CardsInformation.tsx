@@ -5,7 +5,7 @@ import { Image } from "expo-image";
 import { Entypo } from "@expo/vector-icons";
 import TwoButtonAlert from "./ui/TwoButtonAlert";
 import { router } from "expo-router";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import { useContext } from "react";
 import { CardContext } from "@/providers/CardContext";
 
@@ -40,6 +40,7 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 	}
 
 	function handleEditCard() {
+		console.log("fileUri", fileUri);
 		return router.push({
 			pathname: "/addCardModal",
 			params: {

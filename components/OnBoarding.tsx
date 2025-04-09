@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { Image } from "expo-image";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import { t } from "i18next";
 import LottieView from "lottie-react-native";
 

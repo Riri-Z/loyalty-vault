@@ -3,7 +3,7 @@ import ThemePicker from "@/components/ThemePicker";
 import CardContainer from "@/components/ui/CardContainer";
 import ViewContainer from "@/components/ui/ViewContainer";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import { useTranslation } from "react-i18next";
 import TwoButtonAlert from "@/components/ui/TwoButtonAlert";
 import { useRouter } from "expo-router";

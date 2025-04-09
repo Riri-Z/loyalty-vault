@@ -1,16 +1,16 @@
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTranslation } from "react-i18next";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import { StatusBar } from "expo-status-bar";
 
 export default function TabLayout() {
 	const { i18n } = useTranslation();
-	const { bgColor, tabBgcolor, textColor, tabIconColor, isDarkMode } = useColor();
+	const { bgColor, tabBgcolor, textColor, tabIconColor, isDarkModeOn } = useColor();
 
 	return (
 		<>
-			<StatusBar style={isDarkMode ? "light" : "dark"} backgroundColor={bgColor} />
+			<StatusBar style={isDarkModeOn ? "light" : "dark"} backgroundColor={bgColor} />
 			<Tabs
 				screenOptions={{
 					headerShown: true,

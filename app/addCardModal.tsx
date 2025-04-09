@@ -12,7 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import ViewContainer from "@/components/ui/ViewContainer";
 import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
@@ -128,7 +128,9 @@ export default function AddCardScreen() {
 							<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
 								<Ionicons name="arrow-back" size={24} color={textColor} />
 							</TouchableOpacity>
-							<Text style={[styles.title, { color: textColor }]}>{t("cards.addCard")}</Text>
+							<Text style={[styles.title, { color: textColor }]}>
+								{fileCard ? t("cards.editCard") : t("cards.addCard")}
+							</Text>
 						</View>
 
 						<Text style={[styles.label, { color: textColor }]}>{t("cards.cardName")}</Text>

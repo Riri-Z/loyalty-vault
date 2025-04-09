@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 
 export default function LanguagePicker({ newLanguage }: { newLanguage: string }) {
 	const { i18n, t } = useTranslation();

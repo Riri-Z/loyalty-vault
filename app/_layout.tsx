@@ -7,7 +7,7 @@ import * as SystemUI from "expo-system-ui";
 import { Appearance, useColorScheme } from "react-native";
 import { createDb } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
-import { ThemeProvider, useColor } from "@/providers/ThemeProvider";
+import { ThemeProvider, useColor } from "@/providers/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface Card {

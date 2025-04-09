@@ -1,7 +1,7 @@
 import React from "react";
 import LottieView from "lottie-react-native";
 import { SafeAreaView, StatusBar } from "react-native";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 
 const loader = require("../../assets/lottie/loader.json");
 

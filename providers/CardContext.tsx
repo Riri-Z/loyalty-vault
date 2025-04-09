@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import {
 	AddCard,
 	Card,
@@ -98,11 +98,11 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 			alert(t("cards.deleteAlert.failed"));
 		}
 	};
-	return (
-		<CardContext.Provider value={{ cards, addCard, deleteCard, clearDataCards, updateCard }}>
-			{children}
-		</CardContext.Provider>
-	);
+	const value = useMemo(() => {
+		return { cards, addCard, deleteCard, clearDataCards, updateCard };
+	}, [cards]);
+
+	return <CardContext.Provider value={value}>{children}</CardContext.Provider>;
 };
 
 export { CardContext, CardProvider };

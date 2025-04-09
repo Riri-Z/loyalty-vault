@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 
 export default function ViewContainer({ children }: PropsWithChildren) {
 	const { bgColor } = useColor();
