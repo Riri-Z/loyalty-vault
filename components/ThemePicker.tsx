@@ -1,26 +1,11 @@
-import { useEffect, useState } from "react";
-import { View, Text, Switch, useColorScheme, Appearance, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text, Switch, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useColor } from "@/providers/ThemeProvider";
+import { useColor } from "@/providers/ThemeContext";
 import { Fontisto, Octicons } from "@expo/vector-icons";
 
 export default function ThemePicker() {
 	const { t } = useTranslation();
-	const { textColor } = useColor();
-
-	const colorScheme = useColorScheme();
-	const [isDarkModeOn, setIsDarkModeOn] = useState(colorScheme === "dark");
-
-	const toggleSwitch = (activateDarkMode: boolean) => {
-		Appearance.setColorScheme(activateDarkMode ? "dark" : "light");
-		setIsDarkModeOn((prev) => !prev);
-	};
-
-	// Save to storage
-	useEffect(() => {
-		AsyncStorage.setItem("theme", colorScheme ?? "light");
-	}, [colorScheme]);
+	const { textColor, isDarkModeOn, toggleTheme } = useColor();
 
 	return (
 		<View style={styles.container}>
@@ -37,7 +22,7 @@ export default function ThemePicker() {
 					trackColor={{ false: "#", true: "#81b0ff" }}
 					thumbColor={isDarkModeOn ? "black" : "yellow"}
 					ios_backgroundColor="#3e3e3e"
-					onValueChange={toggleSwitch}
+					onValueChange={toggleTheme}
 					value={isDarkModeOn}
 				/>
 				<Octicons
