@@ -40,7 +40,6 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 	}
 
 	function handleEditCard() {
-		console.log("fileUri", fileUri);
 		return router.push({
 			pathname: "/addCardModal",
 			params: {

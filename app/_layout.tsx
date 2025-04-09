@@ -44,7 +44,7 @@ export default function RootLayout() {
 
 	return (
 		<ThemeProvider>
-			<SQLiteProvider databaseName="test.db" onInit={createDb}>
+			<SQLiteProvider databaseName="db" onInit={createDb}>
 				<CardProvider>
 					<Stack
 						screenOptions={{
@@ -66,8 +66,6 @@ export default function RootLayout() {
 								},
 							}}
 						/>
-						{/* <Stack.Screen name="index" /> */}
-
 						<Stack.Screen
 							name="CGU"
 							options={{
@@ -90,6 +88,23 @@ export default function RootLayout() {
 							options={{
 								title: t("privacyPolicy.title"),
 								headerShown: true,
+								headerStyle: {
+									backgroundColor: bgColor,
+								},
+								headerTitleStyle: {
+									color: textColor,
+									fontSize: 24,
+								},
+								headerTintColor: textColor,
+								headerBackButtonDisplayMode: "generic",
+								gestureEnabled: true,
+							}}
+						/>
+						<Stack.Screen
+							name="OnBoardingScreen"
+							options={{
+								title: "OnBoardingScreen",
+								headerShown: false,
 								headerStyle: {
 									backgroundColor: bgColor,
 								},

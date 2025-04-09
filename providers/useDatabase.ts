@@ -2,7 +2,7 @@ import { Card } from "@/types/Card";
 import * as SQLite from "expo-sqlite";
 import { type SQLiteDatabase } from "expo-sqlite";
 
-const db = SQLite.openDatabaseAsync("test.db", { enableChangeListener: true });
+const db = SQLite.openDatabaseAsync("db", { enableChangeListener: true });
 
 type AddCard = {
 	name: string;
