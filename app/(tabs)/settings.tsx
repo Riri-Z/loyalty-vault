@@ -14,6 +14,7 @@ import { useContext, useState } from "react";
 import BottomSheet from "@/components/ui/BottomSheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CardContext } from "@/providers/CardContext";
+import { Toast } from "toastify-react-native";
 
 const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
 
@@ -62,13 +63,19 @@ export default function SettingsScreen() {
 		});
 	}
 
-	function handleOpenContact() {
+	async function handleOpenContact() {
 		return Alert.alert("Contact", "pygmalion.digitals@gmail.com", [
-			{ text: t("settings.copy"), onPress: () => copyContactToClipBoard },
+			{ text: t("settings.copy"), onPress: () => copyContactToClipBoard() },
 		]);
 	}
+
 	async function copyContactToClipBoard() {
-		return await Clipboard.setStringAsync(EMAIL_CONTACT);
+		const res = await Clipboard.setStringAsync(EMAIL_CONTACT);
+		if (res) {
+			Toast.success(t("settings.successCopy"));
+		} else {
+			Toast.error(t("settings.failedCopy"));
+		}
 	}
 
 	return (

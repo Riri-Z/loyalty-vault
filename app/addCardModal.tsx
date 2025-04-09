@@ -19,6 +19,7 @@ import RenderCamera from "@/components/RenderCamera";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { CardContext } from "@/providers/CardContext";
+import { Toast } from "toastify-react-native";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -55,20 +56,20 @@ export default function AddCardScreen() {
 		if (!result.canceled) {
 			setFile(result?.assets[0].uri);
 		} else if (!file) {
-			alert(t("cards.alert.cancelCamera"));
+			Toast.info(t("cards.alert.cancelCamera"));
 		}
 	};
 	async function handleSaveNewCard() {
 		try {
 			if (name.length <= 0 && !file) {
-				return alert(t("cards.alert.NameAndFileMissing"));
+				return Toast.error(t("cards.alert.NameAndFileMissing"));
 			}
 
 			if (name.length <= 0) {
-				return alert(t("cards.alert.missingName"));
+				return Toast.error(t("cards.alert.missingName"));
 			}
 			if (!file) {
-				return alert(t("cards.alert.missingFile"));
+				return Toast.error(t("cards.alert.missingFile"));
 			}
 
 			if (idCard) {
@@ -154,7 +155,7 @@ export default function AddCardScreen() {
 								</Pressable>
 							</View>
 						) : (
-							<Pressable style={styles.placeholder} onPress={pickFile}>
+							<Pressable style={styles.placeholder} onPress={handleOptionFile}>
 								<MaterialIcons name="image" size={48} color="black" />
 								<Text style={{ color: "black" }}>{t("cards.noPicture")}</Text>
 							</Pressable>

@@ -15,7 +15,7 @@ import { useColor } from "@/providers/ThemeContext";
 import Onboarding from "@/components/OnBoarding";
 import { StatusBar } from "expo-status-bar";
 import { t } from "i18next";
-import ToastManager from "toastify-react-native";
+import ToastManager, { Toast } from "toastify-react-native";
 import { toastConfig } from "@/components/ui/CustomToast";
 
 export default function HomeScreen() {
@@ -136,7 +136,13 @@ export default function HomeScreen() {
 					</Pressable>
 				</View>
 			)}
-			<ToastManager config={toastConfig} showProgressBar={false} />
+			<ToastManager
+				config={toastConfig}
+				visibilityTime={2000}
+				position="bottom"
+				showProgressBar={false}
+				showCloseIcon={true}
+			/>
 		</>
 	);
 }
