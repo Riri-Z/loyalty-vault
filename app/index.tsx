@@ -15,6 +15,8 @@ import { useColor } from "@/providers/ThemeContext";
 import Onboarding from "@/components/OnBoarding";
 import { StatusBar } from "expo-status-bar";
 import { t } from "i18next";
+import ToastManager from "toastify-react-native";
+import { toastConfig } from "@/components/ui/CustomToast";
 
 export default function HomeScreen() {
 	const flatListRef = useRef<FlatList>(null);
@@ -134,6 +136,7 @@ export default function HomeScreen() {
 					</Pressable>
 				</View>
 			)}
+			<ToastManager config={toastConfig} showProgressBar={false} />
 		</>
 	);
 }
