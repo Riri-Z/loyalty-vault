@@ -18,6 +18,8 @@
 		"contactUs": "Nous contacter",
 		"personalisation": "Personnalisation  ",
 		"copy": "Copie",
+		"successCopy": "Copie réussie dans le presse-papier",
+		"failedCopy": "Échec de la copie dans le presse-papier",
 		"privacyPolicy": "Politique de confidentialité",
 		"cgu": "Conditions d'utilisation",
 		"cleanData": {
@@ -104,17 +106,30 @@
 			"registerFirstCard": "Ajoutez votre première carte en appuyant sur le bouton + !"
 		},
 		"alert": {
-			"cancelCamera": "Vous n'avez pas choisi d'image",
-			"missingName": "Nom manquant",
-			"missingFile": "Photo manquante",
-			"NameAndFileMissing": "Nom et photo requis"
+			"errorCamera": "Une erreur est survenue",
+			"cancelCamera": "Aucune image sélectionnée",
+			"missingName": "Le nom est requis",
+			"missingFile": "Le fichier est requis",
+			"NameAndFileMissing": "Le nom et le fichier sont requis"
 		},
 		"deleteAlert": {
-			"title": "Supprimer la carte suivante",
-			"success": "Suppression réussi",
-			"failed": "Erreur lors de la suppression",
+			"title": "Êtes-vous sûr de vouloir supprimer cette carte ?",
+			"success": "Carte supprimée avec succès",
+			"failed": "Échec de la suppression",
 			"cancel": "Annuler",
 			"ok": "OK"
+		},
+		"clearApp": {
+			"success": "Les données ont été supprimées avec succès",
+			"failed": "Échec de la suppression des données"
+		},
+		"addCardAlert": {
+			"success": "Carte ajoutée avec succès",
+			"failed": "Échec de l'ajout de la carte"
+		},
+		"updateAlert": {
+			"success": "Carte mise à jour avec succès",
+			"failed": "Échec de la mise à jour de la carte"
 		}
 	},
 	"onBoarding": {

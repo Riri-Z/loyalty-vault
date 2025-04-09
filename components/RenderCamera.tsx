@@ -1,6 +1,8 @@
 import { CameraType, CameraView } from "expo-camera";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, Pressable, StyleSheet, View } from "react-native";
+import { Toast } from "toastify-react-native";
 
 type Props = {
 	updateUri: (fileUri: string) => void;
@@ -8,6 +10,8 @@ type Props = {
 };
 
 export default function RenderCamera({ updateUri, closeCamera }: Props) {
+	const { t } = useTranslation();
+
 	const [facing] = useState<CameraType>("back"); // only back
 	const ref = useRef<CameraView>(null);
 
@@ -17,7 +21,7 @@ export default function RenderCamera({ updateUri, closeCamera }: Props) {
 		if (photo?.uri) {
 			updateUri(photo?.uri);
 		} else {
-			Alert.alert("erreur lors de la prise de la photo");
+			Toast.error(t("cards.alert.errorCamera"));
 		}
 		closeCamera();
 	};

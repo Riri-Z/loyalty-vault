@@ -1,41 +1,62 @@
-import React, { useState } from "react";
-import {
-	View,
-	Button,
-	Text,
-	StyleSheet,
-	ScrollView,
-	Switch,
-	SafeAreaView,
-	Platform,
-	StatusBar,
-} from "react-native";
-import ToastManager, { Toast } from "toastify-react-native";
+import React from "react";
+import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Entypo } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import { Toast } from "toastify-react-native";
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
 
 type Props = {
 	text1: string;
-	text2: string;
+	text2?: string;
 };
+
 // Custom toast configuration
 const toastConfig = {
 	success: (props: Props) => (
-		<View style={styles.customSuccessToast}>
-			<Icon name="check-circle" size={24} color="#fff" />
-			<View style={styles.textContainer}>
-				<Text style={styles.customTitle}>{props.text1}</Text>
-				{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
-			</View>
+		<View
+			style={[
+				styles.container,
+				{
+					height: screenHeight,
+					width: screenWidth,
+				},
+			]}>
+			<TouchableOpacity
+				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
+				onPress={() => Toast.hide()}
+			/>
+			<Pressable style={styles.customSuccessToast} onPress={() => Toast.hide()}>
+				<Icon name="check-circle" size={24} color="#fff" />
+				<View style={styles.textContainer}>
+					<Text style={styles.customTitle}>{props.text1}</Text>
+					{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
+				</View>
+			</Pressable>
 		</View>
 	),
 	error: (props: Props) => (
-		<View style={styles.customErrorToast}>
-			<Entypo name="circle-with-cross" size={24} color="#fff" />
-			<View style={styles.textContainer}>
-				<Text style={styles.customTitle}>{props.text1}</Text>
-				{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
-			</View>
+		<View
+			style={[
+				styles.container,
+				{
+					height: screenHeight,
+					width: screenWidth,
+				},
+			]}>
+			<TouchableOpacity
+				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
+				onPress={() => Toast.hide()}
+			/>
+			<Pressable style={styles.customErrorToast} onPress={() => Toast.hide()}>
+				<Entypo name="circle-with-cross" size={24} color="#fff" />
+				<View style={styles.textContainer}>
+					<Text style={styles.customTitle}>{props.text1}</Text>
+					{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
+				</View>
+			</Pressable>
 		</View>
 	),
 	// Override other toast types as needed
@@ -44,6 +65,13 @@ const toastConfig = {
 export { toastConfig };
 
 const styles = StyleSheet.create({
+	container: {
+		justifyContent: "center",
+		alignContent: "center",
+	},
+	backDrop: {
+		opacity: 0.8,
+	},
 	textContainer: {
 		flex: 1,
 		marginLeft: 10,
@@ -60,10 +88,11 @@ const styles = StyleSheet.create({
 	},
 	customSuccessToast: {
 		width: "90%",
-		backgroundColor: "#4db34d	",
+		backgroundColor: "#4db34d",
 		borderRadius: 10,
 		padding: 15,
 		flexDirection: "row",
+		alignSelf: "center",
 		alignItems: "center",
 		shadowColor: "#000",
 		shadowOffset: { width: 0, height: 2 },
@@ -77,6 +106,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		padding: 15,
 		flexDirection: "row",
+		alignSelf: "center",
 		alignItems: "center",
 		shadowColor: "#000",
 		shadowOffset: { width: 0, height: 2 },

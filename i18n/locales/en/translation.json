@@ -18,6 +18,8 @@
 		"contactUs": "Contact us",
 		"personalisation": "Personalization ",
 		"copy": "Copy",
+		"successCopy": "Successfully copied to clipboard",
+		"failedCopy": "Failed to copy to clipboard",
 		"privacyPolicy": "Privacy policy",
 		"cgu": "Terms of Service",
 		"cleanData": {
@@ -103,17 +105,30 @@
 			"registerFirstCard": "Add your first card by clicking on + !"
 		},
 		"alert": {
-			"cancelCamera": "You did not select any image",
-			"missingName": "Name required",
-			"missingFile": "File required",
-			"NameAndFileMissing": "Name and file are required"
+			"errorCamera": "Oops something went wrong",
+			"cancelCamera": "No image selected",
+			"missingName": "Name is required",
+			"missingFile": "File is required",
+			"NameAndFileMissing": "Both name and file are required"
 		},
 		"deleteAlert": {
-			"title": "Delete the following card",
-			"success": "Successfull delete",
-			"failed": "Failed",
+			"title": "Are you sure you want to delete this card ?",
+			"success": "Card deleted successfully",
+			"failed": "Deletion failed",
 			"cancel": "Cancel",
 			"ok": "OK"
+		},
+		"clearApp": {
+			"success": "Data has been successfully wiped",
+			"failed": "Failed to wipe data"
+		},
+		"addCardAlert": {
+			"success": "Card successfully added",
+			"failed": "Failed to add card"
+		},
+		"updateAlert": {
+			"success": "Card updated successfully",
+			"failed": "Failed to update card"
 		}
 	},
 	"onBoarding": {
