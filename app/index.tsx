@@ -38,7 +38,6 @@ export default function HomeScreen() {
 			<ToastManager
 				config={toastConfig}
 				visibilityTime={2000}
-				position="bottom"
 				showProgressBar={false}
 				showCloseIcon={true}
 			/>
