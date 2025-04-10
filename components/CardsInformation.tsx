@@ -8,6 +8,7 @@ import { router } from "expo-router";
 import { useColor } from "@/providers/ThemeContext";
 import { useContext } from "react";
 import { CardContext } from "@/providers/CardContext";
+import { Toast } from "toastify-react-native";
 
 type Props = {
 	id: number;
@@ -22,8 +23,12 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 
 	async function handleDeleteFile() {
 		try {
-			deleteCard(+id);
-			// Optional: Add success handling
+			const res = await deleteCard(+id);
+			if (res.success) {
+				Toast.success(t("cards.deleteAlert.success"));
+			} else {
+				Toast.success(t("cards.deleteAlert.failed"));
+			}
 		} catch (error) {
 			console.error("Delete failed", error);
 		}

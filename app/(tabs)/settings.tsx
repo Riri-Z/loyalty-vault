@@ -15,6 +15,7 @@ import BottomSheet from "@/components/ui/BottomSheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CardContext } from "@/providers/CardContext";
 import { Toast } from "toastify-react-native";
+import { AVAILABLE_LANGUAGES } from "@/constants/languages";
 
 const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
 
@@ -30,7 +31,12 @@ export default function SettingsScreen() {
 	// Clear database, and storage
 	async function handleClearData() {
 		resetOnBoardingScreen();
-		clearDataCards();
+		const res = await clearDataCards();
+		if (res.success) {
+			Toast.success(t("cards.clearApp.success"));
+		} else {
+			Toast.success(t("cards.clearApp.failed"));
+		}
 	}
 
 	const handleToggleLangueOption = () => {
@@ -46,10 +52,13 @@ export default function SettingsScreen() {
 		handleToggleLangueOption();
 	};
 	const BOTTOM_SHEET_OPTIONS = {
-		actionsItems: [
-			{ label: t("key_language.en"), callback: () => updateLanguage("en") },
-			{ label: t("key_language.fr"), callback: () => updateLanguage("fr") },
-		],
+		actionsItems: Object.keys(AVAILABLE_LANGUAGES).map((e) => {
+			return {
+				label: t(`key_language.${AVAILABLE_LANGUAGES[e as keyof typeof AVAILABLE_LANGUAGES]}`),
+				callback: () => updateLanguage(AVAILABLE_LANGUAGES[e as keyof typeof AVAILABLE_LANGUAGES]),
+			};
+		}),
+
 		handleClose: handleToggleLangueOption,
 	};
 
@@ -124,7 +133,7 @@ export default function SettingsScreen() {
 			</ViewContainer>
 			{openLangueOption && (
 				<GestureHandlerRootView style={{ ...StyleSheet.absoluteFillObject, zIndex: 2 }}>
-					<Pressable onPress={handleToggleLangueOption} style={styles.overlay} />
+					<Pressable onPress={handleToggleLangueOption} style={styles.backdrop} />
 					<BottomSheet {...BOTTOM_SHEET_OPTIONS} />
 				</GestureHandlerRootView>
 			)}
@@ -159,7 +168,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 	},
-	overlay: {
+	backdrop: {
 		position: "absolute",
 		top: 0,
 		left: 0,

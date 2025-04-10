@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
+import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import {
 	AddCard,
 	Card,
@@ -16,10 +16,18 @@ import { Toast } from "toastify-react-native";
 type CardContextType = {
 	cards: Card[];
 	loading: boolean;
-	addCard: (card: AddCard) => void;
-	deleteCard: (id: number) => void;
-	updateCard: ({ id, name, fileUri }: UpdateCard) => Promise<SQLiteRunResult | undefined>;
-	clearDataCards: () => Promise<void>;
+	addCard: (card: AddCard) => Promise<{
+		success: boolean;
+	}>;
+	deleteCard: (id: number) => Promise<{
+		success: boolean;
+	}>;
+	updateCard: ({ id, name, fileUri }: UpdateCard) => Promise<{
+		success: boolean;
+	}>;
+	clearDataCards: () => Promise<{
+		success: boolean;
+	}>;
 };
 const CardContext = createContext<CardContextType>({} as CardContextType);
 
@@ -43,73 +51,90 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 		return () => listener.remove();
 	}, []);
 
-	const addCard = async (card: AddCard) => {
+	const addCard = useCallback(async (card: AddCard) => {
 		try {
 			const res = await insertOneCard({ ...card });
 			if (res?.lastInsertRowId) {
-				Toast.success(t("cards.addCardAlert.success"));
-				const newCard: Card = { id: res.lastInsertRowId, ...card };
-				const newCards = [...cards, newCard];
-				setCards(newCards);
+				setCards((prev) => {
+					const newCard: Card = { id: res.lastInsertRowId, ...card };
+					const cards = [...prev, newCard];
+					return cards;
+				});
+				return { success: true };
 			}
+			return { success: false };
 		} catch (error) {
 			console.error(error);
+			return { success: false };
 		}
-	};
+	}, []);
 
-	async function updateCard({ id, name, fileUri }: Card) {
+	const updateCard = useCallback(async ({ id, name, fileUri }: Card) => {
 		try {
+			// Update bdd
 			const res = await updateOne({ id, name, fileUri });
-			const arrCards = cards;
-			if (res?.changes) {
-				const index = arrCards.findIndex((e) => e.id === id);
-				if (index !== -1) {
-					const newCard = { id, name, fileUri };
-					arrCards[index] = newCard;
-					setCards(arrCards);
-				}
-				Toast.success(t("cards.updateAlert.success"));
+			if (res?.changes !== 0) {
+				setCards((prev) => {
+					const currentCards = [...prev];
+					const index = currentCards.findIndex((e) => e.id === id);
+
+					if (index !== -1) {
+						const newCard = { id, name, fileUri };
+						currentCards[index] = newCard;
+					}
+					return currentCards;
+				});
+
+				return { success: true };
+			} else {
+				return { success: false };
 			}
-			return res;
 		} catch (error) {
 			console.error(error);
-			Toast.error(t("cards.updateAlert.failed"));
+			return { success: false };
 		}
-	}
+	}, []);
 
-	const deleteCard = async (id: number): Promise<void> => {
+	const deleteCard = useCallback(async (id: number) => {
 		try {
 			setLoading(true);
 			const res = await deleteOneCard(id);
-			if (res.changes) {
-				const newCards = cards.filter((card) => card.id === id);
-				setCards(newCards);
-				Toast.success(t("cards.clearApp.success"));
+			if (res.changes !== 0) {
+				setCards((prev) => {
+					const newCards = prev.filter((card) => card.id === id);
+					return newCards;
+				});
+				return { success: true };
 			} else {
-				Toast.error("cards.clearApp.failed");
+				return { success: false };
 			}
 		} catch (error) {
 			console.error(error);
+			return { success: false };
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, []);
 
-	const clearDataCards = async () => {
+	const clearDataCards = useCallback(async () => {
 		try {
 			const res = await deleteAllCards();
 			if (res) {
 				setCards([]);
-				Toast.success(t("cards.deleteAlert.success"));
+				// Toast.success(t("cards.deleteAlert.success"));
+				return { success: true };
 			}
+			return { success: false };
 		} catch (error) {
 			console.error(error);
-			Toast.error(t("cards.deleteAlert.failed"));
+			return { success: false };
+			// Toast.error(t("cards.deleteAlert.failed"));
 		}
-	};
+	}, []);
+
 	const value = useMemo(() => {
 		return { cards, addCard, deleteCard, clearDataCards, updateCard, loading };
-	}, [cards]);
+	}, [cards, addCard, deleteCard, clearDataCards, updateCard, loading]);
 
 	return <CardContext.Provider value={value}>{children}</CardContext.Provider>;
 };

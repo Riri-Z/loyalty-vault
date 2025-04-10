@@ -73,9 +73,19 @@ export default function AddCardScreen() {
 			}
 
 			if (idCard) {
-				updateCard({ id: +idCard, name, fileUri: file });
+				const res = await updateCard({ id: +idCard, name, fileUri: file });
+				if (res.success) {
+					Toast.success(t("cards.addCardAlert.success"));
+				} else {
+					Toast.success(t("cards.addCardAlert.failed"));
+				}
 			} else {
-				addCard({ name, fileUri: file });
+				const res = await addCard({ name, fileUri: file });
+				if (res.success) {
+					Toast.success(t("cards.addCardAlert.success"));
+				} else {
+					Toast.success(t("cards.addCardAlert.failed"));
+				}
 			}
 
 			// close modal and display list of cards
