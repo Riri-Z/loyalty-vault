@@ -20,6 +20,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { CardContext } from "@/providers/CardContext";
 import { Toast } from "toastify-react-native";
+import { BottomSheetContext } from "@/providers/BottomSheetContext";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -37,9 +38,8 @@ export default function AddCardScreen() {
 
 	const [activeCamera, setActiveCamera] = useState(false); //display camera
 
-	const [openFile, setOpenFile] = useState(false);
-
 	const { updateCard, addCard } = useContext(CardContext);
+	const { handleUpdateActions, isVisible, handleCloseBottomSheet } = useContext(BottomSheetContext);
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -47,7 +47,6 @@ export default function AddCardScreen() {
 	}, [nameCard, fileCard]);
 
 	const pickFile = async () => {
-		setOpenFile(false);
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ["images"],
 			allowsEditing: false,
@@ -58,6 +57,12 @@ export default function AddCardScreen() {
 		} else if (!file) {
 			Toast.info(t("cards.alert.cancelCamera"));
 		}
+		handleCloseBottomSheet();
+	};
+
+	const handleTakePhoto = (uri: string) => {
+		setFile(uri);
+		handleCloseBottomSheet();
 	};
 	async function handleSaveNewCard() {
 		try {
@@ -102,7 +107,6 @@ export default function AddCardScreen() {
 
 	// Open camera options, and handle permission
 	async function handleOpenCamera() {
-		setOpenFile(false);
 		if (!permission) {
 			const permissionResult = await requestPermission();
 			if (permissionResult.granted) {
@@ -114,7 +118,7 @@ export default function AddCardScreen() {
 
 	// handle file options
 	function handleOptionFile() {
-		setOpenFile((prev) => !prev);
+		handleUpdateActions(BOTTOM_SHEET_OPTIONS.actionsItems);
 	}
 
 	const BOTTOM_SHEET_OPTIONS = {
@@ -122,7 +126,7 @@ export default function AddCardScreen() {
 			{ label: i18n.t("cards.cta.openCamera"), callback: () => handleOpenCamera() },
 			{ label: i18n.t("cards.cta.selectFile"), callback: () => pickFile() },
 		],
-		handleClose: handleOptionFile,
+		handleClose: handleCloseBottomSheet,
 	};
 
 	return (
@@ -130,7 +134,7 @@ export default function AddCardScreen() {
 			{activeCamera ? (
 				/* Camera */
 				<RenderCamera
-					updateUri={(fileUri) => setFile(fileUri)}
+					updateUri={(fileUri) => handleTakePhoto(fileUri)}
 					closeCamera={() => setActiveCamera(false)}></RenderCamera>
 			) : (
 				<>
@@ -186,12 +190,9 @@ export default function AddCardScreen() {
 							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
 						</TouchableOpacity>
 					</ViewContainer>
-					{openFile && (
-						<GestureHandlerRootView style={{ ...StyleSheet.absoluteFillObject, zIndex: 2 }}>
-							<Pressable onPress={handleOptionFile} style={styles.overlay}></Pressable>
-							<BottomSheet {...BOTTOM_SHEET_OPTIONS} />
-						</GestureHandlerRootView>
-					)}
+					<GestureHandlerRootView>
+						{isVisible && <BottomSheet {...BOTTOM_SHEET_OPTIONS}></BottomSheet>}
+					</GestureHandlerRootView>
 				</>
 			)}
 		</>

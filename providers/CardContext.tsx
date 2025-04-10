@@ -9,9 +9,8 @@ import {
 	UpdateCard,
 	updateOne,
 } from "./useDatabase";
-import { addDatabaseChangeListener, SQLiteRunResult } from "expo-sqlite";
+import { addDatabaseChangeListener } from "expo-sqlite";
 import { useTranslation } from "react-i18next";
-import { Toast } from "toastify-react-native";
 
 type CardContextType = {
 	cards: Card[];

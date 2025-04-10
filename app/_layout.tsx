@@ -9,6 +9,7 @@ import { createDb } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
 import { ThemeProvider, useColor } from "@/providers/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BottomSheetProvider } from "@/providers/BottomSheetContext";
 
 export interface Card {
 	id: number;
@@ -46,80 +47,83 @@ export default function RootLayout() {
 		<ThemeProvider>
 			<SQLiteProvider databaseName="db" onInit={createDb}>
 				<CardProvider>
-					<Stack
-						screenOptions={{
-							headerShown: false, // Hide headers for all screens by default
-						}}>
-						<Stack.Screen
-							name="(tabs)"
-							options={{
-								headerShown: false,
-								gestureEnabled: true, // Disable swipe gestures for tab screens
-							}}
-						/>
-						<Stack.Screen
-							name="addCardModal"
-							options={{
-								presentation: "modal",
-								headerStyle: {
-									backgroundColor: bgColor,
-								},
-							}}
-						/>
-						<Stack.Screen
-							name="CGU"
-							options={{
-								title: t("terms.title"),
-								headerShown: true,
-								headerStyle: {
-									backgroundColor: bgColor,
-								},
-								headerTitleStyle: {
-									color: textColor,
-									fontSize: 24,
-								},
-								headerTintColor: textColor,
-								headerBackButtonDisplayMode: "generic",
-								gestureEnabled: true,
-							}}
-						/>
-						<Stack.Screen
-							name="PrivacyPolicy"
-							options={{
-								title: t("privacyPolicy.title"),
-								headerShown: true,
-								headerStyle: {
-									backgroundColor: bgColor,
-								},
-								headerTitleStyle: {
-									color: textColor,
-									fontSize: 24,
-								},
-								headerTintColor: textColor,
-								headerBackButtonDisplayMode: "generic",
-								gestureEnabled: true,
-							}}
-						/>
-						<Stack.Screen
-							name="OnBoardingScreen"
-							options={{
-								title: "OnBoardingScreen",
-								headerShown: false,
-								headerStyle: {
-									backgroundColor: bgColor,
-								},
-								headerTitleStyle: {
-									color: textColor,
-									fontSize: 24,
-								},
-								headerTintColor: textColor,
-								headerBackButtonDisplayMode: "generic",
-								gestureEnabled: true,
-							}}
-						/>
+					{/* Allow bottomSheet to be in front of tabs */}
+					<BottomSheetProvider>
+						<Stack
+							screenOptions={{
+								headerShown: false, // Hide headers for all screens by default
+							}}>
+							<Stack.Screen
+								name="(tabs)"
+								options={{
+									headerShown: false,
+									gestureEnabled: true, // Disable swipe gestures for tab screens
+								}}
+							/>
+							<Stack.Screen
+								name="addCardModal"
+								options={{
+									presentation: "modal",
+									headerStyle: {
+										backgroundColor: bgColor,
+									},
+								}}
+							/>
+							<Stack.Screen
+								name="CGU"
+								options={{
+									title: t("terms.title"),
+									headerShown: true,
+									headerStyle: {
+										backgroundColor: bgColor,
+									},
+									headerTitleStyle: {
+										color: textColor,
+										fontSize: 24,
+									},
+									headerTintColor: textColor,
+									headerBackButtonDisplayMode: "generic",
+									gestureEnabled: true,
+								}}
+							/>
+							<Stack.Screen
+								name="PrivacyPolicy"
+								options={{
+									title: t("privacyPolicy.title"),
+									headerShown: true,
+									headerStyle: {
+										backgroundColor: bgColor,
+									},
+									headerTitleStyle: {
+										color: textColor,
+										fontSize: 24,
+									},
+									headerTintColor: textColor,
+									headerBackButtonDisplayMode: "generic",
+									gestureEnabled: true,
+								}}
+							/>
+							<Stack.Screen
+								name="OnBoardingScreen"
+								options={{
+									title: "OnBoardingScreen",
+									headerShown: false,
+									headerStyle: {
+										backgroundColor: bgColor,
+									},
+									headerTitleStyle: {
+										color: textColor,
+										fontSize: 24,
+									},
+									headerTintColor: textColor,
+									headerBackButtonDisplayMode: "generic",
+									gestureEnabled: true,
+								}}
+							/>
 
-						<Stack.Screen name="+not-found" />
-					</Stack>
+							<Stack.Screen name="+not-found" />
+						</Stack>
+					</BottomSheetProvider>
 				</CardProvider>
 			</SQLiteProvider>
 		</ThemeProvider>

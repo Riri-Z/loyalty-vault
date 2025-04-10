@@ -9,13 +9,12 @@ import TwoButtonAlert from "@/components/ui/TwoButtonAlert";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useContext, useState } from "react";
-import BottomSheet from "@/components/ui/BottomSheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CardContext } from "@/providers/CardContext";
 import { Toast } from "toastify-react-native";
 import { AVAILABLE_LANGUAGES } from "@/constants/languages";
+import { BottomSheetContext } from "@/providers/BottomSheetContext";
 
 const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
 
@@ -26,7 +25,8 @@ export default function SettingsScreen() {
 	const { clearDataCards } = useContext(CardContext);
 	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
 
-	const [openLangueOption, setopenLangueOption] = useState(false);
+	const { handleCloseBottomSheet, handleDisplayBottomSheet, handleUpdateActions } =
+		useContext(BottomSheetContext);
 
 	// Clear database, and storage
 	async function handleClearData() {
@@ -40,7 +40,8 @@ export default function SettingsScreen() {
 	}
 
 	const handleToggleLangueOption = () => {
-		setopenLangueOption((prev) => !prev);
+		handleUpdateActions(BOTTOM_SHEET_OPTIONS.actionsItems);
+		handleDisplayBottomSheet(true);
 	};
 
 	async function resetOnBoardingScreen() {
@@ -49,8 +50,9 @@ export default function SettingsScreen() {
 
 	const updateLanguage = (langue: string) => {
 		setSelectedLanguage(langue);
-		handleToggleLangueOption();
+		handleCloseBottomSheet();
 	};
+
 	const BOTTOM_SHEET_OPTIONS = {
 		actionsItems: Object.keys(AVAILABLE_LANGUAGES).map((e) => {
 			return {
@@ -74,70 +76,62 @@ export default function SettingsScreen() {
 
 	async function handleOpenContact() {
 		return Alert.alert("Contact", "pygmalion.digitals@gmail.com", [
-			{ text: t("settings.copy"), onPress: () => copyContactToClipBoard() },
+			{ text: t("settings.copy"), onPress: () => copyContactToClipBoard },
 		]);
 	}
 
 	async function copyContactToClipBoard() {
 		const res = await Clipboard.setStringAsync(EMAIL_CONTACT);
 		if (res) {
-			Toast.success(t("settings.successCopy"));
+			return Toast.success(t("settings.successCopy"));
 		} else {
-			Toast.error(t("settings.failedCopy"));
+			return Toast.error(t("settings.failedCopy"));
 		}
 	}
 
 	return (
-		<>
-			<ViewContainer>
-				<Text style={{ color: textColor, fontSize: 20, gap: 10 }}>
-					{t("settings.personalisation")}
-				</Text>
-				<CardContainer>
-					<Pressable onPress={handleToggleLangueOption}>
-						<LanguagePicker newLanguage={selectedLanguage} />
-					</Pressable>
-					<ThemePicker />
-				</CardContainer>
-				<CardContainer>
-					{/* Contact us */}
-					<Pressable
-						style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
-						onPress={handleOpenContact}>
-						<Text style={[styles.label, { color: textColor }]}>{t("settings.contactUs")}</Text>
-						<FontAwesome5 name="angle-right" size={15} color={textColor} />
-					</Pressable>
-					{/* Terms of service */}
-					<Pressable
-						style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
-						onPress={() => router.navigate("/CGU")}>
-						<Text style={[styles.label, { color: textColor }]}>{t("settings.cgu")}</Text>
-						<FontAwesome5 name="angle-right" size={15} color={textColor} />
-					</Pressable>
-					{/* Privacy policy */}
-					<Pressable
-						style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
-						onPress={() => router.navigate("/PrivacyPolicy")}>
-						<Text style={[styles.label, { color: textColor }]}>{t("settings.privacyPolicy")}</Text>
-						<FontAwesome5 name="angle-right" size={15} color={textColor} />
-					</Pressable>
-				</CardContainer>
-				{/* CTA delete data */}
-				<View style={[styles.clearDataContainer, { backgroundColor: danger }]}>
-					<Pressable
-						onPress={handleopenCleardataAlert}
-						style={({ pressed }) => pressed && { opacity: 0.5 }}>
-						<Text style={[styles.text]}>{t("settings.cleanData.button")}</Text>
-					</Pressable>
-				</View>
-			</ViewContainer>
-			{openLangueOption && (
-				<GestureHandlerRootView style={{ ...StyleSheet.absoluteFillObject, zIndex: 2 }}>
-					<Pressable onPress={handleToggleLangueOption} style={styles.backdrop} />
-					<BottomSheet {...BOTTOM_SHEET_OPTIONS} />
-				</GestureHandlerRootView>
-			)}
-		</>
+		<ViewContainer>
+			<Text style={{ color: textColor, fontSize: 20, gap: 10 }}>
+				{t("settings.personalisation")}
+			</Text>
+			<CardContainer>
+				<Pressable onPress={handleToggleLangueOption}>
+					<LanguagePicker newLanguage={selectedLanguage} />
+				</Pressable>
+				<ThemePicker />
+			</CardContainer>
+			<CardContainer>
+				{/* Contact us */}
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={handleOpenContact}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.contactUs")}</Text>
+					<FontAwesome5 name="angle-right" size={15} color={textColor} />
+				</Pressable>
+				{/* Terms of service */}
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={() => router.navigate("/CGU")}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.cgu")}</Text>
+					<FontAwesome5 name="angle-right" size={15} color={textColor} />
+				</Pressable>
+				{/* Privacy policy */}
+				<Pressable
+					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
+					onPress={() => router.navigate("/PrivacyPolicy")}>
+					<Text style={[styles.label, { color: textColor }]}>{t("settings.privacyPolicy")}</Text>
+					<FontAwesome5 name="angle-right" size={15} color={textColor} />
+				</Pressable>
+			</CardContainer>
+			{/* CTA delete data */}
+			<View style={[styles.clearDataContainer, { backgroundColor: danger }]}>
+				<Pressable
+					onPress={handleopenCleardataAlert}
+					style={({ pressed }) => pressed && { opacity: 0.5 }}>
+					<Text style={[styles.text]}>{t("settings.cleanData.button")}</Text>
+				</Pressable>
+			</View>
+		</ViewContainer>
 	);
 }
 
