@@ -9,6 +9,7 @@ import { useColor } from "@/providers/ThemeContext";
 import { useContext } from "react";
 import { CardContext } from "@/providers/CardContext";
 import { Toast } from "toastify-react-native";
+import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated";
 
 type Props = {
 	id: number;
@@ -56,35 +57,37 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 	}
 
 	return (
-		<CardContainer>
-			<View style={[styles.ctaDelete]}>
-				<Pressable
-					style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
-					onPress={handleEditCard}>
-					<Text style={[styles.textButton]}>{t("cards.cta.edit")}</Text>
-				</Pressable>
-				<Pressable onPress={handleopenAlertdelete}>
-					<Entypo name="circle-with-cross" size={30} color="red" />
-				</Pressable>
-			</View>
-			<Pressable style={styles.container} onPress={openCardDetail}>
-				<View style={styles.container}>
-					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
-					<Text style={[styles.content, { color: textColor }]}>
-						{name.slice(0, 1).toUpperCase() + name.slice(1)}
-					</Text>
+		<Animated.View entering={FadeInLeft} exiting={FadeOutRight}>
+			<CardContainer>
+				<View style={[styles.ctaDelete]}>
+					<Pressable
+						style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
+						onPress={handleEditCard}>
+						<Text style={[styles.textButton]}>{t("cards.cta.edit")}</Text>
+					</Pressable>
+					<Pressable onPress={handleopenAlertdelete}>
+						<Entypo name="circle-with-cross" size={30} color="red" />
+					</Pressable>
 				</View>
+				<Pressable style={styles.container} onPress={openCardDetail}>
+					<View style={styles.container}>
+						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
+						<Text style={[styles.content, { color: textColor }]}>
+							{name.slice(0, 1).toUpperCase() + name.slice(1)}
+						</Text>
+					</View>
 
-				{/* Preview */}
-				<View style={styles.container}>
-					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
-					<Image style={styles.image} source={fileUri} contentFit="cover" transition={1000} />
-				</View>
-				<Text style={[styles.textButton, { color: textColor, marginVertical: 10 }]}>
-					{t("cards.cta.tapToView")}
-				</Text>
-			</Pressable>
-		</CardContainer>
+					{/* Preview */}
+					<View style={styles.container}>
+						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
+						<Image style={styles.image} source={fileUri} contentFit="cover" transition={1000} />
+					</View>
+					<Text style={[styles.textButton, { color: textColor, marginVertical: 10 }]}>
+						{t("cards.cta.tapToView")}
+					</Text>
+				</Pressable>
+			</CardContainer>
+		</Animated.View>
 	);
 }
 

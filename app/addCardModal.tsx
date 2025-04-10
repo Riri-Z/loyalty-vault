@@ -16,7 +16,6 @@ import { useColor } from "@/providers/ThemeContext";
 import ViewContainer from "@/components/ui/ViewContainer";
 import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { CardContext } from "@/providers/CardContext";
 import { Toast } from "toastify-react-native";
@@ -35,6 +34,7 @@ export default function AddCardScreen() {
 	const [name, setName] = useState("");
 	const [file, setFile] = useState("");
 	const [permission, requestPermission] = useCameraPermissions();
+	const { bgColor } = useColor();
 
 	const [activeCamera, setActiveCamera] = useState(false); //display camera
 
@@ -137,7 +137,7 @@ export default function AddCardScreen() {
 					updateUri={(fileUri) => handleTakePhoto(fileUri)}
 					closeCamera={() => setActiveCamera(false)}></RenderCamera>
 			) : (
-				<>
+				<View style={[styles.container, { backgroundColor: bgColor }]}>
 					<ViewContainer>
 						<View style={styles.header}>
 							<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
@@ -183,23 +183,21 @@ export default function AddCardScreen() {
 								<Text style={styles.textButton}>{t("cards.cta.selectFile")} </Text>
 							</TouchableOpacity>
 						</View>
-
 						<TouchableOpacity
 							style={[styles.button, { backgroundColor: "#28a745" }]}
 							onPress={handleSaveNewCard}>
 							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
 						</TouchableOpacity>
 					</ViewContainer>
-					<GestureHandlerRootView>
-						{isVisible && <BottomSheet {...BOTTOM_SHEET_OPTIONS}></BottomSheet>}
-					</GestureHandlerRootView>
-				</>
+					{isVisible && <BottomSheet {...BOTTOM_SHEET_OPTIONS}></BottomSheet>}
+				</View>
 			)}
 		</>
 	);
 }
 
 const styles = StyleSheet.create({
+	container: { height: "100%", zIndex: -1 },
 	header: {
 		display: "flex",
 		flexDirection: "row",

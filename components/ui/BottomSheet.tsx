@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
+	FadeInDown,
+	FadeOut,
 	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
@@ -52,43 +54,55 @@ export default function BottomSheet({ actionsItems, handleClose }: Props) {
 
 	const bgStyle = isDarkModeOn ? cardColor : "#F9F9F9";
 	return (
-		<GestureDetector gesture={drag}>
-			<Animated.View style={[containerStyle, styles.container, { backgroundColor: bgStyle }]}>
-				<Pressable style={styles.dragButton} />
-				<Text style={[styles.title, { color: textColor }]}>{t("cards.cta.title")}</Text>
-				{actionsItems.length > 0 &&
-					actionsItems.map((e) => {
-						return <ActionButton key={`${e.label}`} onPress={e.callback} label={e.label} />;
-					})}
-
-				<Pressable>
-					<Text style={styles.cancel} onPress={handleClose}>
-						{t("cards.cta.cancel")}
-					</Text>
-				</Pressable>
+		<GestureHandlerRootView>
+			<Animated.View style={[styles.wrapper, containerStyle]}>
+				<GestureDetector gesture={drag}>
+					<Animated.View
+						style={[{ backgroundColor: bgStyle }, styles.container]}
+						entering={FadeInDown}
+						exiting={FadeOut}>
+						<Pressable style={styles.dragButton} />
+						<Text style={[styles.title, { color: textColor }]}>{t("cards.cta.title")}</Text>
+						{actionsItems.length > 0 &&
+							actionsItems.map((e) => {
+								return <ActionButton key={`${e.label}`} onPress={e.callback} label={e.label} />;
+							})}
+						<Pressable>
+							<Text style={styles.cancel} onPress={handleClose}>
+								{t("cards.cta.cancel")}
+							</Text>
+						</Pressable>
+					</Animated.View>
+				</GestureDetector>
 			</Animated.View>
-		</GestureDetector>
+		</GestureHandlerRootView>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	wrapper: {
 		position: "absolute",
 		bottom: 0,
 		width: "100%",
-		borderTopLeftRadius: 25,
-		borderTopRightRadius: 25,
 		gap: 20,
 		display: "flex",
 		alignItems: "center",
-		padding: 20,
 		zIndex: 1,
+	},
+	container: {
+		justifyContent: "center",
+		width: "100%",
+		gap: 20,
+		padding: 10,
+		alignItems: "center",
+		borderTopLeftRadius: 25,
+		borderTopRightRadius: 25,
 	},
 	dragButton: {
 		backgroundColor: "#C4A484",
 		width: 40,
 		height: 4,
-		marginBottom: 10,
+		margin: 10,
 		borderRadius: 29999,
 	},
 	title: { color: "#333333", fontWeight: "bold", fontSize: 16 },
