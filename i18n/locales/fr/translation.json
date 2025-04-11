@@ -135,16 +135,16 @@
 		"next": "Suivant",
 		"end": "Commencer",
 		"screen1": {
-			"title": "Gagnez du temps",
-			"text": "Conservez toutes vos cartes de fidélité en un seul endroit"
+			"title": "Ne manquez plus aucune récompense",
+			"text": "Toutes vos cartes de fidélité dans une seule application. Fini les recherches, fini les oublis."
 		},
 		"screen2": {
-			"title": "Fonctionne hors ligne",
+			"title": "Pas de connexion ? Pas de problème",
 			"text": "Pas besoin de 4G ou de Wi-Fi.\nAccédez à vos cartes n'importe quand, n'importe où."
 		},
 		"screen3": {
-			"title": "100% local et privé",
-			"text": "Vos données restent sur votre téléphone.\nPas de cloud, pas de compte nécessaire."
+			"title": "Vos données, votre contrôle",
+			"text": "Nous ne pouvons pas voir vos cartes car elles ne quittent jamais votre téléphone. Simple, sécurisé et totalement privé."
 		}
 	}
 }

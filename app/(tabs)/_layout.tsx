@@ -71,7 +71,7 @@ export default function TabLayout() {
 					/>
 				</Tabs>
 				<Portal>
-					{isVisible && (
+					{isVisible && actions.length > 0 && (
 						<GestureHandlerRootView>
 							<BottomSheet actionsItems={actions} handleClose={handleCloseBottomSheet} />
 						</GestureHandlerRootView>

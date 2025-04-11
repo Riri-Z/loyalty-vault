@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		fontSize: 20,
 		includeFontPadding: false,
-		lineHeight: 22, // <- optionnel pour meilleur rendu
+		lineHeight: 24,
 	},
 });

@@ -39,7 +39,8 @@ export default function AddCardScreen() {
 	const [activeCamera, setActiveCamera] = useState(false); //display camera
 
 	const { updateCard, addCard } = useContext(CardContext);
-	const { handleUpdateActions, isVisible, handleCloseBottomSheet } = useContext(BottomSheetContext);
+	const { handleUpdateActions, isVisible, actions, handleCloseBottomSheet } =
+		useContext(BottomSheetContext);
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -189,7 +190,7 @@ export default function AddCardScreen() {
 							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
 						</TouchableOpacity>
 					</ViewContainer>
-					{isVisible && <BottomSheet {...BOTTOM_SHEET_OPTIONS}></BottomSheet>}
+					{isVisible && actions.length > 0 && <BottomSheet {...BOTTOM_SHEET_OPTIONS}></BottomSheet>}
 				</View>
 			)}
 		</>

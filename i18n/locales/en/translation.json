@@ -91,9 +91,9 @@
 		"importFile": "Import file",
 		"placeHolderName": "E.g.: Amazon, subway...",
 		"editCard": "Edit a card",
-		"addCard": "Add a card",
+		"addCard": "Add a new card",
 		"cta": {
-			"tapToView": "Tap to view your card",
+			"tapToView": "Tap to view details",
 			"edit": "Edit",
 			"selectFile": "Select a file",
 			"openCamera": "Open camera",
@@ -102,10 +102,10 @@
 			"open": "Open",
 			"delete": "Delete",
 			"save": "Save",
-			"registerFirstCard": "Add your first card by clicking on +!"
+			"registerFirstCard": "Register your first card by clicking on + !"
 		},
 		"alert": {
-			"errorCamera": "Oops, something went wrong",
+			"errorCamera": "Oops! something went wrong",
 			"cancelCamera": "No image selected",
 			"missingName": "Name is required",
 			"missingFile": "File is required",
@@ -123,8 +123,8 @@
 			"failed": "Failed to wipe data"
 		},
 		"addCardAlert": {
-			"success": "Card successfully added",
-			"failed": "Failed to add card"
+			"success": "Your card has been added successfully!",
+			"failed": "Couldn’t add your card"
 		},
 		"updateAlert": {
 			"success": "Card updated successfully",
@@ -135,16 +135,16 @@
 		"next": "Next",
 		"end": "Get Started",
 		"screen1": {
-			"title": "Save Time",
-			"text": "Keep all your loyalty cards in one place"
+			"title": "Never Miss Rewards Again",
+			"text": "All your loyalty cards in one app. No more searching, no more forgetting."
 		},
 		"screen2": {
-			"title": "Works Offline",
+			"title": "No Connection? No Problem",
 			"text": "No need for 4G or Wi-Fi.\nAccess your cards anytime, anywhere."
 		},
 		"screen3": {
-			"title": "100% Local & Private",
-			"text": "Your data stays on your phone.\nNo cloud, no account required."
+			"title": "Your Data, Your Control",
+			"text": "We can't see your cards because they never leave your phone. Simple, secure, and completely private."
 		}
 	}
 }
