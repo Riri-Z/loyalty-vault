@@ -8,17 +8,17 @@ import LottieView from "lottie-react-native";
 import { CardContext } from "@/providers/CardContext";
 import { useNavigation } from "expo-router";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
+import SearchCard from "@/components/SearchCard";
 
 const creditCardLogo = require("../../assets/lottie/cards-animated.json");
 
 export default function Index() {
 	const { t } = useTranslation();
-	const { cards } = useContext(CardContext);
+	const { cards, searchValue } = useContext(CardContext);
 	const { isVisible, handleCloseBottomSheet } = useContext(BottomSheetContext);
 
 	const navigation = useNavigation();
 
-	// Close bottomSheet if it's open
 	useEffect(() => {
 		const unsubscribe = navigation.addListener("focus", (e) => {
 			if (isVisible) {
@@ -31,13 +31,16 @@ export default function Index() {
 
 	return (
 		<ViewContainer>
-			{Array.isArray(cards) && cards.length === 0 ? (
+			{Array.isArray(cards) && cards.length === 0 && searchValue === null ? (
 				<View style={styles.container}>
 					<LottieView source={creditCardLogo} style={styles.image} autoPlay loop />
 					<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
 				</View>
 			) : (
-				<CardsList cards={cards}></CardsList>
+				<View style={styles.cardsContainer}>
+					<SearchCard />
+					<CardsList cards={cards} />
+				</View>
 			)}
 
 			<AddCardButton />
@@ -64,4 +67,5 @@ const styles = StyleSheet.create({
 		color: "gray",
 		textAlign: "center",
 	},
+	cardsContainer: { gap: 20 },
 });

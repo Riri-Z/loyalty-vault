@@ -92,6 +92,10 @@
 		"placeHolderName": "Ex. : Amazon, métro...",
 		"editCard": "Modifier une carte",
 		"addCard": "Ajouter une carte",
+		"searchInput": {
+			"placeHolderName": "Recherche..",
+			"result": "Résultat(s)"
+		},
 		"cta": {
 			"tapToView": "Appuyez pour voir votre carte",
 			"edit": "Modifier",

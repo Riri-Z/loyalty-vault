@@ -10,7 +10,7 @@ import {
 	updateOne,
 } from "./useDatabase";
 import { addDatabaseChangeListener } from "expo-sqlite";
-import { useTranslation } from "react-i18next";
+import { useDebounce } from "@/hooks/useDebounce";
 
 type CardContextType = {
 	cards: Card[];
@@ -27,13 +27,36 @@ type CardContextType = {
 	clearDataCards: () => Promise<{
 		success: boolean;
 	}>;
+	searchValue: any;
+	handleSearch: (value: string) => void;
 };
+
 const CardContext = createContext<CardContextType>({} as CardContextType);
 
 const CardProvider = ({ children }: { children: ReactNode }) => {
-	const { t } = useTranslation();
 	const [cards, setCards] = useState<Card[]>([] as Card[]);
 	const [loading, setLoading] = useState(false);
+	const [searchValue, setSearchValue] = useState<null | string>(null);
+
+	// Update context cards based on debounce searchValue
+	const filterCards = async (filter: string) => {
+		if (filter.length === 0) {
+			setCards(await getAllCards());
+		} else {
+			const allCards = await getAllCards();
+			setCards(allCards.filter((card) => card.name.toUpperCase().includes(filter.toUpperCase())));
+		}
+	};
+
+	const debouncedOnChange = useDebounce(filterCards, 500);
+
+	const handleSearch = useCallback(
+		(val: string) => {
+			setSearchValue(val);
+			debouncedOnChange(val);
+		},
+		[debouncedOnChange],
+	);
 
 	useEffect(() => {
 		//  Allow to load displayed cards
@@ -132,8 +155,17 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	const value = useMemo(() => {
-		return { cards, addCard, deleteCard, clearDataCards, updateCard, loading };
-	}, [cards, addCard, deleteCard, clearDataCards, updateCard, loading]);
+		return {
+			cards,
+			addCard,
+			deleteCard,
+			clearDataCards,
+			updateCard,
+			handleSearch,
+			searchValue,
+			loading,
+		};
+	}, [cards, addCard, deleteCard, clearDataCards, updateCard, handleSearch, searchValue, loading]);
 
 	return <CardContext.Provider value={value}>{children}</CardContext.Provider>;
 };

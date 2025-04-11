@@ -92,6 +92,10 @@
 		"placeHolderName": "E.g.: Amazon, subway...",
 		"editCard": "Edit a card",
 		"addCard": "Add a new card",
+		"searchInput": {
+			"placeHolderName": "Filter..",
+			"result": "Result(s)"
+		},
 		"cta": {
 			"tapToView": "Tap to view details",
 			"edit": "Edit",
