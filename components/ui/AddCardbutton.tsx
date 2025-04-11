@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
 		borderRadius: 35,
 		alignItems: "center",
 		justifyContent: "center",
-		elevation: 8,
+		elevation: 3,
 	},
 });
