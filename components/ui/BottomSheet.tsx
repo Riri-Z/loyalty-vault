@@ -68,7 +68,7 @@ export default function BottomSheet({ actionsItems, handleClose }: Props) {
 								return <ActionButton key={`${e.label}`} onPress={e.callback} label={e.label} />;
 							})}
 						<Pressable>
-							<Text style={styles.cancel} onPress={handleClose}>
+							<Text style={[styles.cancel, { color: textColor }]} onPress={handleClose}>
 								{t("cards.cta.cancel")}
 							</Text>
 						</Pressable>
@@ -84,15 +84,17 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		bottom: 0,
 		width: "100%",
-		gap: 20,
 		display: "flex",
 		alignItems: "center",
 		zIndex: 1,
+		borderTopLeftRadius: 25,
+		borderTopRightRadius: 25,
+		borderWidth: 0.2,
 	},
 	container: {
 		justifyContent: "center",
 		width: "100%",
-		gap: 20,
+		gap: 15,
 		padding: 10,
 		alignItems: "center",
 		borderTopLeftRadius: 25,
@@ -106,5 +108,5 @@ const styles = StyleSheet.create({
 		borderRadius: 29999,
 	},
 	title: { color: "#333333", fontWeight: "bold", fontSize: 16 },
-	cancel: { fontWeight: "bold", textDecorationLine: "underline", color: "#BDBDBD" },
+	cancel: { fontWeight: "bold", textDecorationLine: "underline" },
 });

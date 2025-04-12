@@ -28,19 +28,20 @@ type ModalParamsType = {
 };
 
 export default function AddCardScreen() {
-	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
-	const { t, i18n } = useTranslation();
-	const { textColor } = useColor();
-	const [name, setName] = useState("");
-	const [file, setFile] = useState("");
-	const [permission, requestPermission] = useCameraPermissions();
-	const { bgColor } = useColor();
-
-	const [activeCamera, setActiveCamera] = useState(false); //display camera
-
+	/* Context */
 	const { updateCard, addCard } = useContext(CardContext);
 	const { handleUpdateActions, isVisible, actions, handleCloseBottomSheet } =
 		useContext(BottomSheetContext);
+	const { textColor, bgColor } = useColor();
+
+	/* State */
+	const [name, setName] = useState("");
+	const [file, setFile] = useState("");
+	const [activeCamera, setActiveCamera] = useState(false); //display camera
+	const [permission, requestPermission] = useCameraPermissions();
+
+	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
+	const { t, i18n } = useTranslation();
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -98,6 +99,7 @@ export default function AddCardScreen() {
 			router.push("/(tabs)");
 		} catch (error) {
 			console.error(error);
+			Toast.error(t("cards.alert.errorCamera"));
 		}
 	}
 
@@ -179,13 +181,13 @@ export default function AddCardScreen() {
 						{/* Select file */}
 						<View style={styles.ctaContainer}>
 							<TouchableOpacity
-								style={[styles.button, { backgroundColor: "#007bff" }]}
+								style={[styles.button, { backgroundColor: "#28a745" }]}
 								onPress={handleOptionFile}>
 								<Text style={styles.textButton}>{t("cards.cta.selectFile")} </Text>
 							</TouchableOpacity>
 						</View>
 						<TouchableOpacity
-							style={[styles.button, { backgroundColor: "#28a745" }]}
+							style={[styles.button, { backgroundColor: "#007bff" }]}
 							onPress={handleSaveNewCard}>
 							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
 						</TouchableOpacity>
@@ -198,13 +200,13 @@ export default function AddCardScreen() {
 }
 
 const styles = StyleSheet.create({
-	container: { height: "100%", zIndex: -1 },
+	container: { height: "100%" },
 	header: {
 		display: "flex",
 		flexDirection: "row",
 		gap: 5,
 		alignContent: "center",
-		marginTop: 15,
+		marginTop: 30,
 	},
 	backButton: {
 		alignSelf: "center",

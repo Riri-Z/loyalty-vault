@@ -13,7 +13,7 @@ export default function SearchCard() {
 	return (
 		<>
 			<View style={[styles.containerInput, { backgroundColor: cardColor }]}>
-				<Ionicons style={styles.icon} name="search" size={20} color="black" />
+				<Ionicons style={styles.icon} name="search" size={20} color={textColor} />
 				<TextInput
 					style={[styles.textInput, { color: textColor }]}
 					placeholder={t("cards.searchInput.placeHolderName")}
