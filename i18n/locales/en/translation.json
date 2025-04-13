@@ -24,7 +24,7 @@
 		"cgu": "Terms of Service",
 		"cleanData": {
 			"button": "Clear all my data",
-			"confirmationTitle": "Reset application?",
+			"confirmationTitle": "Reset application ?",
 			"confirmationContent": "This action will delete all your data"
 		}
 	},
@@ -116,7 +116,7 @@
 			"NameAndFileMissing": "Both name and file are required"
 		},
 		"deleteAlert": {
-			"title": "Are you sure you want to delete this card?",
+			"title": "Are you sure you want to delete this card ?",
 			"success": "Card deleted successfully",
 			"failed": "Failed to delete card",
 			"cancel": "Cancel",
@@ -127,7 +127,7 @@
 			"failed": "Failed to wipe data"
 		},
 		"addCardAlert": {
-			"success": "Your card has been added successfully!",
+			"success": "Your card has been added successfully !",
 			"failed": "Couldn’t add your card"
 		},
 		"updateAlert": {

@@ -39,9 +39,18 @@ export default function AddCardScreen() {
 	const [file, setFile] = useState("");
 	const [activeCamera, setActiveCamera] = useState(false); //display camera
 	const [permission, requestPermission] = useCameraPermissions();
+	const [canSave, setCanSave] = useState(false);
 
 	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
 	const { t, i18n } = useTranslation();
+
+	useEffect(() => {
+		if (name !== "" && file !== "") {
+			setCanSave(true);
+		} else {
+			setCanSave(false);
+		}
+	}, [name, file]);
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -187,7 +196,11 @@ export default function AddCardScreen() {
 							</TouchableOpacity>
 						</View>
 						<TouchableOpacity
-							style={[styles.button, { backgroundColor: "#007bff" }]}
+							style={[
+								styles.button,
+								{ backgroundColor: "#007bff" },
+								{ opacity: canSave ? 1 : 0.5 },
+							]}
 							onPress={handleSaveNewCard}>
 							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
 						</TouchableOpacity>
