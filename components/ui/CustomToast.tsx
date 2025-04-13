@@ -1,11 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Entypo } from "@expo/vector-icons";
-import { Toast } from "toastify-react-native";
-
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
 
 type Props = {
 	text1: string;
