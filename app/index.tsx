@@ -33,12 +33,6 @@ export default function HomeScreen() {
 		<>
 			<StatusBar translucent backgroundColor={bgColor} />
 			<Loading />
-			<ToastManager
-				config={toastConfig}
-				visibilityTime={2000}
-				showProgressBar={false}
-				showCloseIcon={true}
-			/>
 		</>
 	);
 }
