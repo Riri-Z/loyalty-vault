@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useMemo, useState } from "react";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
+import { Keyboard } from "react-native";
 
 type BottomSheetContextType = {
 	isVisible: boolean;
@@ -23,6 +24,11 @@ const BottomSheetProvider = ({ children }: { children: ReactNode }) => {
 		// Reset actions
 		setActions([]);
 	};
+	useEffect(() => {
+		if (Keyboard.isVisible()) {
+			Keyboard.dismiss();
+		}
+	}, [isVisible]);
 
 	const handleDisplayBottomSheet = (value: boolean) => {
 		setIsVisible(value);
