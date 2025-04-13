@@ -2,7 +2,7 @@ import LanguagePicker from "@/components/LanguagePicker";
 import ThemePicker from "@/components/ThemePicker";
 import CardContainer from "@/components/ui/CardContainer";
 import ViewContainer from "@/components/ui/ViewContainer";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useColor } from "@/providers/ThemeContext";
 import { useTranslation } from "react-i18next";
 import TwoButtonAlert from "@/components/ui/TwoButtonAlert";
@@ -75,13 +75,18 @@ export default function SettingsScreen() {
 	}
 
 	async function handleOpenContact() {
-		return Alert.alert("Contact", "pygmalion.digitals@gmail.com", [
-			{ text: t("settings.copy"), onPress: () => copyContactToClipBoard },
-		]);
+		return TwoButtonAlert({
+			title: "Contact",
+			content: "pygmalion.digitals@gmail.com",
+			textCancel: t("cards.deleteAlert.cancel"),
+			textOk: t("settings.copy"),
+			handleOk: copyContactToClipBoard,
+		});
 	}
 
 	async function copyContactToClipBoard() {
-		const res = await Clipboard.setStringAsync(EMAIL_CONTACT);
+		await Clipboard.setStringAsync(EMAIL_CONTACT);
+		const res = await Clipboard.hasStringAsync();
 		if (res) {
 			return Toast.success(t("settings.successCopy"));
 		} else {

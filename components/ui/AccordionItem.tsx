@@ -11,7 +11,7 @@ type Props = {
 	isExpanded: { value: boolean };
 	children: ReactNode;
 	viewKey: string;
-	style?: {};
+	style?: object;
 	duration?: number;
 };
 

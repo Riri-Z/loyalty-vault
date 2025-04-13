@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function HomeScreen() {
 	const router = useRouter();
 
-	const { bgColor } = useColor();
+	const { bgColor, isDarkModeOn } = useColor();
 
 	useEffect(() => {
 		async function getFirstLaunch() {
@@ -29,7 +29,7 @@ export default function HomeScreen() {
 
 	return (
 		<>
-			<StatusBar translucent backgroundColor={bgColor} />
+			<StatusBar style={isDarkModeOn ? "light" : "dark"} backgroundColor={bgColor} />
 			<Loading />
 		</>
 	);

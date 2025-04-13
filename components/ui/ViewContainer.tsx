@@ -1,13 +1,14 @@
 import { PropsWithChildren } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useColor } from "@/providers/ThemeContext";
+import { StatusBar } from "expo-status-bar";
 
 export default function ViewContainer({ children }: PropsWithChildren) {
-	const { bgColor } = useColor();
+	const { bgColor, isDarkModeOn } = useColor();
 
 	return (
 		<>
-			<StatusBar translucent backgroundColor="transparent" />
+			<StatusBar style={isDarkModeOn ? "light" : "dark"} backgroundColor={bgColor} />
 			<View style={[styles.container, { backgroundColor: bgColor }]}>{children}</View>
 		</>
 	);

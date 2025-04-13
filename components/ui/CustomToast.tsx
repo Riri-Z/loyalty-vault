@@ -24,6 +24,10 @@ const toastConfig = {
 					width: screenWidth,
 				},
 			]}>
+			<TouchableOpacity
+				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
+				onPress={() => Toast.hide()}
+			/>
 			<Pressable style={styles.customSuccessToast} onPress={() => Toast.hide()}>
 				<Icon name="check-circle" size={24} color="#fff" />
 				<View style={styles.textContainer}>
@@ -31,10 +35,6 @@ const toastConfig = {
 					{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
 				</View>
 			</Pressable>
-			<TouchableOpacity
-				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
-				onPress={() => Toast.hide()}
-			/>
 		</View>
 	),
 	error: (props: Props) => (
@@ -46,6 +46,10 @@ const toastConfig = {
 					width: screenWidth,
 				},
 			]}>
+			<TouchableOpacity
+				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
+				onPress={() => Toast.hide()}
+			/>
 			<Pressable style={styles.customErrorToast} onPress={() => Toast.hide()}>
 				<Entypo name="circle-with-cross" size={24} color="#fff" />
 				<View style={styles.textContainer}>
@@ -53,10 +57,6 @@ const toastConfig = {
 					{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
 				</View>
 			</Pressable>
-			<TouchableOpacity
-				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
-				onPress={() => Toast.hide()}
-			/>
 		</View>
 	),
 	// Override other toast types as needed

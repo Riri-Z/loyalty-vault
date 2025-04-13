@@ -1,7 +1,7 @@
 import { CameraType, CameraView } from "expo-camera";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Toast } from "toastify-react-native";
 
 type Props = {
