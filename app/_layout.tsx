@@ -127,9 +127,10 @@ export default function RootLayout() {
 						</Stack>
 						<ToastManager
 							config={toastConfig}
-							visibilityTime={2000}
+							visibilityTime={1000}
 							showProgressBar={false}
 							showCloseIcon={true}
+							position="bottom"
 						/>
 					</BottomSheetProvider>
 				</CardProvider>

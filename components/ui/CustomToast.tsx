@@ -1,8 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Pressable, Dimensions, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Entypo } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
 import { Toast } from "toastify-react-native";
 
 const screenWidth = Dimensions.get("window").width;
@@ -16,47 +15,21 @@ type Props = {
 // Custom toast configuration
 const toastConfig = {
 	success: (props: Props) => (
-		<View
-			style={[
-				styles.container,
-				{
-					height: screenHeight,
-					width: screenWidth,
-				},
-			]}>
-			<TouchableOpacity
-				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
-				onPress={() => Toast.hide()}
-			/>
-			<Pressable style={styles.customSuccessToast} onPress={() => Toast.hide()}>
-				<Icon name="check-circle" size={24} color="#fff" />
-				<View style={styles.textContainer}>
-					<Text style={styles.customTitle}>{props.text1}</Text>
-					{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
-				</View>
-			</Pressable>
+		<View style={styles.customSuccessToast}>
+			<Icon name="check-circle" size={24} color="#fff" />
+			<View style={styles.textContainer}>
+				<Text style={styles.customTitle}>{props.text1}</Text>
+				{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
+			</View>
 		</View>
 	),
 	error: (props: Props) => (
-		<View
-			style={[
-				styles.container,
-				{
-					height: screenHeight,
-					width: screenWidth,
-				},
-			]}>
-			<TouchableOpacity
-				style={[styles.backDrop, { height: screenHeight, width: screenWidth }]}
-				onPress={() => Toast.hide()}
-			/>
-			<Pressable style={styles.customErrorToast} onPress={() => Toast.hide()}>
-				<Entypo name="circle-with-cross" size={24} color="#fff" />
-				<View style={styles.textContainer}>
-					<Text style={styles.customTitle}>{props.text1}</Text>
-					{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
-				</View>
-			</Pressable>
+		<View style={styles.customErrorToast}>
+			<Entypo name="circle-with-cross" size={24} color="#fff" />
+			<View style={styles.textContainer}>
+				<Text style={styles.customTitle}>{props.text1}</Text>
+				{props.text2 && <Text style={styles.customMessage}>{props.text2}</Text>}
+			</View>
 		</View>
 	),
 	// Override other toast types as needed
@@ -106,6 +79,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		padding: 15,
 		flexDirection: "row",
+		position: "absolute",
 		alignSelf: "center",
 		alignItems: "center",
 		shadowColor: "#000",
