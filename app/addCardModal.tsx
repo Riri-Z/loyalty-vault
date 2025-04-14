@@ -193,6 +193,7 @@ export default function AddCardScreen() {
 								placeholderTextColor={textColor}
 								value={name}
 								onChangeText={setName}
+								onFocus={handleCloseBottomSheet}
 							/>
 						</View>
 
