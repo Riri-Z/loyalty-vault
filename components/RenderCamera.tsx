@@ -2,7 +2,7 @@ import { CameraType, CameraView } from "expo-camera";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
-import { Toast } from "toastify-react-native";
+import Toast from "react-native-toast-message";
 
 type Props = {
 	updateUri: (fileUri: string) => void;
@@ -21,7 +21,10 @@ export default function RenderCamera({ updateUri, closeCamera }: Props) {
 		if (photo?.uri) {
 			updateUri(photo?.uri);
 		} else {
-			Toast.error(t("cards.alert.errorCamera"));
+			Toast.show({
+				type: "error",
+				text1: t("cards.alert.errorCamera"),
+			});
 		}
 		closeCamera();
 	};

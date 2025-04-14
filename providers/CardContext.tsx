@@ -143,14 +143,12 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 			const res = await deleteAllCards();
 			if (res) {
 				setCards([]);
-				// Toast.success(t("cards.deleteAlert.success"));
 				return { success: true };
 			}
 			return { success: false };
 		} catch (error) {
 			console.error(error);
 			return { success: false };
-			// Toast.error(t("cards.deleteAlert.failed"));
 		}
 	}, []);
 

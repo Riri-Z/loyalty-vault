@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { ThemeProvider, useColor } from "@/providers/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BottomSheetProvider } from "@/providers/BottomSheetContext";
-import ToastManager from "toastify-react-native";
+import Toast from "react-native-toast-message";
 import { toastConfig } from "@/components/ui/CustomToast";
 
 export interface Card {
@@ -125,13 +125,7 @@ export default function RootLayout() {
 
 							<Stack.Screen name="+not-found" />
 						</Stack>
-						<ToastManager
-							config={toastConfig}
-							visibilityTime={1000}
-							showProgressBar={false}
-							showCloseIcon={true}
-							position="bottom"
-						/>
+						<Toast config={toastConfig} position="bottom" visibilityTime={4000} autoHide />
 					</BottomSheetProvider>
 				</CardProvider>
 			</SQLiteProvider>

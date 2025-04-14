@@ -12,7 +12,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CardContext } from "@/providers/CardContext";
-import { Toast } from "toastify-react-native";
+import Toast from "react-native-toast-message";
 import { AVAILABLE_LANGUAGES } from "@/constants/languages";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
 
@@ -33,9 +33,15 @@ export default function SettingsScreen() {
 		resetOnBoardingScreen();
 		const res = await clearDataCards();
 		if (res.success) {
-			Toast.success(t("cards.clearApp.success"));
+			Toast.show({
+				type: "success",
+				text1: t("cards.clearApp.success"),
+			});
 		} else {
-			Toast.success(t("cards.clearApp.failed"));
+			Toast.show({
+				type: "success",
+				text1: t("cards.clearApp.failed"),
+			});
 		}
 	}
 
@@ -88,9 +94,15 @@ export default function SettingsScreen() {
 		await Clipboard.setStringAsync(EMAIL_CONTACT);
 		const res = await Clipboard.hasStringAsync();
 		if (res) {
-			return Toast.success(t("settings.successCopy"));
+			Toast.show({
+				type: "success",
+				text1: t("settings.successCopy"),
+			});
 		} else {
-			return Toast.error(t("settings.failedCopy"));
+			Toast.show({
+				type: "error",
+				text1: t("settings.failedCopy"),
+			});
 		}
 	}
 

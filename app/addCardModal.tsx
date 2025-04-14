@@ -18,7 +18,7 @@ import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { CardContext } from "@/providers/CardContext";
-import { Toast } from "toastify-react-native";
+import Toast from "react-native-toast-message";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
 
 type ModalParamsType = {
@@ -66,7 +66,7 @@ export default function AddCardScreen() {
 		if (!result.canceled) {
 			setFile(result?.assets[0].uri);
 		} else if (!file) {
-			Toast.info(t("cards.alert.cancelCamera"));
+			Toast.show({ type: "error", text1: t("cards.alert.cancelCamera") });
 		}
 		handleCloseBottomSheet();
 	};
@@ -78,29 +78,50 @@ export default function AddCardScreen() {
 	async function handleSaveNewCard() {
 		try {
 			if (name.length <= 0 && !file) {
-				return Toast.error(t("cards.alert.NameAndFileMissing"));
+				return Toast.show({
+					type: "error",
+					text1: t("cards.alert.NameAndFileMissing"),
+				});
 			}
 
 			if (name.length <= 0) {
-				return Toast.error(t("cards.alert.missingName"));
+				return Toast.show({
+					type: "error",
+					text1: t("cards.alert.missingName"),
+				});
 			}
 			if (!file) {
-				return Toast.error(t("cards.alert.missingFile"));
+				return Toast.show({
+					type: "error",
+					text1: t("cards.alert.missingFile"),
+				});
 			}
 
 			if (idCard) {
 				const res = await updateCard({ id: +idCard, name, fileUri: file });
 				if (res.success) {
-					Toast.success(t("cards.addCardAlert.success"));
+					return Toast.show({
+						type: "success",
+						text1: t("cards.addCardAlert.success"),
+					});
 				} else {
-					Toast.success(t("cards.addCardAlert.failed"));
+					return Toast.show({
+						type: "success",
+						text1: t("cards.addCardAlert.failed"),
+					});
 				}
 			} else {
 				const res = await addCard({ name, fileUri: file });
 				if (res.success) {
-					Toast.success(t("cards.addCardAlert.success"));
+					Toast.show({
+						type: "success",
+						text1: t("cards.addCardAlert.success"),
+					});
 				} else {
-					Toast.success(t("cards.addCardAlert.failed"));
+					Toast.show({
+						type: "error",
+						text1: t("cards.addCardAlert.failed"),
+					});
 				}
 			}
 
@@ -108,7 +129,10 @@ export default function AddCardScreen() {
 			router.push("/(tabs)");
 		} catch (error) {
 			console.error(error);
-			Toast.error(t("cards.alert.errorCamera"));
+			Toast.show({
+				type: "error",
+				text1: t("cards.alert.errorCamera"),
+			});
 		}
 	}
 

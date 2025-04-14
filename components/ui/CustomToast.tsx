@@ -2,15 +2,11 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Entypo } from "@expo/vector-icons";
-
-type Props = {
-	text1: string;
-	text2?: string;
-};
+import { BaseToastProps } from "react-native-toast-message";
 
 // Custom toast configuration
 const toastConfig = {
-	success: (props: Props) => (
+	success: (props: BaseToastProps) => (
 		<View style={styles.customSuccessToast}>
 			<Icon name="check-circle" size={24} color="#fff" />
 			<View style={styles.textContainer}>
@@ -19,7 +15,7 @@ const toastConfig = {
 			</View>
 		</View>
 	),
-	error: (props: Props) => (
+	error: (props: BaseToastProps) => (
 		<View style={styles.customErrorToast}>
 			<Entypo name="circle-with-cross" size={24} color="#fff" />
 			<View style={styles.textContainer}>
@@ -34,13 +30,6 @@ const toastConfig = {
 export { toastConfig };
 
 const styles = StyleSheet.create({
-	container: {
-		justifyContent: "center",
-		alignContent: "center",
-	},
-	backDrop: {
-		opacity: 0.8,
-	},
 	textContainer: {
 		flex: 1,
 		marginLeft: 10,

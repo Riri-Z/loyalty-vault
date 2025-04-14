@@ -8,7 +8,7 @@ import { router } from "expo-router";
 import { useColor } from "@/providers/ThemeContext";
 import { useContext } from "react";
 import { CardContext } from "@/providers/CardContext";
-import { Toast } from "toastify-react-native";
+import Toast from "react-native-toast-message";
 import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated";
 
 type Props = {
@@ -26,9 +26,15 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 		try {
 			const res = await deleteCard(+id);
 			if (res.success) {
-				Toast.success(t("cards.deleteAlert.success"));
+				Toast.show({
+					type: "success",
+					text1: t("cards.deleteAlert.success"),
+				});
 			} else {
-				Toast.success(t("cards.deleteAlert.failed"));
+				Toast.show({
+					type: "success",
+					text1: t("cards.deleteAlert.failed"),
+				});
 			}
 		} catch (error) {
 			console.error("Delete failed", error);
