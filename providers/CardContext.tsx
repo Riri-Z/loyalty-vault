@@ -27,7 +27,8 @@ type CardContextType = {
 	clearDataCards: () => Promise<{
 		success: boolean;
 	}>;
-	searchValue: any;
+	searchValue: string | null;
+	handleClearSearchValue: () => void;
 	handleSearch: (value: string) => void;
 };
 
@@ -71,6 +72,11 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 		});
 
 		return () => listener.remove();
+	}, []);
+
+	const handleClearSearchValue = useCallback(async () => {
+		setSearchValue(null);
+		setCards(await getAllCards());
 	}, []);
 
 	const addCard = useCallback(async (card: AddCard) => {
@@ -161,9 +167,20 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 			updateCard,
 			handleSearch,
 			searchValue,
+			handleClearSearchValue,
 			loading,
 		};
-	}, [cards, addCard, deleteCard, clearDataCards, updateCard, handleSearch, searchValue, loading]);
+	}, [
+		cards,
+		addCard,
+		deleteCard,
+		clearDataCards,
+		updateCard,
+		handleSearch,
+		searchValue,
+		handleClearSearchValue,
+		loading,
+	]);
 
 	return <CardContext.Provider value={value}>{children}</CardContext.Provider>;
 };

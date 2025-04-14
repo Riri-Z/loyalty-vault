@@ -1,12 +1,12 @@
 import { CardContext } from "@/providers/CardContext";
 import { useColor } from "@/providers/ThemeContext";
-import { Ionicons } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function SearchCard() {
-	const { cards, handleSearch, searchValue } = useContext(CardContext);
+	const { cards, handleSearch, searchValue, handleClearSearchValue } = useContext(CardContext);
 	const { cardColor, textColor } = useColor();
 	const { t } = useTranslation();
 
@@ -18,9 +18,18 @@ export default function SearchCard() {
 					style={[styles.textInput, { color: textColor }]}
 					placeholder={t("cards.searchInput.placeHolderName")}
 					placeholderTextColor={textColor}
-					value={searchValue}
+					value={searchValue ?? ""}
 					onChangeText={handleSearch}
 				/>
+				{searchValue && searchValue.length > 0 && (
+					<Entypo
+						style={styles.delete}
+						name="circle-with-cross"
+						size={20}
+						color="red"
+						onPress={handleClearSearchValue}
+					/>
+				)}
 			</View>
 			{searchValue && searchValue.length > 0 && (
 				<Text style={{ color: textColor }}>
@@ -42,6 +51,9 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		marginRight: 8,
+	},
+	delete: {
+		marginLeft: "auto",
 	},
 	textInput: {
 		height: 40,
