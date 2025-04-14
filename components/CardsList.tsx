@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Text } from "react-native";
 import CardsInformation from "./CardsInformation";
 import { Card } from "@/types/Card";
 import CardViewer from "./CardViewer";
+import { useTranslation } from "react-i18next";
+import { useColor } from "@/providers/ThemeContext";
 
 export const CardsList = ({ cards }: { cards: Card[] }) => {
+	const { t } = useTranslation();
+
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
+	const { textColor } = useColor();
 
 	const onModalClose = () => {
 		setIsModalVisible(false);
@@ -19,7 +24,10 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 		setIsModalVisible(true);
 	}
 	return (
-		<View>
+		<View style={styles.container}>
+			<Text style={{ color: textColor }}>
+				{cards.length} {t("cards.searchInput.result")}
+			</Text>
 			{isModalVisible && card ? (
 				<CardViewer
 					isVisible={isModalVisible}
@@ -50,6 +58,9 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 };
 
 const styles = StyleSheet.create({
+	container: {
+		gap: 10,
+	},
 	list: {
 		gap: 16,
 	},

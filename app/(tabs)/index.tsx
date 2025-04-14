@@ -2,7 +2,7 @@ import { CardsList } from "@/components/CardsList";
 import { useContext, useEffect } from "react";
 import ViewContainer from "@/components/ui/ViewContainer";
 import AddCardButton from "@/components/ui/AddCardbutton";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import LottieView from "lottie-react-native";
 import { CardContext } from "@/providers/CardContext";
@@ -14,7 +14,7 @@ const creditCardLogo = require("../../assets/lottie/cards-animated.json");
 
 export default function Index() {
 	const { t } = useTranslation();
-	const { cards, searchValue } = useContext(CardContext);
+	const { cards, filteredCards, loading, searchValue } = useContext(CardContext);
 	const { isVisible, handleCloseBottomSheet } = useContext(BottomSheetContext);
 
 	const navigation = useNavigation();
@@ -37,10 +37,18 @@ export default function Index() {
 					<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
 				</View>
 			) : (
-				<View style={styles.cardsContainer}>
+				<>
 					<SearchCard />
-					<CardsList cards={cards} />
-				</View>
+					{loading ? (
+						<ActivityIndicator style={styles.loading} size="large" />
+					) : (
+						<View style={styles.cardsContainer}>
+							<CardsList
+								cards={searchValue && searchValue.trim().length > 0 ? filteredCards : cards}
+							/>
+						</View>
+					)}
+				</>
 			)}
 
 			<AddCardButton />
@@ -67,5 +75,8 @@ const styles = StyleSheet.create({
 		color: "gray",
 		textAlign: "center",
 	},
-	cardsContainer: { gap: 20 },
+	cardsContainer: { gap: 20, width: "100%" },
+	loading: {
+		margin: "auto",
+	},
 });

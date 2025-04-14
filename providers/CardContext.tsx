@@ -11,9 +11,12 @@ import {
 } from "./useDatabase";
 import { addDatabaseChangeListener } from "expo-sqlite";
 import { useDebounce } from "@/hooks/useDebounce";
+import Toast from "react-native-toast-message";
+import { useTranslation } from "react-i18next";
 
 type CardContextType = {
 	cards: Card[];
+	filteredCards: Card[];
 	loading: boolean;
 	addCard: (card: AddCard) => Promise<{
 		success: boolean;
@@ -35,21 +38,27 @@ type CardContextType = {
 const CardContext = createContext<CardContextType>({} as CardContextType);
 
 const CardProvider = ({ children }: { children: ReactNode }) => {
+	const { t } = useTranslation();
+
 	const [cards, setCards] = useState<Card[]>([] as Card[]);
+	const [filteredCards, setFilteredCards] = useState<Card[]>([] as Card[]);
 	const [loading, setLoading] = useState(false);
 	const [searchValue, setSearchValue] = useState<null | string>(null);
 
 	// Update context cards based on debounce searchValue
-	const filterCards = async (filter: string) => {
-		if (filter.length === 0) {
-			setCards(await getAllCards());
+	const handleFilterCards = useCallback((filterValue: string | null, cardsToFilter: Card[]) => {
+		if (!filterValue || filterValue.trim().length === 0) {
+			setFilteredCards(cardsToFilter);
 		} else {
-			const allCards = await getAllCards();
-			setCards(allCards.filter((card) => card.name.toUpperCase().includes(filter.toUpperCase())));
+			setFilteredCards((prev) => {
+				return cardsToFilter.filter((card) =>
+					card.name.toUpperCase().includes(filterValue.toUpperCase()),
+				);
+			});
 		}
-	};
+	}, []);
 
-	const debouncedOnChange = useDebounce(filterCards, 500);
+	const debouncedOnChange = useDebounce((filter: string) => handleFilterCards(filter, cards), 3000);
 
 	const handleSearch = useCallback(
 		(val: string) => {
@@ -59,11 +68,21 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 		[debouncedOnChange],
 	);
 
+	//  Allow to load displayed cards
 	useEffect(() => {
-		//  Allow to load displayed cards
 		async function loadCards() {
-			const cards = await getAllCards();
-			setCards(cards);
+			try {
+				const cards = await getAllCards();
+				setCards(cards);
+				setFilteredCards(cards);
+			} catch (error) {
+				if (error) {
+					Toast.show({
+						type: "error",
+						text1: t("database.errorLoadingCards"),
+					});
+				}
+			}
 		}
 		loadCards();
 
@@ -72,32 +91,43 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 		});
 
 		return () => listener.remove();
-	}, []);
+	}, [t]);
 
+	// Update filterCards when search or cards are modified
+	useEffect(() => {
+		handleFilterCards(searchValue, cards);
+	}, [cards, searchValue, handleFilterCards]);
+
+	// Clear search input, and resetCards
 	const handleClearSearchValue = useCallback(async () => {
 		setSearchValue(null);
-		setCards(await getAllCards());
-	}, []);
+		setFilteredCards(cards);
+	}, [cards]);
 
-	const addCard = useCallback(async (card: AddCard) => {
-		try {
-			const res = await insertOneCard({ ...card });
-			if (res?.lastInsertRowId) {
-				setCards((prev) => {
+	const addCard = useCallback(
+		async (card: AddCard) => {
+			setLoading(true);
+			try {
+				const res = await insertOneCard({ ...card });
+				if (res?.lastInsertRowId) {
 					const newCard: Card = { id: res.lastInsertRowId, ...card };
-					const cards = [...prev, newCard];
-					return cards;
-				});
-				return { success: true };
+					const newCards: Card[] = [...cards, newCard];
+					setCards(newCards);
+					return { success: true };
+				}
+				return { success: false };
+			} catch (error) {
+				console.error(error);
+				return { success: false };
+			} finally {
+				setLoading(false);
 			}
-			return { success: false };
-		} catch (error) {
-			console.error(error);
-			return { success: false };
-		}
-	}, []);
+		},
+		[cards],
+	);
 
 	const updateCard = useCallback(async ({ id, name, fileUri }: Card) => {
+		setLoading(true);
 		try {
 			// Update bdd
 			const res = await updateOne({ id, name, fileUri });
@@ -112,7 +142,6 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 					}
 					return currentCards;
 				});
-
 				return { success: true };
 			} else {
 				return { success: false };
@@ -120,16 +149,18 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 		} catch (error) {
 			console.error(error);
 			return { success: false };
+		} finally {
+			setLoading(false);
 		}
 	}, []);
 
 	const deleteCard = useCallback(async (id: number) => {
+		setLoading(true);
 		try {
-			setLoading(true);
 			const res = await deleteOneCard(id);
 			if (res.changes !== 0) {
 				setCards((prev) => {
-					const newCards = prev.filter((card) => card.id === id);
+					const newCards = prev.filter((card) => card.id !== id);
 					return newCards;
 				});
 				return { success: true };
@@ -149,6 +180,7 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 			const res = await deleteAllCards();
 			if (res) {
 				setCards([]);
+				setFilteredCards([]);
 				return { success: true };
 			}
 			return { success: false };
@@ -161,6 +193,7 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 	const value = useMemo(() => {
 		return {
 			cards,
+			filteredCards,
 			addCard,
 			deleteCard,
 			clearDataCards,
@@ -171,8 +204,9 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 			loading,
 		};
 	}, [
-		cards,
 		addCard,
+		cards,
+		filteredCards,
 		deleteCard,
 		clearDataCards,
 		updateCard,

@@ -100,12 +100,12 @@ export default function AddCardScreen() {
 			if (idCard) {
 				const res = await updateCard({ id: +idCard, name, fileUri: file });
 				if (res.success) {
-					return Toast.show({
+					Toast.show({
 						type: "success",
 						text1: t("cards.addCardAlert.success"),
 					});
 				} else {
-					return Toast.show({
+					Toast.show({
 						type: "success",
 						text1: t("cards.addCardAlert.failed"),
 					});

@@ -150,5 +150,8 @@
 			"title": "Your Data, Your Control",
 			"text": "We can't see your cards because they never leave your phone. Simple, secure, and completely private."
 		}
+	},
+	"database": {
+		"errorLoadingCards": "Error while loading cards"
 	}
 }

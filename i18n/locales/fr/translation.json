@@ -150,5 +150,8 @@
 			"title": "Vos données, votre contrôle",
 			"text": "Nous ne pouvons pas voir vos cartes car elles ne quittent jamais votre téléphone. Simple, sécurisé et totalement privé."
 		}
+	},
+	"database": {
+		"errorLoadingCards": "Impossible de charger les cartes."
 	}
 }
