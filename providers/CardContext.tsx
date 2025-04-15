@@ -13,6 +13,7 @@ import { addDatabaseChangeListener } from "expo-sqlite";
 import { useDebounce } from "@/hooks/useDebounce";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
+import { usePostHog } from "posthog-react-native";
 
 type CardContextType = {
 	cards: Card[];
@@ -39,6 +40,7 @@ const CardContext = createContext<CardContextType>({} as CardContextType);
 
 const CardProvider = ({ children }: { children: ReactNode }) => {
 	const { t } = useTranslation();
+	const posthog = usePostHog();
 
 	const [cards, setCards] = useState<Card[]>([] as Card[]);
 	const [filteredCards, setFilteredCards] = useState<Card[]>([] as Card[]);
@@ -60,6 +62,7 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 
 	const debouncedOnChange = useDebounce((filter: string) => handleFilterCards(filter, cards), 3000);
 
+	// Debounce search
 	const handleSearch = useCallback(
 		(val: string) => {
 			setSearchValue(val);
@@ -154,26 +157,32 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}, []);
 
-	const deleteCard = useCallback(async (id: number) => {
-		setLoading(true);
-		try {
-			const res = await deleteOneCard(id);
-			if (res.changes !== 0) {
-				setCards((prev) => {
-					const newCards = prev.filter((card) => card.id !== id);
-					return newCards;
-				});
-				return { success: true };
-			} else {
+	const deleteCard = useCallback(
+		async (id: number) => {
+			setLoading(true);
+			try {
+				const res = await deleteOneCard(id);
+				if (res.changes !== 0) {
+					setCards((prev) => {
+						const newCards = prev.filter((card) => card.id !== id);
+						return newCards;
+					});
+					posthog.capture("user_deleted_card", { success: true });
+					posthog.reset();
+					return { success: true };
+				} else {
+					posthog.capture("user_deleted_card", { success: false });
+					return { success: false };
+				}
+			} catch (error) {
+				console.error(error);
 				return { success: false };
+			} finally {
+				setLoading(false);
 			}
-		} catch (error) {
-			console.error(error);
-			return { success: false };
-		} finally {
-			setLoading(false);
-		}
-	}, []);
+		},
+		[posthog],
+	);
 
 	const clearDataCards = useCallback(async () => {
 		try {
@@ -183,12 +192,14 @@ const CardProvider = ({ children }: { children: ReactNode }) => {
 				setFilteredCards([]);
 				return { success: true };
 			}
+
+			posthog.capture("user_cleared_app", { success: true, toto: "test" });
 			return { success: false };
 		} catch (error) {
 			console.error(error);
 			return { success: false };
 		}
-	}, []);
+	}, [posthog]);
 
 	const value = useMemo(() => {
 		return {

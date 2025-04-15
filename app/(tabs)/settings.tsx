@@ -16,7 +16,7 @@ import Toast from "react-native-toast-message";
 import { AVAILABLE_LANGUAGES } from "@/constants/languages";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
 
-const EMAIL_CONTACT = "pygmalion.digitals@gmail.com"; // env
+const EMAIL_CONTACT = process.env.EXPO_PUBLIC_CONTACT;
 
 export default function SettingsScreen() {
 	const { danger, textColor } = useColor();
@@ -83,7 +83,7 @@ export default function SettingsScreen() {
 	async function handleOpenContact() {
 		return TwoButtonAlert({
 			title: "Contact",
-			content: "pygmalion.digitals@gmail.com",
+			content: `${process.env.EXPO_PUBLIC_CONTACT}`,
 			textCancel: t("cards.deleteAlert.cancel"),
 			textOk: t("settings.copy"),
 			handleOk: copyContactToClipBoard,
@@ -91,7 +91,7 @@ export default function SettingsScreen() {
 	}
 
 	async function copyContactToClipBoard() {
-		await Clipboard.setStringAsync(EMAIL_CONTACT);
+		await Clipboard.setStringAsync(EMAIL_CONTACT ?? "");
 		const res = await Clipboard.hasStringAsync();
 		if (res) {
 			Toast.show({

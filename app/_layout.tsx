@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BottomSheetProvider } from "@/providers/BottomSheetContext";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/components/ui/CustomToast";
+import { PostHogProvider } from "posthog-react-native";
 
 export interface Card {
 	id: number;
@@ -45,90 +46,99 @@ export default function RootLayout() {
 		getThemeStorage();
 	}, []);
 
-	return (
-		<ThemeProvider>
-			<SQLiteProvider databaseName="db" onInit={createDb}>
-				<CardProvider>
-					{/* Allow bottomSheet to be in front of tabs */}
-					<BottomSheetProvider>
-						<Stack
-							screenOptions={{
-								headerShown: false, // Hide headers for all screens by default
-							}}>
-							<Stack.Screen
-								name="(tabs)"
-								options={{
-									headerShown: false,
-									gestureEnabled: true, // Disable swipe gestures for tab screens
-								}}
-							/>
-							<Stack.Screen
-								name="addCardModal"
-								options={{
-									presentation: "modal",
-									headerStyle: {
-										backgroundColor: bgColor,
-									},
-								}}
-							/>
-							<Stack.Screen
-								name="CGU"
-								options={{
-									title: t("terms.title"),
-									headerShown: true,
-									headerStyle: {
-										backgroundColor: bgColor,
-									},
-									headerTitleStyle: {
-										color: textColor,
-										fontSize: 24,
-									},
-									headerTintColor: textColor,
-									headerBackButtonDisplayMode: "generic",
-									gestureEnabled: true,
-								}}
-							/>
-							<Stack.Screen
-								name="PrivacyPolicy"
-								options={{
-									title: t("privacyPolicy.title"),
-									headerShown: true,
-									headerStyle: {
-										backgroundColor: bgColor,
-									},
-									headerTitleStyle: {
-										color: textColor,
-										fontSize: 24,
-									},
-									headerTintColor: textColor,
-									headerBackButtonDisplayMode: "generic",
-									gestureEnabled: true,
-								}}
-							/>
-							<Stack.Screen
-								name="OnBoardingScreen"
-								options={{
-									title: "OnBoardingScreen",
-									headerShown: false,
-									headerStyle: {
-										backgroundColor: bgColor,
-									},
-									headerTitleStyle: {
-										color: textColor,
-										fontSize: 24,
-									},
-									headerTintColor: textColor,
-									headerBackButtonDisplayMode: "generic",
-									gestureEnabled: true,
-								}}
-							/>
+	const postHogApiKey = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
-							<Stack.Screen name="+not-found" />
-						</Stack>
-						<Toast config={toastConfig} position="bottom" visibilityTime={4000} autoHide />
-					</BottomSheetProvider>
-				</CardProvider>
-			</SQLiteProvider>
-		</ThemeProvider>
+	return (
+		<PostHogProvider
+			apiKey={postHogApiKey}
+			autocapture={true}
+			options={{
+				host: process.env.EXPO_PUBLIC_POSTHOG_HOST,
+			}}>
+			<ThemeProvider>
+				<SQLiteProvider databaseName="db" onInit={createDb}>
+					<CardProvider>
+						{/* Allow bottomSheet to be in front of tabs */}
+						<BottomSheetProvider>
+							<Stack
+								screenOptions={{
+									headerShown: false, // Hide headers for all screens by default
+								}}>
+								<Stack.Screen
+									name="(tabs)"
+									options={{
+										headerShown: false,
+										gestureEnabled: true, // Disable swipe gestures for tab screens
+									}}
+								/>
+								<Stack.Screen
+									name="addCardModal"
+									options={{
+										presentation: "modal",
+										headerStyle: {
+											backgroundColor: bgColor,
+										},
+									}}
+								/>
+								<Stack.Screen
+									name="CGU"
+									options={{
+										title: t("terms.title"),
+										headerShown: true,
+										headerStyle: {
+											backgroundColor: bgColor,
+										},
+										headerTitleStyle: {
+											color: textColor,
+											fontSize: 24,
+										},
+										headerTintColor: textColor,
+										headerBackButtonDisplayMode: "generic",
+										gestureEnabled: true,
+									}}
+								/>
+								<Stack.Screen
+									name="PrivacyPolicy"
+									options={{
+										title: t("privacyPolicy.title"),
+										headerShown: true,
+										headerStyle: {
+											backgroundColor: bgColor,
+										},
+										headerTitleStyle: {
+											color: textColor,
+											fontSize: 24,
+										},
+										headerTintColor: textColor,
+										headerBackButtonDisplayMode: "generic",
+										gestureEnabled: true,
+									}}
+								/>
+								<Stack.Screen
+									name="OnBoardingScreen"
+									options={{
+										title: "OnBoardingScreen",
+										headerShown: false,
+										headerStyle: {
+											backgroundColor: bgColor,
+										},
+										headerTitleStyle: {
+											color: textColor,
+											fontSize: 24,
+										},
+										headerTintColor: textColor,
+										headerBackButtonDisplayMode: "generic",
+										gestureEnabled: true,
+									}}
+								/>
+
+								<Stack.Screen name="+not-found" />
+							</Stack>
+							<Toast config={toastConfig} position="bottom" visibilityTime={4000} autoHide />
+						</BottomSheetProvider>
+					</CardProvider>
+				</SQLiteProvider>
+			</ThemeProvider>
+		</PostHogProvider>
 	);
 }

@@ -20,6 +20,7 @@ import BottomSheet from "@/components/ui/BottomSheet";
 import { CardContext } from "@/providers/CardContext";
 import Toast from "react-native-toast-message";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
+import { usePostHog } from "posthog-react-native";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -33,6 +34,7 @@ export default function AddCardScreen() {
 	const { handleUpdateActions, isVisible, actions, handleCloseBottomSheet } =
 		useContext(BottomSheetContext);
 	const { textColor, bgColor } = useColor();
+	const posthog = usePostHog();
 
 	/* State */
 	const [name, setName] = useState("");
@@ -104,11 +106,13 @@ export default function AddCardScreen() {
 						type: "success",
 						text1: t("cards.addCardAlert.success"),
 					});
+					posthog.capture("success updating new card");
 				} else {
 					Toast.show({
-						type: "success",
+						type: "error",
 						text1: t("cards.addCardAlert.failed"),
 					});
+					posthog.capture("Failed updating new card");
 				}
 			} else {
 				const res = await addCard({ name, fileUri: file });
@@ -117,11 +121,13 @@ export default function AddCardScreen() {
 						type: "success",
 						text1: t("cards.addCardAlert.success"),
 					});
+					posthog.capture("success adding new card");
 				} else {
 					Toast.show({
 						type: "error",
 						text1: t("cards.addCardAlert.failed"),
 					});
+					posthog.capture("Failed adding new card");
 				}
 			}
 

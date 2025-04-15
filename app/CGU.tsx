@@ -7,6 +7,8 @@ export default function CGU() {
 	const { t } = useTranslation();
 	const { textColor, bgColor } = useColor();
 
+	const EMAIL_CONTACT = process.env.EXPO_PUBLIC_CONTACT;
+
 	return (
 		<ScrollView style={{ backgroundColor: bgColor }}>
 			<ViewContainer>
@@ -29,7 +31,9 @@ export default function CGU() {
 				<Text style={[styles.title, { color: textColor }]}>{t("terms.section7Title")}</Text>
 				<Text style={[styles.text, { color: textColor }]}>{t("terms.section7Text")}</Text>
 				<Text style={[styles.title, { color: textColor }]}>{t("terms.section8Title")}</Text>
-				<Text style={[styles.text, { color: textColor }]}>{t("terms.section8Text")}</Text>
+				<Text style={[styles.text, { color: textColor }]}>
+					{t("terms.section8Text")} {EMAIL_CONTACT}
+				</Text>
 			</ViewContainer>
 		</ScrollView>
 	);

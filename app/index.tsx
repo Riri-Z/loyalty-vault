@@ -4,11 +4,16 @@ import Loading from "@/components/ui/Loading";
 import { useColor } from "@/providers/ThemeContext";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { usePostHog } from "posthog-react-native";
 
 export default function HomeScreen() {
 	const router = useRouter();
-
+	const posthog = usePostHog();
 	const { bgColor, isDarkModeOn } = useColor();
+
+	useEffect(() => {
+		posthog.capture("Started onboarding");
+	}, [posthog]);
 
 	useEffect(() => {
 		async function getFirstLaunch() {
@@ -16,6 +21,8 @@ export default function HomeScreen() {
 				// Check if it is user's first connexion
 				const onBoardingSteps = await AsyncStorage.getItem("onBoardingSteps");
 				if (onBoardingSteps) {
+					posthog.capture("Navigate to main application");
+
 					router.replace("/(tabs)");
 				} else {
 					router.replace("/OnBoardingScreen");
@@ -25,7 +32,7 @@ export default function HomeScreen() {
 			}
 		}
 		getFirstLaunch();
-	}, [router]);
+	}, [router, posthog]);
 
 	return (
 		<>

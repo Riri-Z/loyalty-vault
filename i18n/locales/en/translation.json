@@ -43,7 +43,10 @@
 		"section3Text": "All data, including photos taken with the camera, is stored locally on your device. No information is sent to external servers.",
 
 		"section4Title": "4. Your Rights",
-		"section4Text": "You can revoke access to the camera at any time through your device settings."
+		"section4Text": "You can revoke access to the camera at any time through your device settings.",
+
+		"section5Title": "5. Analytics & Tracking",
+		"section5Text": "We use a third-party analytics service called PostHog to understand how users interact with the app. This helps us improve features and usability. The data we collect in this way is strictly limited to usage events (e.g., which screens are viewed, when a loyalty card is deleted), and does not include personal or identifying information. No photos, names, or any private content are ever sent to PostHog. By using the app, you acknowledge that certain anonymous usage data may be collected and processed to enhance the app's functionality."
 	},
 
 	"terms": {
@@ -58,7 +61,7 @@
 		"section2Text": "The App is available for free on official app stores (Google Play, App Store). No account is required to use it. Access may be temporarily suspended for maintenance, updates, or technical issues.",
 
 		"section3Title": "3. Personal Data & Privacy",
-		"section3Text": "Loyalty Vault does not collect or transmit any data to external servers. All information (photos, cards, preferences) is stored locally on your device. The App may request access to features (like the camera) only with your permission. A full privacy policy is available within the app settings.",
+		"section3Text": "Loyalty Vault does not collect or transmit any data to external servers for personal identification. All information (photos, cards, preferences) is stored locally on your device. The App may request access to features (like the camera) only with your permission. A full privacy policy is available within the app settings. Additionally, the App uses PostHog to collect non-personal usage events (e.g., user actions) solely for analytics and improvement purposes, without storing any personally identifiable data.",
 
 		"section4Title": "4. Intellectual Property",
 		"section4Text": "All elements of the App (name, logo, interface, texts) are protected by intellectual property laws. Unauthorized use or reproduction is strictly prohibited.",
