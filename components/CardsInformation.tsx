@@ -86,11 +86,9 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 					{/* Preview */}
 					<View style={styles.container}>
 						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
-						<Image style={styles.image} source={fileUri} contentFit="cover" transition={1000} />
+						<Image style={styles.image} source={fileUri} contentFit="cover" />
 					</View>
-					<Text style={[styles.textButton, { color: textColor, marginVertical: 10 }]}>
-						{t("cards.cta.tapToView")}
-					</Text>
+					<Text style={[styles.textButton, { color: textColor }]}>{t("cards.cta.tapToView")}</Text>
 				</Pressable>
 			</CardContainer>
 		</Animated.View>

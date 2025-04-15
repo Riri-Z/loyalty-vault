@@ -62,7 +62,7 @@ export default function AddCardScreen() {
 	const pickFile = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ["images"],
-			allowsEditing: false,
+			allowsEditing: true,
 			quality: 1,
 		});
 		if (!result.canceled) {

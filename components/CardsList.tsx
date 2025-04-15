@@ -60,6 +60,7 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 const styles = StyleSheet.create({
 	container: {
 		gap: 10,
+		paddingBottom: 100,
 	},
 	list: {
 		gap: 16,
