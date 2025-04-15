@@ -16,7 +16,7 @@
 		"light": "Clair",
 		"dark": "Sombre",
 		"contactUs": "Nous contacter",
-		"personnalisation": "Personnalisation",
+		"personalization": "Personnalisation",
 		"copy": "Copier",
 		"successCopy": "Copié dans le presse-papiers",
 		"failedCopy": "Échec de la copie",
@@ -73,7 +73,7 @@
 		"section7Text": "Ces Conditions peuvent être modifiées à tout moment. Les utilisateurs seront informés des mises à jour via l'Application.",
 
 		"section8Title": "8. Contact",
-		"section8Text": "Pour toute question ou retour, contactez-nous à : pygmalion.digitals@gmail.com"
+		"section8Text": "Pour toute question ou retour, contactez-nous à :"
 	},
 	"home": {
 		"title": "Cartes disponibles",
