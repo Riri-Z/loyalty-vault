@@ -4,7 +4,7 @@
 		"slug": "loyaltyvault",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/icon.png",
+		"icon": "./assets/icons/icon.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
@@ -13,8 +13,11 @@
 		},
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/images/adaptive-icon.png",
-				"backgroundColor": "#ffffff"
+				"foregroundImage": "./assets/icons/adaptive-icon.png",
+				"backgroundColor": "#ffffff",
+				"dark": {
+					"backgroundColor": "#000000"
+				}
 			},
 			"package": "com.zeto.LoyaltyVault",
 			"permissions": ["android.permission.RECORD_AUDIO", "android.permission.CAMERA"]
@@ -29,10 +32,16 @@
 			[
 				"expo-splash-screen",
 				{
-					"image": "./assets/images/splash-icon.png",
+					"image": "./assets/icons/splash-icon.png",
 					"imageWidth": 200,
 					"resizeMode": "contain",
-					"backgroundColor": "#ffffff"
+					"backgroundColor": "#ffffff",
+					"dark": {
+						"image": "./assets/icons/splash-icon.png",
+						"resizeMode": "contain",
+						"imageWidth": 200,
+						"backgroundColor": "#000000"
+					}
 				}
 			],
 			"expo-localization",

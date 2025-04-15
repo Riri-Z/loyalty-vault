@@ -92,7 +92,7 @@
 		"pictureLabel": "Add an image",
 		"noPicture": "No image selected",
 		"importFile": "Import file",
-		"placeHolderName": "E.g.: Amazon, subway...",
+		"placeHolderName": "E.g.: McDonalds, subway...",
 		"editCard": "Edit a card",
 		"addCard": "Add a new card",
 		"searchInput": {
@@ -142,15 +142,15 @@
 		"next": "Next",
 		"end": "Get Started",
 		"screen1": {
-			"title": "Never Miss Rewards Again",
+			"title": "Never miss rewards again",
 			"text": "All your loyalty cards in one app. No more searching, no more forgetting."
 		},
 		"screen2": {
-			"title": "No Connection? No Problem",
+			"title": "No connection? No problem",
 			"text": "No need for 4G or Wi-Fi.\nAccess your cards anytime, anywhere."
 		},
 		"screen3": {
-			"title": "Your Data, Your Control",
+			"title": "Your data, Your control",
 			"text": "We can't see your cards because they never leave your phone. Simple, secure, and completely private."
 		}
 	},
