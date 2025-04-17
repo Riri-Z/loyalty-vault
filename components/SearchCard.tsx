@@ -7,7 +7,7 @@ import { StyleSheet, TextInput, View } from "react-native";
 
 export default function SearchCard() {
 	const { handleSearch, searchValue, handleClearSearchValue } = useContext(CardContext);
-	const { cardColor, textColor } = useColor();
+	const { cardColor, textColor, danger } = useColor();
 	const { t } = useTranslation();
 
 	return (
@@ -25,7 +25,7 @@ export default function SearchCard() {
 					style={styles.delete}
 					name="circle-with-cross"
 					size={20}
-					color="red"
+					color={danger}
 					onPress={handleClearSearchValue}
 				/>
 			)}

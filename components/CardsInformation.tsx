@@ -20,7 +20,7 @@ type Props = {
 export default function CardsInformation({ id, name, fileUri, openCardDetail }: Props) {
 	const { t } = useTranslation();
 	const { deleteCard } = useContext(CardContext);
-	const { textColor, secondaryColor } = useColor();
+	const { textColor, secondaryColor, danger } = useColor();
 
 	async function handleDeleteFile() {
 		try {
@@ -72,7 +72,7 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 						<Text style={[styles.textButton]}>{t("cards.cta.edit")}</Text>
 					</Pressable>
 					<Pressable onPress={handleopenAlertdelete}>
-						<Entypo name="circle-with-cross" size={30} color="red" />
+						<Entypo name="circle-with-cross" size={30} color={danger} />
 					</Pressable>
 				</View>
 				<Pressable style={styles.container} onPress={openCardDetail}>

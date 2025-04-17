@@ -23,7 +23,7 @@ const COLOR_PALETTE = {
 	dark: {
 		textColor: "#F2F3F4",
 		secondaryColor: "#4CAF50",
-		danger: "#D32F2F",
+		danger: "#C70000",
 		bgColor: "#1A1A1A",
 		cardColor: "#3b3939",
 		tabIconColor: "white",

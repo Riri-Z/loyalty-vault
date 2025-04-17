@@ -33,7 +33,7 @@ export default function AddCardScreen() {
 	const { updateCard, addCard } = useContext(CardContext);
 	const { handleUpdateActions, isVisible, actions, handleCloseBottomSheet } =
 		useContext(BottomSheetContext);
-	const { textColor, bgColor } = useColor();
+	const { textColor, bgColor, danger } = useColor();
 	const posthog = usePostHog();
 
 	/* State */
@@ -208,7 +208,7 @@ export default function AddCardScreen() {
 							<View style={{ width: "100%", position: "relative" }}>
 								<Image source={{ uri: file }} style={styles.imagePreview} />
 								<Pressable style={{ position: "absolute", right: 5 }} onPress={handleDeleteFile}>
-									<Entypo name="circle-with-cross" size={24} color="red" />
+									<Entypo name="circle-with-cross" size={24} color={danger} />
 								</Pressable>
 							</View>
 						) : (

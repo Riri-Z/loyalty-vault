@@ -9,7 +9,7 @@ export default function ThemePicker() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.label, { color: textColor }]}>{t("settings.appearance")} </Text>
+			<Text style={[styles.label, { color: textColor }]}>{t("settings.personalization")} </Text>
 			<View style={styles.switchContainer}>
 				<Fontisto
 					style={[styles.content]}
