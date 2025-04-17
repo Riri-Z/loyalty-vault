@@ -1,33 +1,42 @@
 import React, { useState } from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Text } from "react-native";
 import CardsInformation from "./CardsInformation";
 import { Card } from "@/types/Card";
 import CardViewer from "./CardViewer";
+import { useTranslation } from "react-i18next";
+import { useColor } from "@/providers/ThemeContext";
 
 export const CardsList = ({ cards }: { cards: Card[] }) => {
+	const { t } = useTranslation();
+
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [card, setCard] = useState<Card | null>(null);
+	const { textColor } = useColor();
 
 	const onModalClose = () => {
 		setIsModalVisible(false);
 		setCard(null);
 	};
 
+	// Open cardViewer
 	function handleSelectedCard(card: Card) {
 		setCard(card);
 		setIsModalVisible(true);
 	}
 	return (
-		<View>
+		<View style={styles.container}>
+			<Text style={{ color: textColor }}>
+				{cards.length} {t("cards.searchInput.result")}
+			</Text>
 			{isModalVisible && card ? (
 				<CardViewer
 					isVisible={isModalVisible}
 					name={card.name}
-					src={card.uri}
+					src={card.fileUri}
 					onClose={onModalClose}></CardViewer>
 			) : (
 				<FlatList
-					style={styles.list}
+					contentContainerStyle={styles.list}
 					data={cards}
 					showsVerticalScrollIndicator={false}
 					keyExtractor={(item) => item.id.toString()}
@@ -36,7 +45,7 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 							<CardsInformation
 								id={item.id}
 								name={item.name}
-								uri={item.uri}
+								fileUri={item.fileUri}
 								openCardDetail={() => handleSelectedCard(item)}
 							/>
 						);
@@ -49,14 +58,11 @@ export const CardsList = ({ cards }: { cards: Card[] }) => {
 };
 
 const styles = StyleSheet.create({
-	text: {
-		margin: "auto",
-		fontSize: 24,
-		fontWeight: "bold",
-		marginBottom: 10,
+	container: {
+		gap: 10,
+		paddingBottom: 100,
 	},
-	emptyText: {},
 	list: {
-		gap: 20,
+		gap: 16,
 	},
 });

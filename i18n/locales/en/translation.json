@@ -11,23 +11,26 @@
 		"settings": "Settings"
 	},
 	"settings": {
-		"language": "Languages",
-		"apparences": "Appearance",
+		"language": "Language",
+		"appearance": "Appearance",
 		"light": "Light",
 		"dark": "Dark",
 		"contactUs": "Contact us",
+		"personalization": "Personalization",
 		"copy": "Copy",
+		"successCopy": "Copied to clipboard",
+		"failedCopy": "Failed to copy to clipboard",
 		"privacyPolicy": "Privacy policy",
 		"cgu": "Terms of Service",
 		"cleanData": {
 			"button": "Clear all my data",
-			"confirmationTitle": "Reset app ?",
-			"confirmationContent": "The following action will delete all your data"
+			"confirmationTitle": "Reset application ?",
+			"confirmationContent": "This action will delete all your data"
 		}
 	},
 	"privacyPolicy": {
 		"title": "Privacy Policy",
-		"lastUpdate": "Last updated : ",
+		"lastUpdate": "Last updated: ",
 		"welcome": "Welcome to Loyalty Vault. We highly value your privacy. This privacy policy explains what information we collect, how we use it, and how we protect it.",
 
 		"section1Title": "1. Collected Information",
@@ -40,13 +43,16 @@
 		"section3Text": "All data, including photos taken with the camera, is stored locally on your device. No information is sent to external servers.",
 
 		"section4Title": "4. Your Rights",
-		"section4Text": "You can revoke access to the camera at any time through your device settings."
+		"section4Text": "You can revoke access to the camera at any time through your device settings.",
+
+		"section5Title": "5. Analytics & Tracking",
+		"section5Text": "We use a third-party analytics service called PostHog to understand how users interact with the app. This helps us improve features and usability. The data we collect in this way is strictly limited to usage events (e.g., which screens are viewed, when a loyalty card is deleted), and does not include personal or identifying information. No photos, names, or any private content are ever sent to PostHog. By using the app, you acknowledge that certain anonymous usage data may be collected and processed to enhance the app's functionality."
 	},
 
 	"terms": {
 		"title": "Terms of Use",
-		"lastUpdate": "Last updated : ",
-		"intro": "These Terms of Use (“Terms”) govern the use of the mobile application Loyalty Vault (hereinafter “the App”). By downloading or using the App, you agree to be bound by these Terms without reservation.",
+		"lastUpdate": "Last updated: ",
+		"intro": "These Terms of Use ('Terms') govern the use of the mobile application Loyalty Vault (hereinafter 'the App'). By downloading or using the App, you agree to be bound by these Terms without reservation.",
 
 		"section1Title": "1. Purpose of the App",
 		"section1Text": "Loyalty Vault allows users to save and view their loyalty cards digitally, directly on their mobile device, including offline.",
@@ -55,13 +61,13 @@
 		"section2Text": "The App is available for free on official app stores (Google Play, App Store). No account is required to use it. Access may be temporarily suspended for maintenance, updates, or technical issues.",
 
 		"section3Title": "3. Personal Data & Privacy",
-		"section3Text": "Loyalty Vault does not collect or transmit any data to external servers. All information (photos, cards, preferences) is stored locally on your device. The App may request access to features (like the camera) only with your permission. A full privacy policy is available within the app settings.",
+		"section3Text": "Loyalty Vault does not collect or transmit any data to external servers for personal identification. All information (photos, cards, preferences) is stored locally on your device. The App may request access to features (like the camera) only with your permission. A full privacy policy is available within the app settings. Additionally, the App uses PostHog to collect non-personal usage events (e.g., user actions) solely for analytics and improvement purposes, without storing any personally identifiable data.",
 
 		"section4Title": "4. Intellectual Property",
 		"section4Text": "All elements of the App (name, logo, interface, texts) are protected by intellectual property laws. Unauthorized use or reproduction is strictly prohibited.",
 
 		"section5Title": "5. Liability",
-		"section5Text": "The app’s publisher cannot be held responsible for the loss of locally stored data. The user is responsible for the proper use of the App and the management of their data.",
+		"section5Text": "The app's publisher cannot be held responsible for the loss of locally stored data. The user is responsible for the proper use of the App and the management of their data.",
 
 		"section6Title": "6. Data Deletion",
 		"section6Text": "The user can delete all stored data at any time through the designated option in the app settings.",
@@ -70,7 +76,7 @@
 		"section7Text": "These Terms may be modified at any time. Users will be notified of updates via the App.",
 
 		"section8Title": "8. Contact",
-		"section8Text": "For any questions or feedback, contact us at : pygmalion.digitals@gmail.com"
+		"section8Text": "For any questions or feedback, contact us at:"
 	},
 	"home": {
 		"title": "Available cards",
@@ -79,17 +85,23 @@
 	},
 	"cards": {
 		"name": "Name",
-		"uri": "Path",
-		"file": "file",
+		"fileUri": "Path",
+		"file": "File",
 		"preview": "Preview",
 		"cardName": "Card name",
 		"pictureLabel": "Add an image",
 		"noPicture": "No image selected",
 		"importFile": "Import file",
-		"placeHolderName": "Eg: Amazon, metro...",
-		"addCard": "Add a card",
+		"placeHolderName": "E.g.: McDonalds, subway...",
+		"editCard": "Edit a card",
+		"addCard": "Add a new card",
+		"searchInput": {
+			"placeHolderName": "Filter..",
+			"result": "Result(s)"
+		},
 		"cta": {
-			"tapToView": "Tap to view your card",
+			"tapToView": "Tap to view details",
+			"edit": "Edit",
 			"selectFile": "Select a file",
 			"openCamera": "Open camera",
 			"title": "Select an option",
@@ -97,19 +109,52 @@
 			"open": "Open",
 			"delete": "Delete",
 			"save": "Save",
-			"registerFirstCard": "Add your first card by clicking on + !"
+			"registerFirstCard": "Register your first card by clicking on + !"
 		},
 		"alert": {
-			"missingName": "Name required",
-			"missingFile": "File required",
-			"NameAndFileMissing": "Name and file are required"
+			"errorCamera": "Oops! something went wrong",
+			"cancelCamera": "No image selected",
+			"missingName": "Name is required",
+			"missingFile": "File is required",
+			"NameAndFileMissing": "Both name and file are required"
 		},
 		"deleteAlert": {
-			"title": "Delete the following card",
-			"success": "Successfull delete",
-			"failed": "Failed",
+			"title": "Are you sure you want to delete this card ?",
+			"success": "Card deleted successfully",
+			"failed": "Failed to delete card",
 			"cancel": "Cancel",
 			"ok": "OK"
+		},
+		"clearApp": {
+			"success": "Data has been successfully wiped",
+			"failed": "Failed to wipe data"
+		},
+		"addCardAlert": {
+			"success": "Your card has been added successfully !",
+			"failed": "Couldn’t add your card"
+		},
+		"updateAlert": {
+			"success": "Card updated successfully",
+			"failed": "Failed to update card"
 		}
+	},
+	"onBoarding": {
+		"next": "Next",
+		"end": "Get Started",
+		"screen1": {
+			"title": "Never miss rewards again",
+			"text": "All your loyalty cards in one app. No more searching, no more forgetting."
+		},
+		"screen2": {
+			"title": "No connection? No problem",
+			"text": "No need for 4G or Wi-Fi.\nAccess your cards anytime, anywhere."
+		},
+		"screen3": {
+			"title": "Your data, Your control",
+			"text": "We can't see your cards because they never leave your phone. Simple, secure, and completely private."
+		}
+	},
+	"database": {
+		"errorLoadingCards": "Error while loading cards"
 	}
 }

@@ -1,40 +1,36 @@
-import { useEffect, useState } from "react";
-import { View, Text, Switch, useColorScheme, Appearance, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text, Switch, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeContext";
+import { Fontisto, Octicons } from "@expo/vector-icons";
 
 export default function ThemePicker() {
 	const { t } = useTranslation();
-	const { textColor } = useColor();
-
-	const colorScheme = useColorScheme();
-	const [isDarkModeOn, setIsDarkModeOn] = useState(colorScheme === "dark");
-
-	const toggleSwitch = (activateDarkMode: boolean) => {
-		Appearance.setColorScheme(activateDarkMode ? "dark" : "light");
-		setIsDarkModeOn((prev) => !prev);
-	};
-
-	// Save to storage
-	useEffect(() => {
-		AsyncStorage.setItem("theme", colorScheme ?? "light");
-	}, [colorScheme]);
+	const { textColor, isDarkModeOn, toggleTheme } = useColor();
 
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.label, { color: textColor }]}>{t("settings.apparences")} </Text>
+			<Text style={[styles.label, { color: textColor }]}>{t("settings.personalization")} </Text>
 			<View style={styles.switchContainer}>
-				<Text style={[styles.content, { color: textColor }]}>{t("settings.light")}</Text>
+				<Fontisto
+					style={[styles.content]}
+					name="day-sunny"
+					size={18}
+					color={isDarkModeOn ? "white" : "black"}
+				/>
 				<Switch
 					style={styles.switch}
 					trackColor={{ false: "#", true: "#81b0ff" }}
-					thumbColor="#339c3a"
+					thumbColor={isDarkModeOn ? "black" : "yellow"}
 					ios_backgroundColor="#3e3e3e"
-					onValueChange={toggleSwitch}
+					onValueChange={toggleTheme}
 					value={isDarkModeOn}
 				/>
-				<Text style={[styles.content, { color: textColor }]}>{t("settings.dark")}</Text>
+				<Octicons
+					style={[styles.content]}
+					name="moon"
+					size={18}
+					color={isDarkModeOn ? "white" : "black"}
+				/>
 			</View>
 		</View>
 	);
@@ -42,21 +38,30 @@ export default function ThemePicker() {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
 		justifyContent: "space-between",
+		flexDirection: "row",
 	},
 	switchContainer: {
 		flexDirection: "row",
+		alignContent: "center",
+		justifyContent: "center",
 	},
-
 	label: {
-		fontWeight: 600,
+		fontSize: 16,
+		alignSelf: "center",
 	},
 	content: {
 		alignSelf: "center",
 		fontWeight: 400,
 	},
 	switch: {
-		marginHorizontal: 5,
+		marginHorizontal: 1,
+		alignSelf: "flex-start",
+	},
+	pressable: {
+		marginBottom: 5,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "flex-start",
 	},
 });

@@ -1,49 +1,54 @@
 import { CardsList } from "@/components/CardsList";
-import { useEffect, useState } from "react";
-import { getAllCards } from "@/providers/useDatabase";
-import { Card } from "@/types/Card";
-import { addDatabaseChangeListener } from "expo-sqlite";
+import { useContext, useEffect } from "react";
 import ViewContainer from "@/components/ui/ViewContainer";
 import AddCardButton from "@/components/ui/AddCardbutton";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { Image } from "expo-image";
+import LottieView from "lottie-react-native";
+import { CardContext } from "@/providers/CardContext";
+import { useNavigation } from "expo-router";
+import { BottomSheetContext } from "@/providers/BottomSheetContext";
+import SearchCard from "@/components/SearchCard";
 
-const creditCardLogo = require("../../assets/images/credit-card.svg");
+const creditCardLogo = require("../../assets/lottie/cards-animated.json");
 
 export default function Index() {
 	const { t } = useTranslation();
+	const { cards, filteredCards, loading, searchValue } = useContext(CardContext);
+	const { isVisible, handleCloseBottomSheet } = useContext(BottomSheetContext);
 
-	const [cards, setCards] = useState<Card[]>([]);
+	const navigation = useNavigation();
+
 	useEffect(() => {
-		//  Allow to load displayed cards
-		async function loadCards() {
-			const cards = await getAllCards();
-			setCards(cards);
-		}
-		loadCards();
-
-		const listener = addDatabaseChangeListener(() => {
-			loadCards(); // Reload cards
+		const unsubscribe = navigation.addListener("focus", (e) => {
+			if (isVisible) {
+				handleCloseBottomSheet();
+			}
 		});
 
-		return () => listener.remove();
-	}, []);
+		return unsubscribe;
+	}, [navigation, isVisible, handleCloseBottomSheet]);
 
 	return (
 		<ViewContainer>
-			{cards.length === 0 ? (
+			{Array.isArray(cards) && cards.length === 0 && searchValue === null ? (
 				<View style={styles.container}>
-					<Image
-						style={styles.image}
-						contentFit="contain"
-						source={creditCardLogo}
-						alt="credit card"
-					/>
+					<LottieView source={creditCardLogo} style={styles.image} autoPlay loop />
 					<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
 				</View>
 			) : (
-				<CardsList cards={cards}></CardsList>
+				<>
+					<SearchCard />
+					{loading ? (
+						<ActivityIndicator style={styles.loading} size="large" />
+					) : (
+						<View style={styles.cardsContainer}>
+							<CardsList
+								cards={searchValue && searchValue.trim().length > 0 ? filteredCards : cards}
+							/>
+						</View>
+					)}
+				</>
 			)}
 
 			<AddCardButton />
@@ -56,16 +61,22 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		gap: 30,
 		paddingHorizontal: 20,
 	},
 	image: {
-		width: 150,
+		width: 250,
 		height: 150,
 	},
 	text: {
 		marginTop: 20,
 		fontSize: 16,
+		fontWeight: "bold",
 		color: "gray",
 		textAlign: "center",
+	},
+	cardsContainer: { gap: 20, width: "100%" },
+	loading: {
+		margin: "auto",
 	},
 });

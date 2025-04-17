@@ -13,11 +13,11 @@ const resources = {
 const initI18n = async () => {
 	let savedLanguage = await AsyncStorage.getItem("language");
 	if (!savedLanguage) {
-		savedLanguage = getLocales()[0].languageCode ?? "en";
+		savedLanguage = getLocales()[0].languageCode ?? "fr";
 	}
 
 	i18n.use(initReactI18next).init({
-		fallbackLng: ["en"],
+		fallbackLng: ["fr"],
 		resources,
 		lng: savedLanguage,
 		debug: true,

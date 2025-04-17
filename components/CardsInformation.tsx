@@ -1,27 +1,41 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { deleteOneCard } from "@/providers/useDatabase";
-import useColor from "@/hooks/useColor";
 import CardContainer from "./ui/CardContainer";
 import { useTranslation } from "react-i18next";
 import { Image } from "expo-image";
 import { Entypo } from "@expo/vector-icons";
 import TwoButtonAlert from "./ui/TwoButtonAlert";
 import { router } from "expo-router";
+import { useColor } from "@/providers/ThemeContext";
+import { useContext } from "react";
+import { CardContext } from "@/providers/CardContext";
+import Toast from "react-native-toast-message";
+import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated";
 
 type Props = {
 	id: number;
 	name: string;
-	uri: string;
+	fileUri: string;
 	openCardDetail: () => void;
 };
-export default function CardsInformation({ id, name, uri, openCardDetail }: Props) {
+export default function CardsInformation({ id, name, fileUri, openCardDetail }: Props) {
 	const { t } = useTranslation();
-	const { textColor, secondaryColor } = useColor();
+	const { deleteCard } = useContext(CardContext);
+	const { textColor, secondaryColor, danger } = useColor();
 
 	async function handleDeleteFile() {
 		try {
-			await deleteOneCard(+id);
-			// Optional: Add success handling
+			const res = await deleteCard(+id);
+			if (res.success) {
+				Toast.show({
+					type: "success",
+					text1: t("cards.deleteAlert.success"),
+				});
+			} else {
+				Toast.show({
+					type: "success",
+					text1: t("cards.deleteAlert.failed"),
+				});
+			}
 		} catch (error) {
 			console.error("Delete failed", error);
 		}
@@ -42,42 +56,42 @@ export default function CardsInformation({ id, name, uri, openCardDetail }: Prop
 			pathname: "/addCardModal",
 			params: {
 				nameCard: name,
-				fileCard: uri,
+				fileCard: fileUri,
 				idCard: id.toString(),
 			},
 		});
 	}
 
 	return (
-		<CardContainer>
-			<View style={[styles.ctaDelete]}>
-				<Pressable
-					style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
-					onPress={handleEditCard}>
-					<Text style={[styles.textButton]}>Edit</Text>
-				</Pressable>
-				<Pressable onPress={handleopenAlertdelete}>
-					<Entypo name="circle-with-cross" size={24} color="red" />
-				</Pressable>
-			</View>
-			<Pressable style={styles.container} onPress={openCardDetail}>
-				<View style={styles.container}>
-					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
-					<Text style={[styles.content, { color: textColor }]}>
-						{name.slice(0, 1).toUpperCase() + name.slice(1)}
-					</Text>
+		<Animated.View entering={FadeInLeft} exiting={FadeOutRight}>
+			<CardContainer>
+				<View style={[styles.ctaDelete]}>
+					<Pressable
+						style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
+						onPress={handleEditCard}>
+						<Text style={[styles.textButton]}>{t("cards.cta.edit")}</Text>
+					</Pressable>
+					<Pressable onPress={handleopenAlertdelete}>
+						<Entypo name="circle-with-cross" size={32} color={danger} />
+					</Pressable>
 				</View>
+				<Pressable style={styles.container} onPress={openCardDetail}>
+					<View style={styles.container}>
+						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.name")}</Text>
+						<Text style={[styles.content, { color: textColor }]}>
+							{name.slice(0, 1).toUpperCase() + name.slice(1)}
+						</Text>
+					</View>
 
-				{/* Preview */}
-				<View style={styles.container}>
-					<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
-					<Image style={styles.image} source={uri} contentFit="cover" transition={1000} />
-				</View>
-				<Text style={[styles.textButton, { color: textColor, marginVertical: 10 }]}>
-					{t("cards.cta.tapToView")}
-				</Text>
-			</Pressable>
-		</CardContainer>
+					{/* Preview */}
+					<View style={styles.container}>
+						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
+						<Image style={styles.image} source={fileUri} contentFit="cover" />
+					</View>
+					<Text style={[styles.textButton, { color: textColor }]}>{t("cards.cta.tapToView")}</Text>
+				</Pressable>
+			</CardContainer>
+		</Animated.View>
 	);
 }
 
@@ -108,19 +122,25 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		display: "flex",
 		flexDirection: "row",
-		right: 10,
-		top: 2,
-		width: 75,
+		right: 18,
+		top: 5,
 		justifyContent: "space-between",
 		height: 50,
 		alignItems: "center",
 		zIndex: 1,
-		gap: 5,
+		gap: 10,
 	},
 	editButton: {
 		borderRadius: 99999,
-		width: 50,
+		paddingHorizontal: 5,
+		width: "auto",
 		borderColor: "white",
 	},
-	textButton: { alignSelf: "center", fontSize: 14, fontWeight: "bold", color: "white" },
+	textButton: {
+		alignSelf: "center",
+		padding: 5,
+		fontSize: 12,
+		fontWeight: "bold",
+		color: "white",
+	},
 });

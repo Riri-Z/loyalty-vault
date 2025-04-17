@@ -1,7 +1,7 @@
 {
-	"language": "Français",
+	"language": "English",
 	"key_language": {
-		"en": "Anglais",
+		"en": "English",
 		"fr": "Français"
 	},
 	"tabs": {
@@ -11,106 +11,150 @@
 		"settings": "Paramètres"
 	},
 	"settings": {
-		"language": "Langues",
-		"apparences": "Thèmes",
+		"language": "Langue",
+		"apparence": "Apparence",
 		"light": "Clair",
 		"dark": "Sombre",
 		"contactUs": "Nous contacter",
-		"copy": "Copie",
+		"personalization": "Personnalisation",
+		"copy": "Copier",
+		"successCopy": "Copié dans le presse-papiers",
+		"failedCopy": "Échec de la copie",
 		"privacyPolicy": "Politique de confidentialité",
 		"cgu": "Conditions d'utilisation",
 		"cleanData": {
-			"button": "Supprimer mes données",
-			"confirmationTitle": "Réinitialiser l'application",
-			"confirmationContent": "Voulez-vous vraiment effacer toutes les données ?"
+			"button": "Effacer toutes mes données",
+			"confirmationTitle": "Réinitialiser l'application ?",
+			"confirmationContent": "Cette action supprimera toutes vos données"
 		}
 	},
 	"privacyPolicy": {
 		"title": "Politique de Confidentialité",
 		"lastUpdate": "Dernière mise à jour : ",
-		"welcome": "Bienvenue sur Loyalty Vault. Nous accordons une grande importance à la protection de votre vie privée. Cette politique de confidentialité explique quelles informations nous collectons, comment nous les utilisons et comment nous les protégeons.",
+		"welcome": "Bienvenue sur Loyalty Vault. Nous accordons une grande importance à votre confidentialité. Cette politique de confidentialité explique quelles informations nous collectons, comment nous les utilisons et comment nous les protégeons.",
 
 		"section1Title": "1. Informations collectées",
-		"section1Text": "Nous collectons les données suivantes uniquement lorsque l'utilisateur accorde les permissions correspondantes :\n\nCaméra : Utilisée pour permettre à l'utilisateur de prendre des photos, notamment pour scanner ses cartes de fidélité. Les photos prises ne sont pas transmises à un serveur et restent stockées localement sur l'appareil.",
+		"section1Text": "Nous collectons les données suivantes uniquement lorsque l'utilisateur accorde les autorisations nécessaires :\n\nAppareil photo : Utilisé pour permettre à l'utilisateur de prendre des photos, principalement pour numériser des cartes de fidélité. Les photos prises ne sont pas transmises à un serveur et restent stockées localement sur l'appareil.",
 
 		"section2Title": "2. Utilisation des données",
-		"section2Text": "Vos données sont uniquement utilisées pour les fonctionnalités de l'application et ne sont jamais partagées avec des tiers.",
+		"section2Text": "Vos données sont utilisées uniquement pour les fonctionnalités de l'application et ne sont jamais partagées avec des tiers.",
 
-		"section3Title": "3. Stockage et Sécurité",
-		"section3Text": "Toutes les données, y compris les photos prises avec la caméra, sont stockées localement sur votre appareil. Aucune information n'est envoyée à des serveurs externes.",
+		"section3Title": "3. Stockage et sécurité",
+		"section3Text": "Toutes les données, y compris les photos prises avec l'appareil photo, sont stockées localement sur votre appareil. Aucune information n'est envoyée à des serveurs externes.",
 
 		"section4Title": "4. Vos droits",
-		"section4Text": "Vous pouvez à tout moment révoquer l'accès à la caméra via les paramètres de votre appareil."
+		"section4Text": "Vous pouvez révoquer l'accès à l'appareil photo à tout moment via les paramètres de votre appareil.",
+
+		"section5Title": "5. Analyse & Tracking",
+		"section5Text": "Nous utilisons un service d'analyse tiers appelé PostHog pour comprendre comment les utilisateurs interagissent avec l'application. Cela nous aide à améliorer les fonctionnalités et l'ergonomie. Les données que nous collectons de cette manière se limitent strictement à des événements d'utilisation (par exemple, quels écrans sont consultés, quand une carte de fidélité est supprimée) et n'incluent pas d'informations personnelles ou identifiables. Aucune photo, nom ou contenu privé n'est jamais envoyé à PostHog. En utilisant l'application, vous reconnaissez que certaines données d'utilisation anonymes peuvent être collectées et traitées afin d'améliorer les fonctionnalités de l'application."
 	},
 
 	"terms": {
-		"title": "Conditions Générales d’Utilisation",
+		"title": "Conditions d'Utilisation",
 		"lastUpdate": "Dernière mise à jour : ",
-		"intro": "Les présentes conditions générales d’utilisation (ci-après les « CGU ») ont pour objet de définir les modalités d’utilisation de l’application mobile Loyalty Vault (ci-après « l’Application »). En téléchargeant ou en utilisant l’Application, l’utilisateur accepte sans réserve les présentes CGU.",
+		"intro": "Les présentes Conditions d'Utilisation (les « Conditions ») régissent l'utilisation de l'application mobile Loyalty Vault (ci-après « l'Application »). En téléchargeant ou en utilisant l'Application, vous acceptez d'être lié par ces Conditions sans réserve.",
 
-		"section1Title": "1. Objet de l’Application",
-		"section1Text": "Loyalty Vault permet à l’utilisateur de sauvegarder et consulter ses cartes de fidélité de manière numérique, directement sur son appareil mobile, y compris sans connexion Internet.",
+		"section1Title": "1. Objectif de l'Application",
+		"section1Text": "Loyalty Vault permet aux utilisateurs d'enregistrer et de consulter leurs cartes de fidélité sous forme numérique, directement sur leur appareil mobile, y compris hors connexion.",
 
 		"section2Title": "2. Accès et disponibilité",
-		"section2Text": "L’Application est disponible gratuitement via les stores officiels (Google Play, App Store). Elle peut être utilisée sans création de compte. L’accès peut être temporairement suspendu en cas de maintenance, mise à jour ou problème technique.",
+		"section2Text": "L'Application est disponible gratuitement sur les magasins d'applications officiels (Google Play, App Store). Aucun compte n'est requis pour l'utiliser. L'accès peut être temporairement suspendu pour maintenance, mises à jour ou problèmes techniques.",
 
-		"section3Title": "3. Données personnelles et confidentialité",
-		"section3Text": "Loyalty Vault ne collecte ni ne transmet vos données à des serveurs externes. Toutes les informations (photos, cartes, préférences) sont stockées localement sur votre appareil. L’Application peut requérir l’accès à certaines fonctionnalités (comme l’appareil photo) uniquement avec votre autorisation. Une politique de confidentialité complète est accessible dans les paramètres de l’application.",
+		"section3Title": "3. Données Personnelles & Confidentialité",
+		"section3Text": "Loyalty Vault ne collecte ni ne transmet aucune donnée à des serveurs externes à des fins d'identification personnelle. Toutes les informations (photos, cartes, préférences) sont stockées localement sur votre appareil. L'Application peut demander l'accès à certaines fonctionnalités (comme l'appareil photo) uniquement avec votre autorisation. Une politique de confidentialité complète est disponible dans les paramètres de l'application. De plus, l'Application utilise PostHog pour collecter des événements d'utilisation non personnels (par exemple, les actions de l'utilisateur) uniquement à des fins d'analyse et d'amélioration, sans stocker de données personnellement identifiables.",
 
-		"section4Title": "4. Propriété intellectuelle",
-		"section4Text": "L’ensemble des éléments de l’Application (nom, logo, interface, textes) sont protégés par le droit de la propriété intellectuelle. Toute reproduction ou utilisation non autorisée est interdite.",
+		"section4Title": "4. Propriété Intellectuelle",
+		"section4Text": "Tous les éléments de l'Application (nom, logo, interface, textes) sont protégés par les lois sur la propriété intellectuelle. Toute utilisation ou reproduction non autorisée est strictement interdite.",
 
-		"section5Title": "5. Responsabilités",
-		"section5Text": "L’éditeur de l’Application ne peut être tenu responsable en cas de perte de données enregistrées localement sur l’appareil. L’utilisateur est responsable de la bonne utilisation de l’Application et de la gestion de ses propres données.",
+		"section5Title": "5. Responsabilité",
+		"section5Text": "L'éditeur de l'application ne peut être tenu responsable de la perte de données stockées localement. L'utilisateur est responsable de la bonne utilisation de l'Application et de la gestion de ses données.",
 
 		"section6Title": "6. Suppression des données",
-		"section6Text": "L’utilisateur peut supprimer toutes ses données enregistrées dans l’Application à tout moment via le bouton prévu à cet effet dans les paramètres.",
+		"section6Text": "L'utilisateur peut supprimer toutes les données stockées à tout moment via l'option prévue à cet effet dans les paramètres de l'application.",
 
-		"section7Title": "7. Modifications des CGU",
-		"section7Text": "Les présentes CGU peuvent être modifiées à tout moment. En cas de mise à jour, l’utilisateur sera informé via l’Application.",
+		"section7Title": "7. Modifications des Conditions",
+		"section7Text": "Ces Conditions peuvent être modifiées à tout moment. Les utilisateurs seront informés des mises à jour via l'Application.",
 
 		"section8Title": "8. Contact",
-		"section8Text": "Pour toute question, remarque ou réclamation, vous pouvez nous contacter à l’adresse suivante : pygmalion.digitals@gmail.com"
+		"section8Text": "Pour toute question ou retour, contactez-nous à :"
 	},
-
 	"home": {
-		"title": "Cartes enregistrées",
-		"emptyCards": "Vous n'avez pas de cartes",
-		"presentation": "Voici vos cartes"
+		"title": "Cartes disponibles",
+		"emptyCards": "Aucune carte enregistrée",
+		"presentation": "Vos cartes"
 	},
 	"cards": {
 		"name": "Nom",
-		"uri": "chemin d'accès",
-		"file": "fichier",
+		"fileUri": "Chemin",
+		"file": "Fichier",
 		"preview": "Aperçu",
 		"cardName": "Nom de la carte",
-		"pictureLabel": "Importer une image",
+		"pictureLabel": "Ajouter une image",
 		"noPicture": "Aucune image sélectionnée",
-		"importFile": "Importer une image",
-		"placeHolderName": "Ex: Carrefour, Décathlon...",
+		"importFile": "Importer un fichier",
+		"placeHolderName": "Ex. : Auchan, métro...",
+		"editCard": "Modifier une carte",
 		"addCard": "Ajouter une carte",
+		"searchInput": {
+			"placeHolderName": "Recherche..",
+			"result": "Résultat(s)"
+		},
 		"cta": {
-			"tapToView": "Appuyez sur la carte pour l’ouvrir",
-			"selectFile": "Selectionner un fichier",
-			"title": "Selectionner une option",
+			"tapToView": "Appuyez pour voir votre carte",
+			"edit": "Modifier",
+			"selectFile": "Sélectionner un fichier",
+			"openCamera": "Ouvrir l'appareil photo",
+			"title": "Sélectionner une option",
 			"cancel": "Annuler",
-			"openCamera": "Prendre une photo",
 			"open": "Ouvrir",
 			"delete": "Supprimer",
-			"save": "Sauvegarder",
-			"registerFirstCard": "Ajoutez votre première carte en appuyant sur le bouton + !"
+			"save": "Enregistrer",
+			"registerFirstCard": "Ajoutez votre première carte en cliquant sur + !"
 		},
 		"alert": {
-			"missingName": "Nom manquant",
-			"missingFile": "Photo manquante",
-			"NameAndFileMissing": "Nom et photo requis"
+			"errorCamera": "Oups, quelque chose s'est mal passé",
+			"cancelCamera": "Aucune image sélectionnée",
+			"missingName": "Le nom est requis",
+			"missingFile": "Le fichier est requis",
+			"NameAndFileMissing": "Le nom et le fichier sont tous deux requis"
 		},
 		"deleteAlert": {
-			"title": "Supprimer la carte suivante",
-			"success": "Suppression réussi",
-			"failed": "Erreur lors de la suppression",
+			"title": "Êtes-vous sûr de vouloir supprimer cette carte ?",
+			"success": "Carte supprimée avec succès",
+			"failed": "Échec de la suppression",
 			"cancel": "Annuler",
 			"ok": "OK"
+		},
+		"clearApp": {
+			"success": "Les données ont été effacées avec succès",
+			"failed": "Échec de l'effacement des données"
+		},
+		"addCardAlert": {
+			"success": "Carte ajoutée avec succès",
+			"failed": "Échec de l'ajout de la carte"
+		},
+		"updateAlert": {
+			"success": "Carte mise à jour avec succès",
+			"failed": "Échec de la mise à jour de la carte"
 		}
+	},
+	"onBoarding": {
+		"next": "Suivant",
+		"end": "Commencer",
+		"screen1": {
+			"title": "Ne manquez plus aucune récompense",
+			"text": "Toutes vos cartes de fidélité dans une seule application. Fini les recherches, fini les oublis."
+		},
+		"screen2": {
+			"title": "Pas de connexion ? Pas de problème",
+			"text": "Pas besoin de 4G ou de Wi-Fi.\nAccédez à vos cartes n'importe quand, n'importe où."
+		},
+		"screen3": {
+			"title": "Vos données, votre contrôle",
+			"text": "Nous ne pouvons pas voir vos cartes car elles ne quittent jamais votre téléphone. Simple, sécurisé et totalement privé."
+		}
+	},
+	"database": {
+		"errorLoadingCards": "Impossible de charger les cartes."
 	}
 }

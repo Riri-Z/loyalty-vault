@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -11,14 +11,16 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import { insertOneCard, updateOne } from "@/providers/useDatabase";
 import { useTranslation } from "react-i18next";
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeContext";
 import ViewContainer from "@/components/ui/ViewContainer";
 import { useCameraPermissions } from "expo-camera";
 import RenderCamera from "@/components/RenderCamera";
-import FilePickerBottomSheet from "@/components/FilePickerBottomSheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet from "@/components/ui/BottomSheet";
+import { CardContext } from "@/providers/CardContext";
+import Toast from "react-native-toast-message";
+import { BottomSheetContext } from "@/providers/BottomSheetContext";
+import { usePostHog } from "posthog-react-native";
 
 type ModalParamsType = {
 	nameCard: string;
@@ -27,16 +29,30 @@ type ModalParamsType = {
 };
 
 export default function AddCardScreen() {
-	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
-	const { t } = useTranslation();
-	const { textColor } = useColor();
+	/* Context */
+	const { updateCard, addCard } = useContext(CardContext);
+	const { handleUpdateActions, isVisible, actions, handleCloseBottomSheet } =
+		useContext(BottomSheetContext);
+	const { textColor, bgColor, danger } = useColor();
+	const posthog = usePostHog();
+
+	/* State */
 	const [name, setName] = useState("");
 	const [file, setFile] = useState("");
-	const [permission, requestPermission] = useCameraPermissions();
-
 	const [activeCamera, setActiveCamera] = useState(false); //display camera
+	const [permission, requestPermission] = useCameraPermissions();
+	const [canSave, setCanSave] = useState(false);
 
-	const [openFile, setOpenFile] = useState(false);
+	const { nameCard, fileCard, idCard }: ModalParamsType = useLocalSearchParams();
+	const { t, i18n } = useTranslation();
+
+	useEffect(() => {
+		if (name !== "" && file !== "") {
+			setCanSave(true);
+		} else {
+			setCanSave(false);
+		}
+	}, [name, file]);
 
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
@@ -44,50 +60,95 @@ export default function AddCardScreen() {
 	}, [nameCard, fileCard]);
 
 	const pickFile = async () => {
-		setOpenFile(false);
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ["images"],
-			allowsEditing: false,
+			allowsEditing: true,
 			quality: 1,
 		});
 		if (!result.canceled) {
 			setFile(result?.assets[0].uri);
 		} else if (!file) {
-			alert("You did not select any image.");
+			Toast.show({ type: "error", text1: t("cards.alert.cancelCamera") });
 		}
+		handleCloseBottomSheet();
+	};
+
+	const handleTakePhoto = (uri: string) => {
+		setFile(uri);
+		handleCloseBottomSheet();
 	};
 	async function handleSaveNewCard() {
 		try {
 			if (name.length <= 0 && !file) {
-				return alert(t("cards.alert.NameAndFileMissing"));
+				return Toast.show({
+					type: "error",
+					text1: t("cards.alert.NameAndFileMissing"),
+				});
 			}
 
 			if (name.length <= 0) {
-				return alert(t("cards.alert.missingName"));
+				return Toast.show({
+					type: "error",
+					text1: t("cards.alert.missingName"),
+				});
 			}
 			if (!file) {
-				return alert(t("cards.alert.missingFile"));
+				return Toast.show({
+					type: "error",
+					text1: t("cards.alert.missingFile"),
+				});
 			}
 
 			if (idCard) {
-				await updateOne({ id: +idCard, name, fileUri: file });
+				const res = await updateCard({ id: +idCard, name, fileUri: file });
+				if (res.success) {
+					Toast.show({
+						type: "success",
+						text1: t("cards.addCardAlert.success"),
+					});
+					posthog.capture("success updating new card");
+				} else {
+					Toast.show({
+						type: "error",
+						text1: t("cards.addCardAlert.failed"),
+					});
+					posthog.capture("Failed updating new card");
+				}
 			} else {
-				await insertOneCard({ name, fileUri: file });
+				const res = await addCard({ name, fileUri: file });
+				if (res.success) {
+					Toast.show({
+						type: "success",
+						text1: t("cards.addCardAlert.success"),
+					});
+					posthog.capture("success adding new card");
+				} else {
+					Toast.show({
+						type: "error",
+						text1: t("cards.addCardAlert.failed"),
+					});
+					posthog.capture("Failed adding new card");
+				}
 			}
 
 			// close modal and display list of cards
 			router.push("/(tabs)");
 		} catch (error) {
 			console.error(error);
+			Toast.show({
+				type: "error",
+				text1: t("cards.alert.errorCamera"),
+			});
 		}
 	}
 
+	// Reset selected file
 	function handleDeleteFile() {
 		setFile("");
 	}
 
+	// Open camera options, and handle permission
 	async function handleOpenCamera() {
-		setOpenFile(false);
 		if (!permission) {
 			const permissionResult = await requestPermission();
 			if (permissionResult.granted) {
@@ -97,25 +158,36 @@ export default function AddCardScreen() {
 		setActiveCamera(true);
 	}
 
+	// handle file options
 	function handleOptionFile() {
-		setOpenFile((prev) => !prev);
+		handleUpdateActions(BOTTOM_SHEET_OPTIONS.actionsItems);
 	}
+
+	const BOTTOM_SHEET_OPTIONS = {
+		actionsItems: [
+			{ label: i18n.t("cards.cta.openCamera"), callback: () => handleOpenCamera() },
+			{ label: i18n.t("cards.cta.selectFile"), callback: () => pickFile() },
+		],
+		handleClose: handleCloseBottomSheet,
+	};
 
 	return (
 		<>
 			{activeCamera ? (
 				/* Camera */
 				<RenderCamera
-					updateUri={(uri) => setFile(uri)}
+					updateUri={(fileUri) => handleTakePhoto(fileUri)}
 					closeCamera={() => setActiveCamera(false)}></RenderCamera>
 			) : (
-				<>
+				<View style={[styles.container, { backgroundColor: bgColor }]}>
 					<ViewContainer>
 						<View style={styles.header}>
 							<TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
 								<Ionicons name="arrow-back" size={24} color={textColor} />
 							</TouchableOpacity>
-							<Text style={[styles.title, { color: textColor }]}>{t("cards.addCard")}</Text>
+							<Text style={[styles.title, { color: textColor }]}>
+								{fileCard ? t("cards.editCard") : t("cards.addCard")}
+							</Text>
 						</View>
 
 						<Text style={[styles.label, { color: textColor }]}>{t("cards.cardName")}</Text>
@@ -127,6 +199,7 @@ export default function AddCardScreen() {
 								placeholderTextColor={textColor}
 								value={name}
 								onChangeText={setName}
+								onFocus={handleCloseBottomSheet}
 							/>
 						</View>
 
@@ -135,11 +208,11 @@ export default function AddCardScreen() {
 							<View style={{ width: "100%", position: "relative" }}>
 								<Image source={{ uri: file }} style={styles.imagePreview} />
 								<Pressable style={{ position: "absolute", right: 5 }} onPress={handleDeleteFile}>
-									<Entypo name="circle-with-cross" size={24} color="red" />
+									<Entypo name="circle-with-cross" size={24} color={danger} />
 								</Pressable>
 							</View>
 						) : (
-							<Pressable style={styles.placeholder} onPress={pickFile}>
+							<Pressable style={styles.placeholder} onPress={handleOptionFile}>
 								<MaterialIcons name="image" size={48} color="black" />
 								<Text style={{ color: "black" }}>{t("cards.noPicture")}</Text>
 							</Pressable>
@@ -147,42 +220,37 @@ export default function AddCardScreen() {
 
 						{/* Select file */}
 						<View style={styles.ctaContainer}>
-							<TouchableOpacity style={styles.selectButton} onPress={handleOptionFile}>
-								<Text style={styles.selectButtonText}>{t("cards.cta.selectFile")} </Text>
+							<TouchableOpacity
+								style={[styles.button, { backgroundColor: "#28a745" }]}
+								onPress={handleOptionFile}>
+								<Text style={styles.textButton}>{t("cards.cta.selectFile")} </Text>
 							</TouchableOpacity>
 						</View>
-
-						<TouchableOpacity style={[styles.addButton]} onPress={handleSaveNewCard}>
-							<Text style={styles.addButtonText}>{t("cards.cta.save")} </Text>
+						<TouchableOpacity
+							style={[
+								styles.button,
+								{ backgroundColor: "#007bff" },
+								{ opacity: canSave ? 1 : 0.5 },
+							]}
+							onPress={handleSaveNewCard}>
+							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
 						</TouchableOpacity>
 					</ViewContainer>
-					{openFile && (
-						<>
-							{openFile && <Pressable style={styles.overlay}></Pressable>}
-
-							{/* BOTTOM SHEET */}
-							<GestureHandlerRootView style={{ ...StyleSheet.absoluteFillObject, zIndex: 2 }}>
-								<FilePickerBottomSheet
-									handleOpenCamera={handleOpenCamera}
-									pickFile={pickFile}
-									handleClose={handleOptionFile}
-								/>
-							</GestureHandlerRootView>
-						</>
-					)}
-				</>
+					{isVisible && actions.length > 0 && <BottomSheet {...BOTTOM_SHEET_OPTIONS}></BottomSheet>}
+				</View>
 			)}
 		</>
 	);
 }
 
 const styles = StyleSheet.create({
+	container: { height: "100%" },
 	header: {
 		display: "flex",
 		flexDirection: "row",
 		gap: 5,
 		alignContent: "center",
-		marginTop: 15,
+		marginTop: 30,
 	},
 	backButton: {
 		alignSelf: "center",
@@ -228,12 +296,11 @@ const styles = StyleSheet.create({
 	},
 	ctaContainer: {
 		display: "flex",
-		flexDirection: "row",
-		gap: 15,
+		gap: 20,
 	},
 	selectButton: {
 		backgroundColor: "#007bff",
-		width: 20,
+
 		padding: 12,
 		borderRadius: 8,
 		alignItems: "center",
@@ -243,6 +310,16 @@ const styles = StyleSheet.create({
 	selectButtonText: {
 		color: "white",
 		fontWeight: "bold",
+	},
+	button: {
+		padding: 12,
+		borderRadius: 8,
+		alignItems: "center",
+	},
+	textButton: {
+		color: "white",
+		fontWeight: "bold",
+		fontSize: 16,
 	},
 	addButton: {
 		backgroundColor: "#28a745",

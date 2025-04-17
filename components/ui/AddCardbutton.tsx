@@ -1,4 +1,4 @@
-import useColor from "@/hooks/useColor";
+import { useColor } from "@/providers/ThemeContext";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { router } from "expo-router";
@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
 		borderRadius: 35,
 		alignItems: "center",
 		justifyContent: "center",
-		elevation: 8,
+		elevation: 3,
 	},
 });

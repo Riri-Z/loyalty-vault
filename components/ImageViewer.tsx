@@ -6,12 +6,12 @@ type Props = {
 };
 
 export default function ImageViewer({ imgSource }: Props) {
-	return <Image source={imgSource} style={styles.image} />;
+	return <Image source={imgSource} style={styles.image} contentFit="contain" />;
 }
 
 const styles = StyleSheet.create({
 	image: {
-		height: 500,
+		height: "100%",
 		margin: "auto",
 		width: "100%",
 	},

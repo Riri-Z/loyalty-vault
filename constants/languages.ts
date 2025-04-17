@@ -1,1 +1,4 @@
-export const AVAILABLE_LANGUAGES: string[] = ["en", "fr"];
+export enum AVAILABLE_LANGUAGES {
+	EN = "en",
+	FR = "fr",
+}
