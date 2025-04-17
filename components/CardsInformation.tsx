@@ -72,7 +72,7 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 						<Text style={[styles.textButton]}>{t("cards.cta.edit")}</Text>
 					</Pressable>
 					<Pressable onPress={handleopenAlertdelete}>
-						<Entypo name="circle-with-cross" size={30} color={danger} />
+						<Entypo name="circle-with-cross" size={32} color={danger} />
 					</Pressable>
 				</View>
 				<Pressable style={styles.container} onPress={openCardDetail}>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
 		height: 50,
 		alignItems: "center",
 		zIndex: 1,
-		gap: 5,
+		gap: 10,
 	},
 	editButton: {
 		borderRadius: 99999,
