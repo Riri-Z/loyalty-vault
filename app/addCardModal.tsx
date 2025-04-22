@@ -149,13 +149,20 @@ export default function AddCardScreen() {
 
 	// Open camera options, and handle permission
 	async function handleOpenCamera() {
-		if (!permission) {
+		if (!permission?.granted) {
 			const permissionResult = await requestPermission();
 			if (permissionResult.granted) {
 				setActiveCamera(true);
+			} else {
+				Toast.show({
+					type: "error",
+					text1: t("cards.alert.needCamera"),
+				});
+				setActiveCamera(false);
 			}
+		} else {
+			setActiveCamera(true);
 		}
-		setActiveCamera(true);
 	}
 
 	// handle file options
@@ -170,7 +177,6 @@ export default function AddCardScreen() {
 		],
 		handleClose: handleCloseBottomSheet,
 	};
-
 	return (
 		<>
 			{activeCamera ? (

@@ -113,6 +113,7 @@
 		},
 		"alert": {
 			"errorCamera": "Oups, quelque chose s'est mal passé",
+			"needCamera": "Pour utiliser cette fonctionnalité, veuillez autoriser l'accès à la caméra dans vos paramètres",
 			"cancelCamera": "Aucune image sélectionnée",
 			"missingName": "Le nom est requis",
 			"missingFile": "Le fichier est requis",

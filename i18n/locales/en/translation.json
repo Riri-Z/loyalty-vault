@@ -113,7 +113,7 @@
 		},
 		"alert": {
 			"errorCamera": "Oops! something went wrong",
-			"cancelCamera": "No image selected",
+			"needCamera": "You need to allow camera access in your settings to use this feature",
 			"missingName": "Name is required",
 			"missingFile": "File is required",
 			"NameAndFileMissing": "Both name and file are required"

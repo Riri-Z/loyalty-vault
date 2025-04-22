@@ -1,5 +1,5 @@
-import { CameraType, CameraView } from "expo-camera";
-import { useRef, useState } from "react";
+import { CameraView } from "expo-camera";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import Toast from "react-native-toast-message";
@@ -12,7 +12,6 @@ type Props = {
 export default function RenderCamera({ updateUri, closeCamera }: Props) {
 	const { t } = useTranslation();
 
-	const [facing] = useState<CameraType>("back"); // only back
 	const ref = useRef<CameraView>(null);
 
 	const takePicture = async () => {
@@ -34,7 +33,7 @@ export default function RenderCamera({ updateUri, closeCamera }: Props) {
 			style={styles.camera}
 			ref={ref}
 			mode="picture"
-			facing={facing}
+			facing="back"
 			mute={false}
 			responsiveOrientationWhenOrientationLocked>
 			<View style={styles.shutterContainer}>
