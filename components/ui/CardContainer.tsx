@@ -4,11 +4,11 @@ import { useColor } from "@/providers/ThemeContext";
 
 type Props = { children: ReactNode };
 
-export default function CardContainer({ children }: Props) {
+export const CardContainer = ({ children }: Props): JSX.Element => {
 	const { cardColor } = useColor();
 
 	return <View style={[styles.container, { backgroundColor: cardColor }]}>{children}</View>;
-}
+};
 
 const styles = StyleSheet.create({
 	container: {

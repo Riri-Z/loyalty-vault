@@ -1,12 +1,12 @@
 import { Link, Stack } from "expo-router";
 import { View } from "react-native";
 
-export default function NotFoundScreen() {
+export default function NotFoundScreen(): JSX.Element {
 	return (
 		<>
-			<Stack.Screen options={{ title: "Ooops , not found ! " }} />
+			<Stack.Screen options={{ title: "Ooops, not found!" }} />
 			<View>
-				<Link href="/(tabs)">Go back to home screen !</Link>
+				<Link href="/(tabs)">Go back to home screen!</Link>
 			</View>
 		</>
 	);

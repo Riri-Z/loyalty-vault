@@ -1,8 +1,8 @@
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { PropsWithChildren } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import ImageViewer from "@/components/ImageViewer";
-import ViewContainer from "./ui/ViewContainer";
+import { ImageViewer } from "@/components/shared/ImageViewer";
+import { ViewContainer } from "@/components/ui/ViewContainer";
 
 type Props = PropsWithChildren<{
 	isVisible: boolean;
@@ -11,7 +11,7 @@ type Props = PropsWithChildren<{
 	onClose: () => void;
 }>;
 
-export default function CardViewer({ isVisible, src, name, children, onClose }: Props) {
+export const CardViewer = ({ isVisible, src, name, onClose }: Props): JSX.Element => {
 	return (
 		<ViewContainer>
 			<Modal animationType="slide" transparent={true} visible={isVisible}>
@@ -22,14 +22,12 @@ export default function CardViewer({ isVisible, src, name, children, onClose }: 
 							<MaterialIcons name="close" color="#fff" size={22} />
 						</Pressable>
 					</View>
-					{children}
-
 					<ImageViewer imgSource={src} />
 				</View>
 			</Modal>
 		</ViewContainer>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	modalContent: {

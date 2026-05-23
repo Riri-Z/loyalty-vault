@@ -3,30 +3,30 @@ import { useTranslation } from "react-i18next";
 import { useColor } from "@/providers/ThemeContext";
 import { Fontisto, Octicons } from "@expo/vector-icons";
 
-export default function ThemePicker() {
+export const ThemePicker = (): JSX.Element => {
 	const { t } = useTranslation();
 	const { textColor, isDarkModeOn, toggleTheme } = useColor();
 
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.label, { color: textColor }]}>{t("settings.personalization")} </Text>
+			<Text style={[styles.label, { color: textColor }]}>{t("settings.theme")} </Text>
 			<View style={styles.switchContainer}>
 				<Fontisto
-					style={[styles.content]}
+					style={styles.content}
 					name="day-sunny"
 					size={18}
 					color={isDarkModeOn ? "white" : "black"}
 				/>
 				<Switch
 					style={styles.switch}
-					trackColor={{ false: "#", true: "#81b0ff" }}
-					thumbColor={isDarkModeOn ? "black" : "yellow"}
+					trackColor={{ false: "#e0e0e0", true: "#81b0ff" }}
+					thumbColor={isDarkModeOn ? "#333" : "#f5c518"}
 					ios_backgroundColor="#3e3e3e"
 					onValueChange={toggleTheme}
 					value={isDarkModeOn}
 				/>
 				<Octicons
-					style={[styles.content]}
+					style={styles.content}
 					name="moon"
 					size={18}
 					color={isDarkModeOn ? "white" : "black"}
@@ -34,7 +34,7 @@ export default function ThemePicker() {
 			</View>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -57,11 +57,5 @@ const styles = StyleSheet.create({
 	switch: {
 		marginHorizontal: 1,
 		alignSelf: "flex-start",
-	},
-	pressable: {
-		marginBottom: 5,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "flex-start",
 	},
 });

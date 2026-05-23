@@ -3,17 +3,18 @@ import { Image } from "expo-image";
 import { useColor } from "@/providers/ThemeContext";
 import { t } from "i18next";
 import LottieView from "lottie-react-native";
+import type { LottieViewProps } from "lottie-react-native";
 
 const screenWidth = Dimensions.get("window").width;
 
 type Props = {
 	title: string;
 	text: string;
-	icon: string;
+	icon: LottieViewProps["source"];
 	isLottie: boolean;
 };
 
-export default function Onboarding({ title, text, icon, isLottie }: Props) {
+export const OnBoarding = ({ title, text, icon, isLottie }: Props): JSX.Element => {
 	const { bgColor, textColor } = useColor();
 
 	return (
@@ -22,13 +23,12 @@ export default function Onboarding({ title, text, icon, isLottie }: Props) {
 			{isLottie ? (
 				<LottieView source={icon} style={styles.image} autoPlay loop />
 			) : (
-				<Image style={styles.image} contentFit="contain" source={icon} alt="credit card" />
+				<Image style={styles.image} contentFit="contain" source={icon} />
 			)}
 			<Text style={[styles.text, { color: textColor }]}>{t(text)}</Text>
-			<View style={{ flexDirection: "row", marginVertical: 20 }}></View>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {

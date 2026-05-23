@@ -1,9 +1,9 @@
 import { StyleSheet, ScrollView, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useColor } from "@/providers/ThemeContext";
-import ViewContainer from "@/components/ui/ViewContainer";
+import { ViewContainer } from "@/components/ui/ViewContainer";
 
-export default function PrivacyPolicy() {
+export default function PrivacyPolicy(): JSX.Element {
 	const { t } = useTranslation();
 	const { textColor, bgColor } = useColor();
 
@@ -30,6 +30,7 @@ export default function PrivacyPolicy() {
 		</ScrollView>
 	);
 }
+
 const styles = StyleSheet.create({
 	title: {
 		fontWeight: "bold",

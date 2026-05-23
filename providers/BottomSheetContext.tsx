@@ -1,6 +1,11 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { Keyboard } from "react-native";
 
+type Action = {
+	label: string;
+	callback: () => void;
+};
+
 type BottomSheetContextType = {
 	isVisible: boolean;
 	actions: Action[];
@@ -8,47 +13,47 @@ type BottomSheetContextType = {
 	handleUpdateActions: (actions: Action[]) => void;
 	handleCloseBottomSheet: () => void;
 };
-type Action = {
-	label: string;
-	callback: () => void;
+
+export const BottomSheetContext = createContext<BottomSheetContextType>({} as BottomSheetContextType);
+
+type BottomSheetProviderProps = {
+	children: ReactNode;
 };
 
-const BottomSheetContext = createContext<BottomSheetContextType>({} as BottomSheetContextType);
-
-const BottomSheetProvider = ({ children }: { children: ReactNode }) => {
+export const BottomSheetProvider = ({ children }: BottomSheetProviderProps): JSX.Element => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [actions, setActions] = useState<Action[]>([]);
 
-	const handleCloseBottomSheet = () => {
+	const handleCloseBottomSheet = (): void => {
 		setIsVisible(false);
-		// Reset actions
 		setActions([]);
 	};
+
 	useEffect(() => {
 		if (Keyboard.isVisible()) {
 			Keyboard.dismiss();
 		}
 	}, [isVisible]);
 
-	const handleDisplayBottomSheet = (value: boolean) => {
+	const handleDisplayBottomSheet = (value: boolean): void => {
 		setIsVisible(value);
 	};
 
-	const handleUpdateActions = (actions: Action[]) => {
-		setActions(actions);
+	const handleUpdateActions = (newActions: Action[]): void => {
+		setActions(newActions);
 		setIsVisible(true);
 	};
-	const values = useMemo(() => {
-		return {
+
+	const values = useMemo(
+		() => ({
 			actions,
 			isVisible,
 			handleDisplayBottomSheet,
 			handleUpdateActions,
 			handleCloseBottomSheet,
-		};
-	}, [actions, isVisible]);
+		}),
+		[actions, isVisible],
+	);
 
 	return <BottomSheetContext.Provider value={values}>{children}</BottomSheetContext.Provider>;
 };
-
-export { BottomSheetContext, BottomSheetProvider };

@@ -9,16 +9,15 @@ type Props = {
 	closeCamera: () => void;
 };
 
-export default function RenderCamera({ updateUri, closeCamera }: Props) {
+export const RenderCamera = ({ updateUri, closeCamera }: Props): JSX.Element => {
 	const { t } = useTranslation();
-
 	const ref = useRef<CameraView>(null);
 
-	const takePicture = async () => {
+	const takePicture = async (): Promise<void> => {
 		const photo = await ref.current?.takePictureAsync();
 
 		if (photo?.uri) {
-			updateUri(photo?.uri);
+			updateUri(photo.uri);
 		} else {
 			Toast.show({
 				type: "error",
@@ -39,28 +38,15 @@ export default function RenderCamera({ updateUri, closeCamera }: Props) {
 			<View style={styles.shutterContainer}>
 				<Pressable onPress={takePicture}>
 					{({ pressed }) => (
-						<View
-							style={[
-								styles.shutterBtn,
-								{
-									opacity: pressed ? 0.5 : 1,
-								},
-							]}>
-							<View
-								style={[
-									styles.shutterBtnInner,
-									{
-										backgroundColor: "white",
-									},
-								]}
-							/>
+						<View style={[styles.shutterBtn, { opacity: pressed ? 0.5 : 1 }]}>
+							<View style={[styles.shutterBtnInner, { backgroundColor: "white" }]} />
 						</View>
 					)}
 				</Pressable>
 			</View>
 		</CameraView>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	camera: {

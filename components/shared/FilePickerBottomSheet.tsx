@@ -1,12 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { ActionButton } from "./ui/ActionButton";
+import { ActionButton } from "@/components/ui/ActionButton";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, {
-	runOnJS,
-	useAnimatedStyle,
-	useSharedValue,
-	withSpring,
-} from "react-native-reanimated";
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { useColor } from "@/providers/ThemeContext";
 
@@ -15,15 +10,15 @@ type Props = {
 	handleClose: () => void;
 	pickFile: () => void;
 };
-export default function FilePickerBottomSheet({ handleOpenCamera, pickFile, handleClose }: Props) {
+
+export const FilePickerBottomSheet = ({ handleOpenCamera, pickFile, handleClose }: Props): JSX.Element => {
 	const { t } = useTranslation();
 	const translateY = useSharedValue(0);
 	const { textColor, isDarkModeOn, cardColor } = useColor();
-	// Drag event
+
 	const drag = Gesture.Pan()
 		.onChange((event) => {
 			const nextY = translateY.value + event.changeY;
-
 			if (nextY >= 0) {
 				translateY.value = nextY;
 			}
@@ -38,24 +33,19 @@ export default function FilePickerBottomSheet({ handleOpenCamera, pickFile, hand
 
 	const containerStyle = useAnimatedStyle(() => {
 		return {
-			transform: [
-				{
-					translateY: translateY.value,
-				},
-			],
+			transform: [{ translateY: translateY.value }],
 		};
 	});
 
 	const bgStyle = isDarkModeOn ? cardColor : "#F9F9F9";
+
 	return (
 		<GestureDetector gesture={drag}>
 			<Animated.View style={[containerStyle, styles.container, { backgroundColor: bgStyle }]}>
 				<Pressable style={styles.dragButton} />
 				<Text style={[styles.title, { color: textColor }]}>{t("cards.cta.title")}</Text>
-
 				<ActionButton onPress={handleOpenCamera} label={t("cards.cta.openCamera")} />
 				<ActionButton onPress={pickFile} label={t("cards.cta.selectFile")} />
-
 				<Pressable>
 					<Text style={styles.cancel} onPress={handleClose}>
 						{t("cards.cta.cancel")}
@@ -64,7 +54,7 @@ export default function FilePickerBottomSheet({ handleOpenCamera, pickFile, hand
 			</Animated.View>
 		</GestureDetector>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {

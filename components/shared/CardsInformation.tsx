@@ -1,9 +1,9 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import CardContainer from "./ui/CardContainer";
+import { CardContainer } from "@/components/ui/CardContainer";
 import { useTranslation } from "react-i18next";
 import { Image } from "expo-image";
 import { Entypo } from "@expo/vector-icons";
-import TwoButtonAlert from "./ui/TwoButtonAlert";
+import { TwoButtonAlert } from "@/components/ui/TwoButtonAlert";
 import { router } from "expo-router";
 import { useColor } from "@/providers/ThemeContext";
 import { useContext } from "react";
@@ -17,14 +17,15 @@ type Props = {
 	fileUri: string;
 	openCardDetail: () => void;
 };
-export default function CardsInformation({ id, name, fileUri, openCardDetail }: Props) {
+
+export const CardsInformation = ({ id, name, fileUri, openCardDetail }: Props): JSX.Element => {
 	const { t } = useTranslation();
 	const { deleteCard } = useContext(CardContext);
 	const { textColor, secondaryColor, danger } = useColor();
 
-	async function handleDeleteFile() {
+	const handleDeleteFile = async (): Promise<void> => {
 		try {
-			const res = await deleteCard(+id);
+			const res = await deleteCard(id);
 			if (res.success) {
 				Toast.show({
 					type: "success",
@@ -32,16 +33,16 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 				});
 			} else {
 				Toast.show({
-					type: "success",
+					type: "error",
 					text1: t("cards.deleteAlert.failed"),
 				});
 			}
 		} catch (error) {
 			console.error("Delete failed", error);
 		}
-	}
+	};
 
-	async function handleopenAlertdelete() {
+	const handleOpenAlertDelete = async (): Promise<void> => {
 		return TwoButtonAlert({
 			title: t("cards.deleteAlert.title"),
 			content: name,
@@ -49,10 +50,10 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 			textOk: t("cards.deleteAlert.ok"),
 			handleOk: handleDeleteFile,
 		});
-	}
+	};
 
-	function handleEditCard() {
-		return router.push({
+	const handleEditCard = (): void => {
+		router.push({
 			pathname: "/addCardModal",
 			params: {
 				nameCard: name,
@@ -60,18 +61,16 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 				idCard: id.toString(),
 			},
 		});
-	}
+	};
 
 	return (
 		<Animated.View entering={FadeInLeft} exiting={FadeOutRight}>
 			<CardContainer>
-				<View style={[styles.ctaDelete]}>
-					<Pressable
-						style={[styles.editButton, { backgroundColor: secondaryColor }]} // edit button
-						onPress={handleEditCard}>
-						<Text style={[styles.textButton]}>{t("cards.cta.edit")}</Text>
+				<View style={styles.ctaDelete}>
+					<Pressable style={[styles.editButton, { backgroundColor: secondaryColor }]} onPress={handleEditCard}>
+						<Text style={styles.textButton}>{t("cards.cta.edit")}</Text>
 					</Pressable>
-					<Pressable onPress={handleopenAlertdelete}>
+					<Pressable onPress={handleOpenAlertDelete}>
 						<Entypo name="circle-with-cross" size={32} color={danger} />
 					</Pressable>
 				</View>
@@ -82,8 +81,6 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 							{name.slice(0, 1).toUpperCase() + name.slice(1)}
 						</Text>
 					</View>
-
-					{/* Preview */}
 					<View style={styles.container}>
 						<Text style={[styles.labelText, { color: textColor }]}>{t("cards.preview")}</Text>
 						<Image style={styles.image} source={fileUri} contentFit="cover" />
@@ -93,7 +90,7 @@ export default function CardsInformation({ id, name, fileUri, openCardDetail }: 
 			</CardContainer>
 		</Animated.View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {

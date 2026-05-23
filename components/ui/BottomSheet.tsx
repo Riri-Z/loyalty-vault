@@ -1,13 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, {
-	FadeInDown,
-	FadeOut,
-	runOnJS,
-	useAnimatedStyle,
-	useSharedValue,
-	withSpring,
-} from "react-native-reanimated";
+import Animated, { FadeInDown, FadeOut, runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { useColor } from "@/providers/ThemeContext";
 import { ActionButton } from "./ActionButton";
@@ -17,19 +10,19 @@ type Action = {
 	callback: () => void;
 };
 
-interface Props {
+type Props = {
 	actionsItems: Action[];
 	handleClose: () => void;
-}
-export default function BottomSheet({ actionsItems, handleClose }: Props) {
+};
+
+export const BottomSheet = ({ actionsItems, handleClose }: Props): JSX.Element => {
 	const { t } = useTranslation();
 	const translateY = useSharedValue(0);
 	const { textColor, isDarkModeOn, cardColor } = useColor();
-	// Drag event
+
 	const drag = Gesture.Pan()
 		.onChange((event) => {
 			const nextY = translateY.value + event.changeY;
-
 			if (nextY >= 0) {
 				translateY.value = nextY;
 			}
@@ -44,29 +37,23 @@ export default function BottomSheet({ actionsItems, handleClose }: Props) {
 
 	const containerStyle = useAnimatedStyle(() => {
 		return {
-			transform: [
-				{
-					translateY: translateY.value,
-				},
-			],
+			transform: [{ translateY: translateY.value }],
 		};
 	});
 
 	const bgStyle = isDarkModeOn ? cardColor : "#F9F9F9";
+
 	return (
 		<GestureHandlerRootView>
 			<Animated.View style={[styles.wrapper, containerStyle]}>
 				<GestureDetector gesture={drag}>
-					<Animated.View
-						style={[{ backgroundColor: bgStyle }, styles.container]}
-						entering={FadeInDown}
-						exiting={FadeOut}>
+					<Animated.View style={[{ backgroundColor: bgStyle }, styles.container]} entering={FadeInDown} exiting={FadeOut}>
 						<Pressable style={styles.dragButton} />
 						<Text style={[styles.title, { color: textColor }]}>{t("cards.cta.title")}</Text>
 						{actionsItems.length > 0 &&
-							actionsItems.map((e) => {
-								return <ActionButton key={`${e.label}`} onPress={e.callback} label={e.label} />;
-							})}
+							actionsItems.map((action) => (
+								<ActionButton key={action.label} onPress={action.callback} label={action.label} />
+							))}
 						<Pressable>
 							<Text style={[styles.cancel, { color: textColor }]} onPress={handleClose}>
 								{t("cards.cta.cancel")}
@@ -77,7 +64,7 @@ export default function BottomSheet({ actionsItems, handleClose }: Props) {
 			</Animated.View>
 		</GestureHandlerRootView>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	wrapper: {

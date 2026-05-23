@@ -5,9 +5,9 @@ type Props = {
 	imgSource: string;
 };
 
-export default function ImageViewer({ imgSource }: Props) {
+export const ImageViewer = ({ imgSource }: Props): JSX.Element => {
 	return <Image source={imgSource} style={styles.image} contentFit="contain" />;
-}
+};
 
 const styles = StyleSheet.create({
 	image: {

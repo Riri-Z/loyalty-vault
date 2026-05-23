@@ -1,11 +1,11 @@
-import LanguagePicker from "@/components/LanguagePicker";
-import ThemePicker from "@/components/ThemePicker";
-import CardContainer from "@/components/ui/CardContainer";
-import ViewContainer from "@/components/ui/ViewContainer";
+import { LanguagePicker } from "@/components/shared/LanguagePicker";
+import { ThemePicker } from "@/components/shared/ThemePicker";
+import { CardContainer } from "@/components/ui/CardContainer";
+import { ViewContainer } from "@/components/ui/ViewContainer";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useColor } from "@/providers/ThemeContext";
 import { useTranslation } from "react-i18next";
-import TwoButtonAlert from "@/components/ui/TwoButtonAlert";
+import { TwoButtonAlert } from "@/components/ui/TwoButtonAlert";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -18,19 +18,22 @@ import { BottomSheetContext } from "@/providers/BottomSheetContext";
 
 const EMAIL_CONTACT = process.env.EXPO_PUBLIC_CONTACT;
 
-export default function SettingsScreen() {
+type ActionItem = {
+	label: string;
+	callback: () => void;
+};
+
+export default function SettingsScreen(): JSX.Element {
 	const { danger, textColor } = useColor();
 	const { t, i18n } = useTranslation();
 	const router = useRouter();
 	const { clearDataCards } = useContext(CardContext);
-	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); //Init to currrent languages
+	const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
-	const { handleCloseBottomSheet, handleDisplayBottomSheet, handleUpdateActions } =
-		useContext(BottomSheetContext);
+	const { handleCloseBottomSheet, handleDisplayBottomSheet, handleUpdateActions } = useContext(BottomSheetContext);
 
-	// Clear database, and storage
-	async function handleClearData() {
-		resetOnBoardingScreen();
+	const handleClearData = async (): Promise<void> => {
+		await resetOnBoardingScreen();
 		const res = await clearDataCards();
 		if (res.success) {
 			Toast.show({
@@ -39,38 +42,35 @@ export default function SettingsScreen() {
 			});
 		} else {
 			Toast.show({
-				type: "success",
+				type: "error",
 				text1: t("cards.clearApp.failed"),
 			});
 		}
-	}
+	};
 
-	const handleToggleLangueOption = () => {
-		handleUpdateActions(BOTTOM_SHEET_OPTIONS.actionsItems);
+	const handleToggleLangueOption = (): void => {
+		handleUpdateActions(getBottomSheetOptions().actionsItems);
 		handleDisplayBottomSheet(true);
 	};
 
-	async function resetOnBoardingScreen() {
-		await AsyncStorage.removeItem("onBoardingSteps", () => console.log("cleared onBoardingSteps"));
-	}
+	const resetOnBoardingScreen = async (): Promise<void> => {
+		await AsyncStorage.removeItem("onBoardingSteps");
+	};
 
-	const updateLanguage = (langue: string) => {
-		setSelectedLanguage(langue);
+	const updateLanguage = (lang: string): void => {
+		setSelectedLanguage(lang);
 		handleCloseBottomSheet();
 	};
 
-	const BOTTOM_SHEET_OPTIONS = {
-		actionsItems: Object.keys(AVAILABLE_LANGUAGES).map((e) => {
-			return {
-				label: t(`key_language.${AVAILABLE_LANGUAGES[e as keyof typeof AVAILABLE_LANGUAGES]}`),
-				callback: () => updateLanguage(AVAILABLE_LANGUAGES[e as keyof typeof AVAILABLE_LANGUAGES]),
-			};
-		}),
-
+	const getBottomSheetOptions = (): { actionsItems: ActionItem[]; handleClose: () => void } => ({
+		actionsItems: Object.keys(AVAILABLE_LANGUAGES).map((key) => ({
+			label: t(`key_language.${AVAILABLE_LANGUAGES[key as keyof typeof AVAILABLE_LANGUAGES]}`),
+			callback: () => updateLanguage(AVAILABLE_LANGUAGES[key as keyof typeof AVAILABLE_LANGUAGES]),
+		})),
 		handleClose: handleToggleLangueOption,
-	};
+	});
 
-	async function handleopenCleardataAlert() {
+	const handleOpenClearDataAlert = async (): Promise<void> => {
 		return TwoButtonAlert({
 			title: t("settings.cleanData.confirmationTitle"),
 			content: t("settings.cleanData.confirmationContent"),
@@ -78,9 +78,9 @@ export default function SettingsScreen() {
 			textOk: t("cards.deleteAlert.ok"),
 			handleOk: handleClearData,
 		});
-	}
+	};
 
-	async function handleOpenContact() {
+	const handleOpenContact = async (): Promise<void> => {
 		return TwoButtonAlert({
 			title: "Contact",
 			content: `${process.env.EXPO_PUBLIC_CONTACT}`,
@@ -88,9 +88,9 @@ export default function SettingsScreen() {
 			textOk: t("settings.copy"),
 			handleOk: copyContactToClipBoard,
 		});
-	}
+	};
 
-	async function copyContactToClipBoard() {
+	const copyContactToClipBoard = async (): Promise<void> => {
 		await Clipboard.setStringAsync(EMAIL_CONTACT ?? "");
 		const res = await Clipboard.hasStringAsync();
 		if (res) {
@@ -104,13 +104,11 @@ export default function SettingsScreen() {
 				text1: t("settings.failedCopy"),
 			});
 		}
-	}
+	};
 
 	return (
 		<ViewContainer>
-			<Text style={{ color: textColor, fontSize: 20, gap: 10 }}>
-				{t("settings.personalization")}
-			</Text>
+			<Text style={{ color: textColor, fontSize: 20, gap: 10 }}>{t("settings.personalization")}</Text>
 			<CardContainer>
 				<Pressable onPress={handleToggleLangueOption}>
 					<LanguagePicker newLanguage={selectedLanguage} />
@@ -118,21 +116,16 @@ export default function SettingsScreen() {
 				<ThemePicker />
 			</CardContainer>
 			<CardContainer>
-				{/* Contact us */}
-				<Pressable
-					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
-					onPress={handleOpenContact}>
+				<Pressable style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]} onPress={handleOpenContact}>
 					<Text style={[styles.label, { color: textColor }]}>{t("settings.contactUs")}</Text>
 					<FontAwesome5 name="angle-right" size={15} color={textColor} />
 				</Pressable>
-				{/* Terms of service */}
 				<Pressable
 					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
 					onPress={() => router.navigate("/CGU")}>
 					<Text style={[styles.label, { color: textColor }]}>{t("settings.cgu")}</Text>
 					<FontAwesome5 name="angle-right" size={15} color={textColor} />
 				</Pressable>
-				{/* Privacy policy */}
 				<Pressable
 					style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.5 }]}
 					onPress={() => router.navigate("/PrivacyPolicy")}>
@@ -140,12 +133,9 @@ export default function SettingsScreen() {
 					<FontAwesome5 name="angle-right" size={15} color={textColor} />
 				</Pressable>
 			</CardContainer>
-			{/* CTA delete data */}
 			<View style={[styles.clearDataContainer, { backgroundColor: danger }]}>
-				<Pressable
-					onPress={handleopenCleardataAlert}
-					style={({ pressed }) => pressed && { opacity: 0.5 }}>
-					<Text style={[styles.text]}>{t("settings.cleanData.button")}</Text>
+				<Pressable onPress={handleOpenClearDataAlert} style={({ pressed }) => pressed && { opacity: 0.5 }}>
+					<Text style={styles.clearDataText}>{t("settings.cleanData.button")}</Text>
 				</Pressable>
 			</View>
 		</ViewContainer>
@@ -159,7 +149,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		borderRadius: 10,
 	},
-	text: {
+	clearDataText: {
 		alignSelf: "center",
 		fontWeight: 600,
 		fontSize: 16,
@@ -178,15 +168,5 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-	},
-	backdrop: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		zIndex: 1,
-		backgroundColor: "black",
-		opacity: 0.8,
 	},
 });

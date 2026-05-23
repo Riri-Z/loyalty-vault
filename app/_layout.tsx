@@ -1,11 +1,11 @@
 import { Stack } from "expo-router";
-import "@/i18n"; // This line imports the i18n configuration
+import "@/i18n";
 import { SQLiteProvider } from "expo-sqlite";
 import { CardProvider } from "@/providers/CardContext";
 import { useEffect } from "react";
 import * as SystemUI from "expo-system-ui";
 import { Appearance, useColorScheme } from "react-native";
-import { createDb } from "@/providers/useDatabase";
+import { createDb } from "@/services/databaseService";
 import { useTranslation } from "react-i18next";
 import { ThemeProvider, useColor } from "@/providers/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,14 +14,9 @@ import Toast from "react-native-toast-message";
 import { toastConfig } from "@/components/ui/CustomToast";
 import { PostHogProvider } from "posthog-react-native";
 
-export interface Card {
-	id: number;
-	name: string;
-	fileUri: string;
-}
 export type Theme = "light" | "dark" | "system";
 
-export default function RootLayout() {
+export default function RootLayout(): JSX.Element {
 	const colorScheme = useColorScheme();
 	const { textColor, bgColor } = useColor();
 	const { t } = useTranslation();
@@ -31,7 +26,7 @@ export default function RootLayout() {
 	}, [colorScheme]);
 
 	useEffect(() => {
-		const getThemeStorage = async () => {
+		const getThemeStorage = async (): Promise<void> => {
 			try {
 				const themeStore = await AsyncStorage.getItem("theme");
 				if (themeStore === "dark") {
@@ -58,17 +53,16 @@ export default function RootLayout() {
 			<ThemeProvider>
 				<SQLiteProvider databaseName="db" onInit={createDb}>
 					<CardProvider>
-						{/* Allow bottomSheet to be in front of tabs */}
 						<BottomSheetProvider>
 							<Stack
 								screenOptions={{
-									headerShown: false, // Hide headers for all screens by default
+									headerShown: false,
 								}}>
 								<Stack.Screen
 									name="(tabs)"
 									options={{
 										headerShown: false,
-										gestureEnabled: true, // Disable swipe gestures for tab screens
+										gestureEnabled: true,
 									}}
 								/>
 								<Stack.Screen
@@ -131,7 +125,6 @@ export default function RootLayout() {
 										gestureEnabled: true,
 									}}
 								/>
-
 								<Stack.Screen name="+not-found" />
 							</Stack>
 							<Toast config={toastConfig} position="bottom" visibilityTime={4000} autoHide />

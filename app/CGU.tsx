@@ -1,9 +1,9 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import ViewContainer from "@/components/ui/ViewContainer";
+import { ViewContainer } from "@/components/ui/ViewContainer";
 import { useColor } from "@/providers/ThemeContext";
 
-export default function CGU() {
+export default function CGU(): JSX.Element {
 	const { t } = useTranslation();
 	const { textColor, bgColor } = useColor();
 

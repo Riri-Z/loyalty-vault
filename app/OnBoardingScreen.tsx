@@ -1,59 +1,55 @@
-import {
-	StyleSheet,
-	Text,
-	View,
-	NativeSyntheticEvent,
-	NativeScrollEvent,
-	FlatList,
-	Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, NativeSyntheticEvent, NativeScrollEvent, FlatList, Pressable } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useColor } from "@/providers/ThemeContext";
 import { useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import Onboarding from "@/components/OnBoarding";
+import { OnBoarding } from "@/components/shared/OnBoarding";
 import { StatusBar } from "expo-status-bar";
 
-export default function OnBoardingScreen() {
+type OnboardingItem = {
+	id: number;
+	title: string;
+	icon: number;
+	text: string;
+	isLottie: boolean;
+};
+
+export default function OnBoardingScreen(): JSX.Element {
 	const { t } = useTranslation();
 	const [steps, setSteps] = useState(0);
 	const flatListRef = useRef<FlatList>(null);
 	const router = useRouter();
 	const { secondaryColor, bgColor, isDarkModeOn } = useColor();
 
-	async function handleNextSteps() {
+	const handleNextSteps = async (): Promise<void> => {
 		if (steps < DATA_ON_BOARDING.length - 1) {
 			const newStep = steps + 1;
 			setSteps(newStep);
 			flatListRef.current?.scrollToIndex({ index: newStep, animated: true });
 		} else {
-			// End of onboarding
-			handleEndOnboarding();
+			await handleEndOnboarding();
 		}
-	}
+	};
 
-	// Redirect user to home page
-	async function handleEndOnboarding() {
+	const handleEndOnboarding = async (): Promise<void> => {
 		router.push("/(tabs)");
 		await AsyncStorage.setItem("onBoardingSteps", "3");
-	}
+	};
 
-	// Handle click on dot
-	function handleJumpSteps(step: number) {
+	const handleJumpSteps = (step: number): void => {
 		flatListRef.current?.scrollToIndex({ index: step, animated: true });
 		setSteps(step);
-	}
+	};
 
-	// Compute new step when user scroll onBoarding screens
-	const handleScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+	const handleScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>): void => {
 		const offsetX = event.nativeEvent.contentOffset.x;
-		const layoutWidth = event.nativeEvent.layoutMeasurement.width; // Width device
+		const layoutWidth = event.nativeEvent.layoutMeasurement.width;
 		const newIndex = Math.round(offsetX / layoutWidth);
 		setSteps(newIndex);
 	};
-	// Data for onboarding screens
-	const DATA_ON_BOARDING = [
+
+	const DATA_ON_BOARDING: OnboardingItem[] = [
 		{
 			id: 1,
 			title: "onBoarding.screen1.title",
@@ -76,6 +72,7 @@ export default function OnBoardingScreen() {
 			isLottie: false,
 		},
 	];
+
 	return (
 		<>
 			<StatusBar style={isDarkModeOn ? "light" : "dark"} backgroundColor={bgColor} />
@@ -86,23 +83,21 @@ export default function OnBoardingScreen() {
 					pagingEnabled
 					data={DATA_ON_BOARDING}
 					showsHorizontalScrollIndicator={false}
-					renderItem={({ item }) => <Onboarding {...item} />}
+					renderItem={({ item }) => <OnBoarding title={item.title} text={item.text} icon={item.icon} isLottie={item.isLottie} />}
 					keyExtractor={(_, index) => index.toString()}
 					onMomentumScrollEnd={handleScrollEnd}
 				/>
 				<View style={styles.dotsContainer}>
-					{DATA_ON_BOARDING.map((e, index) => (
+					{DATA_ON_BOARDING.map((item, index) => (
 						<Pressable
-							key={e.id}
+							key={item.id}
 							onPress={() => handleJumpSteps(index)}
 							style={[styles.dot, { backgroundColor: index === steps ? secondaryColor : "#ccc" }]}
 						/>
 					))}
 				</View>
-				<Pressable
-					style={[styles.button, { backgroundColor: secondaryColor }]}
-					onPress={handleNextSteps}>
-					<Text style={{ color: "#ffff" }}>
+				<Pressable style={[styles.button, { backgroundColor: secondaryColor }]} onPress={handleNextSteps}>
+					<Text style={styles.buttonText}>
 						{steps === DATA_ON_BOARDING.length - 1 ? t("onBoarding.end") : t("onBoarding.next")}
 					</Text>
 				</Pressable>
@@ -110,6 +105,7 @@ export default function OnBoardingScreen() {
 		</>
 	);
 }
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -129,5 +125,8 @@ const styles = StyleSheet.create({
 		borderRadius: 999,
 		width: 100,
 		alignItems: "center",
+	},
+	buttonText: {
+		color: "#ffff",
 	},
 });

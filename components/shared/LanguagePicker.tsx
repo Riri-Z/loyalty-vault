@@ -4,45 +4,48 @@ import { StyleSheet, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useColor } from "@/providers/ThemeContext";
 
-export default function LanguagePicker({ newLanguage }: { newLanguage: string }) {
+type Props = {
+	newLanguage: string;
+};
+
+export const LanguagePicker = ({ newLanguage }: Props): JSX.Element => {
 	const { i18n, t } = useTranslation();
 	const { textColor } = useColor();
 
-	// Update i18n language
 	const handleChangeLanguage = useCallback(
-		(newLangue: string) => {
-			i18n.changeLanguage(newLangue);
-			AsyncStorage.setItem("language", newLangue);
+		(lang: string): void => {
+			i18n.changeLanguage(lang);
+			AsyncStorage.setItem("language", lang);
 		},
 		[i18n],
 	);
+
 	useEffect(() => {
-		return handleChangeLanguage(newLanguage);
+		handleChangeLanguage(newLanguage);
 	}, [newLanguage, handleChangeLanguage]);
 
 	return (
-		<View
-			style={{
-				flexDirection: "row",
-				width: "100%",
-				alignItems: "center",
-				justifyContent: "space-between",
-				gap: 10,
-			}}>
+		<View style={styles.container}>
 			<Text style={[styles.label, { color: textColor }]}>{t("settings.language")}</Text>
 			<Text style={styles.itemValue}>{t("key_language." + newLanguage)}</Text>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
+	container: {
+		flexDirection: "row",
+		width: "100%",
+		alignItems: "center",
+		justifyContent: "space-between",
+		gap: 10,
+	},
 	label: {
 		fontSize: 16,
-		color: "#888", // Couleur plus claire ou plus foncée
+		color: "#888",
 	},
 	itemValue: {
 		fontSize: 16,
-		color: "#888", // Couleur plus claire ou plus foncée
+		color: "#888",
 	},
-	content: {},
 });

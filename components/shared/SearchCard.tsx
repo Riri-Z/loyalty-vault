@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextInput, View } from "react-native";
 
-export default function SearchCard() {
+export const SearchCard = (): JSX.Element => {
 	const { handleSearch, searchValue, handleClearSearchValue } = useContext(CardContext);
 	const { cardColor, textColor, danger } = useColor();
 	const { t } = useTranslation();
@@ -31,7 +31,7 @@ export default function SearchCard() {
 			)}
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	containerInput: {

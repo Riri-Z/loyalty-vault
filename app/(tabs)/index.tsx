@@ -1,18 +1,18 @@
-import { CardsList } from "@/components/CardsList";
+import { CardsList } from "@/components/shared/CardsList";
 import { useContext, useEffect } from "react";
-import ViewContainer from "@/components/ui/ViewContainer";
-import AddCardButton from "@/components/ui/AddCardbutton";
+import { ViewContainer } from "@/components/ui/ViewContainer";
+import { AddCardButton } from "@/components/ui/AddCardButton";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import LottieView from "lottie-react-native";
 import { CardContext } from "@/providers/CardContext";
 import { useNavigation } from "expo-router";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
-import SearchCard from "@/components/SearchCard";
+import { SearchCard } from "@/components/shared/SearchCard";
 
 const creditCardLogo = require("../../assets/lottie/cards-animated.json");
 
-export default function Index() {
+export default function Index(): JSX.Element {
 	const { t } = useTranslation();
 	const { cards, filteredCards, loading, searchValue } = useContext(CardContext);
 	const { isVisible, handleCloseBottomSheet } = useContext(BottomSheetContext);
@@ -20,7 +20,7 @@ export default function Index() {
 	const navigation = useNavigation();
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener("focus", (e) => {
+		const unsubscribe = navigation.addListener("focus", () => {
 			if (isVisible) {
 				handleCloseBottomSheet();
 			}
@@ -34,7 +34,7 @@ export default function Index() {
 			{Array.isArray(cards) && cards.length === 0 && searchValue === null ? (
 				<View style={styles.container}>
 					<LottieView source={creditCardLogo} style={styles.image} autoPlay loop />
-					<Text style={[styles.text]}>{t("cards.cta.registerFirstCard")}</Text>
+					<Text style={styles.text}>{t("cards.cta.registerFirstCard")}</Text>
 				</View>
 			) : (
 				<>
@@ -43,14 +43,11 @@ export default function Index() {
 						<ActivityIndicator style={styles.loading} size="large" />
 					) : (
 						<View style={styles.cardsContainer}>
-							<CardsList
-								cards={searchValue && searchValue.trim().length > 0 ? filteredCards : cards}
-							/>
+							<CardsList cards={searchValue && searchValue.trim().length > 0 ? filteredCards : cards} />
 						</View>
 					)}
 				</>
 			)}
-
 			<AddCardButton />
 		</ViewContainer>
 	);

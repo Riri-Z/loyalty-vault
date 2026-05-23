@@ -1,6 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export const ActionButton = ({ onPress, label }: { onPress: () => void; label: string }) => (
+type Props = {
+	onPress: () => void;
+	label: string;
+};
+
+export const ActionButton = ({ onPress, label }: Props): JSX.Element => (
 	<TouchableOpacity style={styles.button} onPress={onPress}>
 		<Text style={styles.text}>{label}</Text>
 	</TouchableOpacity>

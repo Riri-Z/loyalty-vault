@@ -3,7 +3,9 @@ import { StyleSheet, View } from "react-native";
 import { useColor } from "@/providers/ThemeContext";
 import { StatusBar } from "expo-status-bar";
 
-export default function ViewContainer({ children }: PropsWithChildren) {
+type Props = PropsWithChildren;
+
+export const ViewContainer = ({ children }: Props): JSX.Element => {
 	const { bgColor, isDarkModeOn } = useColor();
 
 	return (
@@ -12,7 +14,7 @@ export default function ViewContainer({ children }: PropsWithChildren) {
 			<View style={[styles.container, { backgroundColor: bgColor }]}>{children}</View>
 		</>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {

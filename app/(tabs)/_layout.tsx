@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useColor } from "@/providers/ThemeContext";
 import { StatusBar } from "expo-status-bar";
 import { PaperProvider, Portal } from "react-native-paper";
-import BottomSheet from "@/components/ui/BottomSheet";
+import { BottomSheet } from "@/components/ui/BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useContext } from "react";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
 
-export default function TabLayout() {
+export default function TabLayout(): JSX.Element {
 	const { i18n } = useTranslation();
 	const { bgColor, tabBgcolor, textColor, tabIconColor, isDarkModeOn } = useColor();
 	const { isVisible, handleCloseBottomSheet, actions } = useContext(BottomSheetContext);
@@ -36,7 +36,6 @@ export default function TabLayout() {
 						sceneStyle: {
 							backgroundColor: bgColor,
 						},
-						// Tab bar
 						tabBarStyle: {
 							backgroundColor: tabBgcolor,
 							height: 70,
@@ -61,11 +60,7 @@ export default function TabLayout() {
 						options={{
 							title: i18n.t("tabs.settings"),
 							tabBarIcon: ({ color, focused }) => (
-								<Ionicons
-									name={focused ? "settings" : "settings-outline"}
-									color={color}
-									size={24}
-								/>
+								<Ionicons name={focused ? "settings" : "settings-outline"} color={color} size={24} />
 							),
 						}}
 					/>

@@ -5,18 +5,19 @@ type Props = {
 	content: string;
 	textCancel?: string;
 	textOk?: string;
-	handleOk: any;
+	handleOk: () => void;
 	cancelable?: boolean;
 };
-export default function TwoButtonAlert({
+
+export const TwoButtonAlert = ({
 	title = "",
 	content = "",
 	textCancel = "Cancel",
 	textOk = "OK",
 	handleOk,
 	cancelable = true,
-}: Props) {
-	return Alert.alert(
+}: Props): void => {
+	Alert.alert(
 		title,
 		content,
 		[
@@ -26,8 +27,6 @@ export default function TwoButtonAlert({
 			},
 			{ text: textOk, onPress: handleOk },
 		],
-		{
-			cancelable: cancelable,
-		},
+		{ cancelable },
 	);
-}
+};

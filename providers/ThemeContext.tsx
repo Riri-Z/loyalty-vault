@@ -2,13 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
 import { Appearance, useColorScheme } from "react-native";
 
-const ThemeContext = createContext<ContextType>({} as ContextType);
-
-interface ContextType extends ThemeType {
-	isDarkModeOn: boolean;
-	toggleTheme: (activateDarkMode: boolean) => void;
-}
-
 type ThemeType = {
 	textColor: string;
 	secondaryColor: string;
@@ -18,6 +11,13 @@ type ThemeType = {
 	tabIconColor: string;
 	tabBgcolor: string;
 };
+
+type ContextType = ThemeType & {
+	isDarkModeOn: boolean;
+	toggleTheme: (activateDarkMode: boolean) => void;
+};
+
+const ThemeContext = createContext<ContextType>({} as ContextType);
 
 const COLOR_PALETTE = {
 	dark: {
@@ -40,32 +40,32 @@ const COLOR_PALETTE = {
 	},
 };
 
-function ThemeProvider({ children }: { children: ReactNode }) {
+type ThemeProviderProps = {
+	children: ReactNode;
+};
+
+export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
 	const colorScheme = useColorScheme();
 	const [isDarkModeOn, setIsDarkModeOn] = useState(colorScheme === "dark");
 
-	const toggleTheme = (activateDarkMode: boolean) => {
+	const toggleTheme = (activateDarkMode: boolean): void => {
 		Appearance.setColorScheme(activateDarkMode ? "dark" : "light");
 		setIsDarkModeOn((prev) => !prev);
 	};
 
-	// Save to storage
 	useEffect(() => {
 		AsyncStorage.setItem("theme", colorScheme ?? "light");
 	}, [colorScheme]);
 
-	const value = useMemo(() => {
+	const value = useMemo((): ContextType => {
 		const theme = { ...COLOR_PALETTE[colorScheme ?? "light"] } as ThemeType;
 		return { ...theme, isDarkModeOn, toggleTheme };
 	}, [colorScheme, isDarkModeOn]);
 
 	return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-}
+};
 
-function useColor() {
+export const useColor = (): ContextType => {
 	const context = useContext(ThemeContext);
-
 	return context;
-}
-
-export { useColor, ThemeProvider };
+};
