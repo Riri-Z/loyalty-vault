@@ -95,6 +95,11 @@
 		"placeHolderName": "E.g.: McDonalds, subway...",
 		"editCard": "Edit a card",
 		"addCard": "Add a new card",
+		"storeLabel": "Store",
+		"storeSearchPlaceholder": "Search a store...",
+		"cardNumberLabel": "Card number",
+		"cardNumberPlaceholder": "1234 5678 9012 3456",
+		"autoGenerate": "Auto",
 		"searchInput": {
 			"placeHolderName": "Filter..",
 			"result": "Result(s)"

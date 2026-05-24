@@ -44,6 +44,8 @@ export const CardsList = ({ cards }: Props): JSX.Element => {
 							id={item.id}
 							name={item.name}
 							fileUri={item.fileUri}
+							storeId={item.storeId}
+							cardNumber={item.cardNumber}
 							openCardDetail={() => handleSelectedCard(item)}
 						/>
 					)}

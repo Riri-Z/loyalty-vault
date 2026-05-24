@@ -109,29 +109,32 @@ export const CardProvider = ({ children }: CardProviderProps): JSX.Element => {
 		[cards],
 	);
 
-	const updateCard = useCallback(async ({ id, name, fileUri }: UpdateCard): Promise<{ success: boolean }> => {
-		setLoading(true);
-		try {
-			const res = await updateOne({ id, name, fileUri });
-			if (res?.changes !== 0) {
-				setCards((prev) => {
-					const currentCards = [...prev];
-					const index = currentCards.findIndex((card) => card.id === id);
-					if (index !== -1) {
-						currentCards[index] = { id, name, fileUri };
-					}
-					return currentCards;
-				});
-				return { success: true };
+	const updateCard = useCallback(
+		async ({ id, name, fileUri, storeId, cardNumber }: UpdateCard): Promise<{ success: boolean }> => {
+			setLoading(true);
+			try {
+				const res = await updateOne({ id, name, fileUri, storeId, cardNumber });
+				if (res?.changes !== 0) {
+					setCards((prev) => {
+						const currentCards = [...prev];
+						const index = currentCards.findIndex((card) => card.id === id);
+						if (index !== -1) {
+							currentCards[index] = { id, name, fileUri, storeId, cardNumber };
+						}
+						return currentCards;
+					});
+					return { success: true };
+				}
+				return { success: false };
+			} catch (error) {
+				console.error(error);
+				return { success: false };
+			} finally {
+				setLoading(false);
 			}
-			return { success: false };
-		} catch (error) {
-			console.error(error);
-			return { success: false };
-		} finally {
-			setLoading(false);
-		}
-	}, []);
+		},
+		[],
+	);
 
 	const deleteCard = useCallback(
 		async (id: number): Promise<{ success: boolean }> => {

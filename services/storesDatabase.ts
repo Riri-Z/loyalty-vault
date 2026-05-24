@@ -1,0 +1,791 @@
+export type StoreCategory =
+	| "supermarket"
+	| "fashion"
+	| "home"
+	| "electronics"
+	| "restaurant"
+	| "fuel"
+	| "pharmacy"
+	| "travel"
+	| "leisure"
+	| "beauty"
+	| "other";
+
+export interface Store {
+	id: number;
+	name: string;
+	category: StoreCategory;
+	iconName: string;
+	iconFamily: "MaterialIcons" | "Ionicons" | "FontAwesome" | "FontAwesome5" | "MaterialCommunityIcons";
+	iconColor: string;
+	backgroundColor: string;
+}
+
+export const CATEGORY_LABELS: Record<StoreCategory, string> = {
+	supermarket: "Supermarket",
+	fashion: "Fashion",
+	home: "Home & DIY",
+	electronics: "Electronics",
+	restaurant: "Food & Drinks",
+	fuel: "Fuel",
+	pharmacy: "Health & Pharmacy",
+	travel: "Travel",
+	leisure: "Leisure & Culture",
+	beauty: "Beauty & Care",
+	other: "Other",
+};
+
+export const CATEGORY_LABELS_FR: Record<StoreCategory, string> = {
+	supermarket: "Supermarché",
+	fashion: "Mode",
+	home: "Maison & Bricolage",
+	electronics: "Électronique",
+	restaurant: "Restauration",
+	fuel: "Carburant",
+	pharmacy: "Pharmacie & Santé",
+	travel: "Voyage",
+	leisure: "Loisirs & Culture",
+	beauty: "Beauté & Soins",
+	other: "Autres",
+};
+
+export const frenchStores: Store[] = [
+	// ===== SUPERMARKETS =====
+	{
+		id: 1,
+		name: "Carrefour",
+		category: "supermarket",
+		iconName: "shopping-cart",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+	{
+		id: 2,
+		name: "Auchan",
+		category: "supermarket",
+		iconName: "shopping-cart",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E2001A",
+	},
+	{
+		id: 3,
+		name: "Leclerc",
+		category: "supermarket",
+		iconName: "local-grocery-store",
+		iconFamily: "MaterialIcons",
+		iconColor: "#003DA5",
+		backgroundColor: "#F7F7F7",
+	},
+	{
+		id: 4,
+		name: "Intermarché",
+		category: "supermarket",
+		iconName: "store",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#D50032",
+	},
+	{
+		id: 5,
+		name: "Super U / Hyper U",
+		category: "supermarket",
+		iconName: "storefront",
+		iconFamily: "MaterialIcons",
+		iconColor: "#E2001A",
+		backgroundColor: "#fff",
+	},
+	{
+		id: 6,
+		name: "Franprix",
+		category: "supermarket",
+		iconName: "store",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#008752",
+	},
+	{
+		id: 7,
+		name: "Monoprix",
+		category: "supermarket",
+		iconName: "shopping-bag",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E3000F",
+	},
+	{
+		id: 8,
+		name: "Lidl",
+		category: "supermarket",
+		iconName: "shopping-basket",
+		iconFamily: "MaterialIcons",
+		iconColor: "#003DA5",
+		backgroundColor: "#FFF000",
+	},
+	{
+		id: 9,
+		name: "Aldi",
+		category: "supermarket",
+		iconName: "shopping-basket",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003C7D",
+	},
+	{
+		id: 10,
+		name: "Casino",
+		category: "supermarket",
+		iconName: "local-grocery-store",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#00794A",
+	},
+	{
+		id: 11,
+		name: "Cora",
+		category: "supermarket",
+		iconName: "shopping-cart",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E30613",
+	},
+	{
+		id: 12,
+		name: "Picard",
+		category: "supermarket",
+		iconName: "ac-unit",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+	{
+		id: 13,
+		name: "Grand Frais",
+		category: "supermarket",
+		iconName: "eco",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#4CAF50",
+	},
+	{
+		id: 14,
+		name: "BIOCOOP",
+		category: "supermarket",
+		iconName: "eco",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#2E7D32",
+	},
+	{
+		id: 15,
+		name: "Naturalia",
+		category: "supermarket",
+		iconName: "park",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#4CAF50",
+	},
+
+	// ===== FASHION =====
+	{
+		id: 16,
+		name: "Galeries Lafayette",
+		category: "fashion",
+		iconName: "style",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#000",
+	},
+	{
+		id: 17,
+		name: "Kiabi",
+		category: "fashion",
+		iconName: "checkroom",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E6007E",
+	},
+	{
+		id: 18,
+		name: "Decathlon",
+		category: "fashion",
+		iconName: "fitness-center",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#0082C3",
+	},
+	{
+		id: 19,
+		name: "Jules",
+		category: "fashion",
+		iconName: "style",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#1a1a1a",
+	},
+	{
+		id: 20,
+		name: "C&A",
+		category: "fashion",
+		iconName: "checkroom",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E30613",
+	},
+	{
+		id: 21,
+		name: "H&M",
+		category: "fashion",
+		iconName: "style",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E50010",
+	},
+	{
+		id: 22,
+		name: "Zara",
+		category: "fashion",
+		iconName: "style",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#000",
+	},
+	{
+		id: 23,
+		name: "Celio",
+		category: "fashion",
+		iconName: "style",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+	{
+		id: 24,
+		name: "Devred",
+		category: "fashion",
+		iconName: "checkroom",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#8B0000",
+	},
+	{
+		id: 25,
+		name: "La Halle",
+		category: "fashion",
+		iconName: "storefront",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E2001A",
+	},
+
+	// ===== HOME & DIY =====
+	{
+		id: 26,
+		name: "Leroy Merlin",
+		category: "home",
+		iconName: "build",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#009440",
+	},
+	{
+		id: 27,
+		name: "Castorama",
+		category: "home",
+		iconName: "handyman",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003399",
+	},
+	{
+		id: 28,
+		name: "Brico Dépôt",
+		category: "home",
+		iconName: "construction",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#ff6600",
+	},
+	{
+		id: 29,
+		name: "IKEA",
+		category: "home",
+		iconName: "chair",
+		iconFamily: "MaterialIcons",
+		iconColor: "#003399",
+		backgroundColor: "#FFDB00",
+	},
+	{
+		id: 30,
+		name: "Maisons du Monde",
+		category: "home",
+		iconName: "home",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#8B4513",
+	},
+	{
+		id: 31,
+		name: "Conforama",
+		category: "home",
+		iconName: "weekend",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E30613",
+	},
+	{
+		id: 32,
+		name: "BUT",
+		category: "home",
+		iconName: "chair",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+
+	// ===== ELECTRONICS =====
+	{
+		id: 33,
+		name: "Fnac",
+		category: "electronics",
+		iconName: "book",
+		iconFamily: "MaterialIcons",
+		iconColor: "#FF9900",
+		backgroundColor: "#000",
+	},
+	{
+		id: 34,
+		name: "Darty",
+		category: "electronics",
+		iconName: "tv",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E30613",
+	},
+	{
+		id: 35,
+		name: "Boulanger",
+		category: "electronics",
+		iconName: "devices",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E2001A",
+	},
+	{
+		id: 36,
+		name: "Micromania",
+		category: "electronics",
+		iconName: "sports-esports",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#8B008B",
+	},
+	{
+		id: 37,
+		name: "LDLC",
+		category: "electronics",
+		iconName: "computer",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+
+	// ===== RESTAURANTS =====
+	{
+		id: 38,
+		name: "McDonald's",
+		category: "restaurant",
+		iconName: "fastfood",
+		iconFamily: "MaterialIcons",
+		iconColor: "#FFC72C",
+		backgroundColor: "#DA291C",
+	},
+	{
+		id: 39,
+		name: "Burger King",
+		category: "restaurant",
+		iconName: "lunch-dining",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#ED1C24",
+	},
+	{
+		id: 40,
+		name: "KFC",
+		category: "restaurant",
+		iconName: "restaurant",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E4002B",
+	},
+	{
+		id: 41,
+		name: "Subway",
+		category: "restaurant",
+		iconName: "restaurant-menu",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#008C15",
+	},
+	{
+		id: 42,
+		name: "Starbucks",
+		category: "restaurant",
+		iconName: "coffee",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#00704A",
+	},
+	{
+		id: 43,
+		name: "Paul",
+		category: "restaurant",
+		iconName: "bakery-dining",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#000",
+	},
+	{
+		id: 44,
+		name: "Brioche Dorée",
+		category: "restaurant",
+		iconName: "bakery-dining",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#C0392B",
+	},
+	{
+		id: 45,
+		name: "La Croissanterie",
+		category: "restaurant",
+		iconName: "breakfast-dining",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#D4A017",
+	},
+	{
+		id: 46,
+		name: "Flunch",
+		category: "restaurant",
+		iconName: "restaurant",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E30613",
+	},
+	{
+		id: 47,
+		name: "Buffalo Grill",
+		category: "restaurant",
+		iconName: "outdoor-grill",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#8B4513",
+	},
+	{
+		id: 48,
+		name: "Hippopotamus",
+		category: "restaurant",
+		iconName: "restaurant",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#B22222",
+	},
+	{
+		id: 49,
+		name: "Columbus Café",
+		category: "restaurant",
+		iconName: "coffee",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#8B4513",
+	},
+
+	// ===== FUEL =====
+	{
+		id: 50,
+		name: "TotalEnergies",
+		category: "fuel",
+		iconName: "local-gas-station",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E2001A",
+	},
+	{
+		id: 51,
+		name: "Shell",
+		category: "fuel",
+		iconName: "local-gas-station",
+		iconFamily: "MaterialIcons",
+		iconColor: "#DA291C",
+		backgroundColor: "#FFC72C",
+	},
+	{
+		id: 52,
+		name: "Esso Express",
+		category: "fuel",
+		iconName: "local-gas-station",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+	{
+		id: 53,
+		name: "Avia",
+		category: "fuel",
+		iconName: "local-gas-station",
+		iconFamily: "MaterialIcons",
+		iconColor: "#003DA5",
+		backgroundColor: "#FFC72C",
+	},
+	{
+		id: 54,
+		name: "Leclerc Station",
+		category: "fuel",
+		iconName: "local-gas-station",
+		iconFamily: "MaterialIcons",
+		iconColor: "#003DA5",
+		backgroundColor: "#F7F7F7",
+	},
+	{
+		id: 55,
+		name: "Carrefour Station",
+		category: "fuel",
+		iconName: "local-gas-station",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+
+	// ===== PHARMACY =====
+	{
+		id: 56,
+		name: "Pharmacie",
+		category: "pharmacy",
+		iconName: "local-pharmacy",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#009440",
+	},
+	{
+		id: 57,
+		name: "Parapharmacie",
+		category: "pharmacy",
+		iconName: "medical-services",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#2E7D32",
+	},
+
+	// ===== TRAVEL =====
+	{
+		id: 58,
+		name: "Air France",
+		category: "travel",
+		iconName: "flight",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+	{
+		id: 59,
+		name: "SNCF",
+		category: "travel",
+		iconName: "train",
+		iconFamily: "MaterialIcons",
+		iconColor: "#CC0000",
+		backgroundColor: "#CCCCCC",
+	},
+	{
+		id: 60,
+		name: "Accor Hotels",
+		category: "travel",
+		iconName: "hotel",
+		iconFamily: "MaterialIcons",
+		iconColor: "#CAA53D",
+		backgroundColor: "#003DA5",
+	},
+	{
+		id: 61,
+		name: "Europcar",
+		category: "travel",
+		iconName: "directions-car",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#009440",
+	},
+
+	// ===== LEISURE =====
+	{
+		id: 62,
+		name: "Pathé Cinéma",
+		category: "leisure",
+		iconName: "movie",
+		iconFamily: "MaterialIcons",
+		iconColor: "#E30613",
+		backgroundColor: "#FFC72C",
+	},
+	{
+		id: 63,
+		name: "UGC Cinéma",
+		category: "leisure",
+		iconName: "movie",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#000",
+	},
+	{
+		id: 64,
+		name: "Cultura",
+		category: "leisure",
+		iconName: "palette",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#8B008B",
+	},
+	{
+		id: 65,
+		name: "Nature & Découvertes",
+		category: "leisure",
+		iconName: "nature",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#008000",
+	},
+	{
+		id: 66,
+		name: "La Fnac Spectacles",
+		category: "leisure",
+		iconName: "confirmation-number",
+		iconFamily: "MaterialIcons",
+		iconColor: "#FF9900",
+		backgroundColor: "#000",
+	},
+
+	// ===== BEAUTY =====
+	{
+		id: 67,
+		name: "Sephora",
+		category: "beauty",
+		iconName: "face",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#000",
+	},
+	{
+		id: 68,
+		name: "Nocibé",
+		category: "beauty",
+		iconName: "spa",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E91E63",
+	},
+	{
+		id: 69,
+		name: "Marionnaud",
+		category: "beauty",
+		iconName: "content-cut",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#C2185B",
+	},
+	{
+		id: 70,
+		name: "Yves Rocher",
+		category: "beauty",
+		iconName: "eco",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#2E7D32",
+	},
+	{
+		id: 71,
+		name: "L'Occitane",
+		category: "beauty",
+		iconName: "spa",
+		iconFamily: "MaterialIcons",
+		iconColor: "#8B4513",
+		backgroundColor: "#FFC72C",
+	},
+
+	// ===== OTHER =====
+	{
+		id: 72,
+		name: "Amazon",
+		category: "other",
+		iconName: "shopping-cart",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#FF9900",
+	},
+	{
+		id: 73,
+		name: "Cdiscount",
+		category: "other",
+		iconName: "percent",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#003DA5",
+	},
+	{
+		id: 74,
+		name: "Veepee",
+		category: "other",
+		iconName: "local-offer",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#E30613",
+	},
+	{
+		id: 75,
+		name: "Showroomprivé",
+		category: "other",
+		iconName: "star",
+		iconFamily: "MaterialIcons",
+		iconColor: "#fff",
+		backgroundColor: "#000",
+	},
+];
+
+export function getStoreById(id: number): Store | undefined {
+	return frenchStores.find((store) => store.id === id);
+}
+
+export function getStoresByCategory(category: StoreCategory): Store[] {
+	return frenchStores.filter((store) => store.category === category);
+}
+
+export function searchStores(query: string): Store[] {
+	const lower = query.toLowerCase();
+	return frenchStores.filter((store) => store.name.toLowerCase().includes(lower));
+}
+
+export function getAllStores(): Store[] {
+	return frenchStores;
+}
+
+export function getStoreCategories(): StoreCategory[] {
+	return [
+		"supermarket",
+		"fashion",
+		"home",
+		"electronics",
+		"restaurant",
+		"fuel",
+		"pharmacy",
+		"travel",
+		"leisure",
+		"beauty",
+		"other",
+	];
+}
+
+export function generateCardNumber(): string {
+	const segments = [4, 4, 4, 4];
+	return segments
+		.map((len) =>
+			Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join(""),
+		)
+		.join(" ");
+}

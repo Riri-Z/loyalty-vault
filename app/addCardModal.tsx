@@ -1,5 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Pressable } from "react-native";
+import { useContext, useEffect, useMemo, useState } from "react";
+import {
+	View,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	Image,
+	StyleSheet,
+	Pressable,
+	FlatList,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons, MaterialIcons, Entypo } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
@@ -13,11 +22,20 @@ import { CardContext } from "@/providers/CardContext";
 import Toast from "react-native-toast-message";
 import { BottomSheetContext } from "@/providers/BottomSheetContext";
 import { usePostHog } from "posthog-react-native";
+import {
+	frenchStores,
+	generateCardNumber,
+	getStoreById,
+	searchStores,
+} from "@/services/storesDatabase";
+import { StoreLogo } from "@/components/shared/StoreLogo";
 
 type ModalParams = {
 	nameCard: string;
 	fileCard: string;
 	idCard: string;
+	storeIdCard: string;
+	cardNumberCard: string;
 };
 
 type ActionItem = {
@@ -28,7 +46,7 @@ type ActionItem = {
 export default function AddCardScreen(): JSX.Element {
 	const { updateCard, addCard } = useContext(CardContext);
 	const { handleUpdateActions, isVisible, actions, handleCloseBottomSheet } = useContext(BottomSheetContext);
-	const { textColor, bgColor, danger } = useColor();
+	const { textColor, bgColor, danger, cardColor, secondaryColor } = useColor();
 	const posthog = usePostHog();
 
 	const [name, setName] = useState("");
@@ -36,9 +54,21 @@ export default function AddCardScreen(): JSX.Element {
 	const [activeCamera, setActiveCamera] = useState(false);
 	const [permission, requestPermission] = useCameraPermissions();
 	const [canSave, setCanSave] = useState(false);
+	const [storeQuery, setStoreQuery] = useState("");
+	const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
+	const [showStoreList, setShowStoreList] = useState(false);
+	const [cardNumber, setCardNumber] = useState("");
 
-	const { nameCard, fileCard, idCard } = useLocalSearchParams() as ModalParams;
+	const { nameCard, fileCard, idCard, storeIdCard, cardNumberCard } =
+		useLocalSearchParams() as ModalParams;
 	const { t, i18n } = useTranslation();
+
+	const selectedStore = selectedStoreId ? getStoreById(selectedStoreId) : null;
+
+	const filteredStores = useMemo(() => {
+		if (!storeQuery.trim()) return frenchStores.slice(0, 20);
+		return searchStores(storeQuery).slice(0, 20);
+	}, [storeQuery]);
 
 	useEffect(() => {
 		setCanSave(name !== "" && file !== "");
@@ -47,7 +77,9 @@ export default function AddCardScreen(): JSX.Element {
 	useEffect(() => {
 		if (nameCard) setName(nameCard);
 		if (fileCard) setFile(fileCard);
-	}, [nameCard, fileCard]);
+		if (storeIdCard) setSelectedStoreId(Number(storeIdCard));
+		if (cardNumberCard) setCardNumber(cardNumberCard);
+	}, [nameCard, fileCard, storeIdCard, cardNumberCard]);
 
 	const pickFile = async (): Promise<void> => {
 		const result = await ImagePicker.launchImageLibraryAsync({
@@ -80,8 +112,16 @@ export default function AddCardScreen(): JSX.Element {
 				return Toast.show({ type: "error", text1: t("cards.alert.missingFile") });
 			}
 
+			const finalCardNumber = cardNumber.trim() || generateCardNumber();
+
 			if (idCard) {
-				const res = await updateCard({ id: +idCard, name, fileUri: file });
+				const res = await updateCard({
+					id: +idCard,
+					name,
+					fileUri: file,
+					storeId: selectedStoreId,
+					cardNumber: finalCardNumber,
+				});
 				if (res.success) {
 					Toast.show({ type: "success", text1: t("cards.addCardAlert.success") });
 					posthog.capture("success updating new card");
@@ -90,7 +130,12 @@ export default function AddCardScreen(): JSX.Element {
 					posthog.capture("Failed updating new card");
 				}
 			} else {
-				const res = await addCard({ name, fileUri: file });
+				const res = await addCard({
+					name,
+					fileUri: file,
+					storeId: selectedStoreId,
+					cardNumber: finalCardNumber,
+				});
 				if (res.success) {
 					Toast.show({ type: "success", text1: t("cards.addCardAlert.success") });
 					posthog.capture("success adding new card");
@@ -165,6 +210,86 @@ export default function AddCardScreen(): JSX.Element {
 							/>
 						</View>
 
+						<Text style={[styles.label, { color: textColor }]}>{t("cards.storeLabel")}</Text>
+						{selectedStore ? (
+							<View style={[styles.storeSelected, { borderColor: textColor + "30" }]}>
+								<StoreLogo storeId={selectedStoreId} size={36} />
+								<Text style={[styles.storeSelectedText, { color: textColor }]}>
+									{selectedStore.name}
+								</Text>
+								<Pressable
+									onPress={() => {
+										setSelectedStoreId(null);
+										setStoreQuery("");
+									}}>
+									<Entypo name="circle-with-cross" size={20} color={danger} />
+								</Pressable>
+							</View>
+						) : (
+							<View style={styles.storeSearchContainer}>
+								<View style={styles.inputContainer}>
+									<MaterialIcons name="search" size={20} color="#777" style={styles.icon} />
+									<TextInput
+										style={[styles.input, { color: textColor }]}
+										placeholder={t("cards.storeSearchPlaceholder")}
+										placeholderTextColor={textColor}
+										value={storeQuery}
+										onChangeText={(txt) => {
+											setStoreQuery(txt);
+											setShowStoreList(true);
+										}}
+										onFocus={() => setShowStoreList(true)}
+									/>
+								</View>
+								{showStoreList && storeQuery.trim().length > 0 && (
+									<View style={[styles.storeList, { backgroundColor: cardColor }]}>
+										<FlatList
+											data={filteredStores}
+											keyExtractor={(s) => s.id.toString()}
+											showsVerticalScrollIndicator={false}
+											style={{ maxHeight: 200 }}
+											renderItem={({ item }) => (
+												<Pressable
+													style={styles.storeItem}
+													onPress={() => {
+														setSelectedStoreId(item.id);
+														setStoreQuery(item.name);
+														setShowStoreList(false);
+													}}>
+													<StoreLogo storeId={item.id} size={32} />
+													<Text style={[styles.storeItemText, { color: textColor }]}>
+														{item.name}
+													</Text>
+												</Pressable>
+											)}
+										/>
+									</View>
+								)}
+							</View>
+						)}
+
+						<Text style={[styles.label, { color: textColor }]}>{t("cards.cardNumberLabel")}</Text>
+						<View style={styles.inputContainer}>
+							<MaterialIcons name="pin" size={20} color="#777" style={styles.icon} />
+							<TextInput
+								style={[styles.input, { color: textColor }]}
+								placeholder={t("cards.cardNumberPlaceholder")}
+								placeholderTextColor={textColor}
+								value={cardNumber}
+								onChangeText={setCardNumber}
+								onFocus={handleCloseBottomSheet}
+								keyboardType="number-pad"
+								maxLength={19}
+							/>
+							{!cardNumber.trim() && (
+								<Pressable
+									onPress={() => setCardNumber(generateCardNumber())}
+									style={[styles.autoBtn, { backgroundColor: secondaryColor }]}>
+									<Text style={styles.autoBtnText}>{t("cards.autoGenerate")}</Text>
+								</Pressable>
+							)}
+						</View>
+
 						<Text style={[styles.label, { color: textColor }]}>{t("cards.importFile")}</Text>
 						{file ? (
 							<View style={styles.filePreviewContainer}>
@@ -181,14 +306,19 @@ export default function AddCardScreen(): JSX.Element {
 						)}
 
 						<View style={styles.ctaContainer}>
-							<TouchableOpacity style={[styles.button, { backgroundColor: "#28a745" }]} onPress={handleOptionFile}>
-								<Text style={styles.textButton}>{t("cards.cta.selectFile")} </Text>
+							<TouchableOpacity
+								style={[styles.button, { backgroundColor: "#28a745" }]}
+								onPress={handleOptionFile}>
+								<Text style={styles.textButton}>{t("cards.cta.selectFile")}</Text>
 							</TouchableOpacity>
 						</View>
 						<TouchableOpacity
-							style={[styles.button, { backgroundColor: "#007bff" }, { opacity: canSave ? 1 : 0.5 }]}
+							style={[
+								styles.button,
+								{ backgroundColor: "#007bff", opacity: canSave ? 1 : 0.5 },
+							]}
 							onPress={handleSaveNewCard}>
-							<Text style={styles.textButton}>{t("cards.cta.save")} </Text>
+							<Text style={styles.textButton}>{t("cards.cta.save")}</Text>
 						</TouchableOpacity>
 					</ViewContainer>
 					{isVisible && actions.length > 0 && <BottomSheet {...getBottomSheetOptions()} />}
@@ -217,7 +347,7 @@ const styles = StyleSheet.create({
 	label: {
 		fontSize: 16,
 		fontWeight: "500",
-		marginTop: 10,
+		marginTop: 14,
 	},
 	inputContainer: {
 		flexDirection: "row",
@@ -234,6 +364,58 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		height: 40,
+	},
+	autoBtn: {
+		paddingHorizontal: 10,
+		paddingVertical: 6,
+		borderRadius: 6,
+	},
+	autoBtnText: {
+		color: "#fff",
+		fontSize: 11,
+		fontWeight: "600",
+	},
+	storeSearchContainer: {
+		position: "relative",
+		zIndex: 10,
+	},
+	storeList: {
+		borderRadius: 8,
+		borderWidth: 1,
+		borderColor: "#ccc",
+		marginTop: 4,
+		elevation: 4,
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.1,
+		shadowRadius: 4,
+	},
+	storeItem: {
+		flexDirection: "row",
+		alignItems: "center",
+		paddingHorizontal: 12,
+		paddingVertical: 10,
+		gap: 10,
+		borderBottomWidth: 0.5,
+		borderBottomColor: "#e0e0e0",
+	},
+	storeItemText: {
+		fontSize: 14,
+	},
+	storeSelected: {
+		flexDirection: "row",
+		alignItems: "center",
+		borderWidth: 1,
+		borderRadius: 8,
+		paddingHorizontal: 10,
+		paddingVertical: 8,
+		marginTop: 5,
+		gap: 10,
+	},
+	storeSelectedText: {
+		flex: 1,
+		fontSize: 14,
+		fontWeight: "500",
 	},
 	placeholder: {
 		alignItems: "center",
