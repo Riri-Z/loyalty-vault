@@ -16,7 +16,7 @@ export default function TabLayout(): JSX.Element {
 
 	return (
 		<>
-			<StatusBar style={isDarkModeOn ? "light" : "dark"} backgroundColor={bgColor} />
+			<StatusBar style={isDarkModeOn ? "light" : "dark"} />
 			<PaperProvider>
 				<Tabs
 					screenOptions={{

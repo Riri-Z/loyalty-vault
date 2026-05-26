@@ -1,5 +1,5 @@
 import { CardsList } from "@/components/shared/CardsList";
-import { useContext, useEffect } from "react";
+import { JSX, useContext, useEffect } from "react";
 import { ViewContainer } from "@/components/ui/ViewContainer";
 import { AddCardButton } from "@/components/ui/AddCardButton";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";

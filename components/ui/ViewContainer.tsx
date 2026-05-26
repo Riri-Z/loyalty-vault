@@ -10,7 +10,7 @@ export const ViewContainer = ({ children }: Props): JSX.Element => {
 
 	return (
 		<>
-			<StatusBar style={isDarkModeOn ? "light" : "dark"} backgroundColor={bgColor} />
+			<StatusBar style={isDarkModeOn ? "light" : "dark"} />
 			<View style={[styles.container, { backgroundColor: bgColor }]}>{children}</View>
 		</>
 	);

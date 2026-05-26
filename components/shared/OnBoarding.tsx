@@ -23,7 +23,7 @@ export const OnBoarding = ({ title, text, icon, isLottie }: Props): JSX.Element 
 			{isLottie ? (
 				<LottieView source={icon} style={styles.image} autoPlay loop />
 			) : (
-				<Image style={styles.image} contentFit="contain" source={icon} />
+				<Image style={styles.image} contentFit="contain" source={icon as any} />
 			)}
 			<Text style={[styles.text, { color: textColor }]}>{t(text)}</Text>
 		</View>

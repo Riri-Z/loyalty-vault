@@ -48,3 +48,5 @@ debug.log
 *playgroundPage.tsx
 
 expo-env.d.ts
+
+coverage

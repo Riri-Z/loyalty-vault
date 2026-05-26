@@ -58,7 +58,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => 
 	}, [colorScheme]);
 
 	const value = useMemo((): ContextType => {
-		const theme = { ...COLOR_PALETTE[colorScheme ?? "light"] } as ThemeType;
+		const scheme = colorScheme === "dark" ? "dark" : "light";
+		const theme = { ...COLOR_PALETTE[scheme] } as ThemeType;
 		return { ...theme, isDarkModeOn, toggleTheme };
 	}, [colorScheme, isDarkModeOn]);
 

@@ -34,7 +34,7 @@ export default function HomeScreen(): JSX.Element {
 
 	return (
 		<>
-			<StatusBar style={isDarkModeOn ? "light" : "dark"} backgroundColor={bgColor} />
+			<StatusBar style={isDarkModeOn ? "light" : "dark"} />
 			<Loading />
 		</>
 	);
