@@ -47,11 +47,6 @@ jest.mock("expo-clipboard", () => ({
 	hasStringAsync: jest.fn(() => Promise.resolve(true)),
 }));
 
-jest.mock("posthog-react-native", () => ({
-	PostHogProvider: ({ children }: { children: React.ReactNode }) => children,
-	usePostHog: () => ({ capture: jest.fn(), reset: jest.fn() }),
-}));
-
 jest.mock("react-native-toast-message", () => ({
 	__esModule: true,
 	default: { show: jest.fn() },

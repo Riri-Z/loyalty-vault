@@ -5,7 +5,6 @@ import { addDatabaseChangeListener } from "expo-sqlite";
 import { useDebounce } from "@/hooks/useDebounce";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
-import { usePostHog } from "posthog-react-native";
 
 type CardContextType = {
 	cards: Card[];
@@ -28,7 +27,6 @@ type CardProviderProps = {
 
 export const CardProvider = ({ children }: CardProviderProps): JSX.Element => {
 	const { t } = useTranslation();
-	const posthog = usePostHog();
 
 	const [cards, setCards] = useState<Card[]>([]);
 	const [filteredCards, setFilteredCards] = useState<Card[]>([]);
@@ -143,11 +141,8 @@ export const CardProvider = ({ children }: CardProviderProps): JSX.Element => {
 				const res = await deleteOneCard(id);
 				if (res.changes !== 0) {
 					setCards((prev) => prev.filter((card) => card.id !== id));
-					posthog.capture("user_deleted_card", { success: true });
-					posthog.reset();
 					return { success: true };
 				}
-				posthog.capture("user_deleted_card", { success: false });
 				return { success: false };
 			} catch (error) {
 				console.error(error);
@@ -156,7 +151,7 @@ export const CardProvider = ({ children }: CardProviderProps): JSX.Element => {
 				setLoading(false);
 			}
 		},
-		[posthog],
+		[],
 	);
 
 	const clearDataCards = useCallback(async (): Promise<{ success: boolean }> => {
@@ -165,7 +160,6 @@ export const CardProvider = ({ children }: CardProviderProps): JSX.Element => {
 			if (res) {
 				setCards([]);
 				setFilteredCards([]);
-				posthog.capture("user_cleared_app", { success: true });
 				return { success: true };
 			}
 			return { success: false };
@@ -173,7 +167,7 @@ export const CardProvider = ({ children }: CardProviderProps): JSX.Element => {
 			console.error(error);
 			return { success: false };
 		}
-	}, [posthog]);
+	}, []);
 
 	const value = useMemo(
 		() => ({

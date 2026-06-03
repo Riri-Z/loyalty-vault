@@ -41,7 +41,7 @@
 		"section4Title": "4. Vos droits",
 		"section4Text": "Vous pouvez révoquer l'accès à l'appareil photo à tout moment via les paramètres de votre appareil.",
 		"section5Title": "5. Analyse & Tracking",
-		"section5Text": "Nous utilisons un service d'analyse tiers appelé PostHog pour comprendre comment les utilisateurs interagissent avec l'application. Cela nous aide à améliorer les fonctionnalités et l'ergonomie. Les données que nous collectons de cette manière se limitent strictement à des événements d'utilisation (par exemple, quels écrans sont consultés, quand une carte de fidélité est supprimée) et n'incluent pas d'informations personnelles ou identifiables. Aucune photo, nom ou contenu privé n'est jamais envoyé à PostHog. En utilisant l'application, vous reconnaissez que certaines données d'utilisation anonymes peuvent être collectées et traitées afin d'améliorer les fonctionnalités de l'application."
+		"section5Text": "Nous n'utilisons aucun service d'analyse ou de tracking tiers. Aucune donnée d'utilisation n'est collectée ni transmise."
 	},
 	"terms": {
 		"title": "Conditions d'Utilisation",
@@ -52,7 +52,7 @@
 		"section2Title": "2. Accès et disponibilité",
 		"section2Text": "L'Application est disponible gratuitement sur les magasins d'applications officiels (Google Play, App Store). Aucun compte n'est requis pour l'utiliser. L'accès peut être temporairement suspendu pour maintenance, mises à jour ou problèmes techniques.",
 		"section3Title": "3. Données Personnelles & Confidentialité",
-		"section3Text": "Loyalty Vault ne collecte ni ne transmet aucune donnée à des serveurs externes à des fins d'identification personnelle. Toutes les informations (photos, cartes, préférences) sont stockées localement sur votre appareil. L'Application peut demander l'accès à certaines fonctionnalités (comme l'appareil photo) uniquement avec votre autorisation. Une politique de confidentialité complète est disponible dans les paramètres de l'application. De plus, l'Application utilise PostHog pour collecter des événements d'utilisation non personnels (par exemple, les actions de l'utilisateur) uniquement à des fins d'analyse et d'amélioration, sans stocker de données personnellement identifiables.",
+		"section3Text": "Loyalty Vault ne collecte ni ne transmet aucune donnée à des serveurs externes à des fins d'identification personnelle. Toutes les informations (photos, cartes, préférences) sont stockées localement sur votre appareil. L'Application peut demander l'accès à certaines fonctionnalités (comme l'appareil photo) uniquement avec votre autorisation. Une politique de confidentialité complète est disponible dans les paramètres de l'application.",
 		"section4Title": "4. Propriété Intellectuelle",
 		"section4Text": "Tous les éléments de l'Application (nom, logo, interface, textes) sont protégés par les lois sur la propriété intellectuelle. Toute utilisation ou reproduction non autorisée est strictement interdite.",
 		"section5Title": "5. Responsabilité",
